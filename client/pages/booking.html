@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Appointment – Parlour Salon & Spa</title>
+  <meta name="description"
+    content="Book a salon or spa appointment at Parlour. Choose your service, staff and time slot online." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { gold: { DEFAULT: '#c9a05a', light: '#e8c98a', dark: '#a07a38' }, rose: { DEFAULT: '#d4829a' }, dark: { DEFAULT: '#0f0d1a', 2: '#1a1626', 3: '#241f35', 4: '#2e2845' } },
+          fontFamily: { serif: ['"Cormorant Garamond"', 'serif'], sans: ['Inter', 'sans-serif'] }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body class="bg-dark text-gray-100">
+  <div id="page-loader">
+    <div class="text-4xl font-serif gold-text mb-2">Parlour</div>
+    <div class="loader"></div>
+  </div>
+  <div id="toast-container"></div>
+
+  <!-- NAVBAR -->
+          <!-- ══ NAVBAR ══════════════════════════════════════════════ -->
+  <nav id="navbar">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="../index.html" class="flex items-center gap-3 text-decoration-none">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center">
+          <i class="fa-solid fa-scissors text-dark text-sm"></i>
+        </div>
+        <span class="font-serif text-2xl gold-text font-semibold tracking-wide">Parlour</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="../home-2.html" class="nav-link">Home 2</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="staff.html" class="nav-link">Our Team</a>
+        <a href="booking.html" class="nav-link">Book Now</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+
+      <!-- Auth Buttons -->
+      <div class="hidden md:flex items-center gap-3">
+        <span id="nav-username" class="text-gold-light text-sm font-medium"></span>
+        <a id="nav-login" href="login.html" class="btn-outline py-2 px-5 text-xs">
+          <i class="fa-solid fa-user"></i> Login
+        </a>
+        <button id="nav-logout" class="btn-outline py-2 px-5 text-xs hidden">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+        </button>
+        <a href="booking.html" class="btn-gold py-2 px-5 text-xs">
+          <i class="fa-solid fa-calendar-check"></i> Book Appointment
+        </a>
+      </div>
+
+      <!-- Hamburger -->
+      <button id="menu-btn" class="md:hidden text-gold-light text-xl p-2">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══ MOBILE MENU ═════════════════════════════════════════ -->
+  <div id="mobile-menu">
+    <button id="menu-close" class="absolute top-6 right-6 text-gold-light text-2xl">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <a href="../index.html" class="nav-link">Home</a>
+    <a href="../home-2.html" class="nav-link">Home 2</a>
+    <a href="about.html" class="nav-link">About Us</a>
+    <a href="services.html" class="nav-link">Services</a>
+    <a href="staff.html" class="nav-link">Our Team</a>
+    <a href="booking.html" class="nav-link">Book Now</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+    
+    <div id="nav-auth-mob" class="flex flex-col items-center gap-3 w-full px-10">
+      <a id="nav-login-mob" href="login.html" class="btn-gold w-full justify-center">Login / Register</a>
+      <div id="nav-user-mob" class="hidden flex flex-col items-center gap-3 w-full">
+        <a id="nav-username-mob" href="user-dashboard.html" class="nav-link !text-gold-light">My Account</a>
+        <button id="nav-logout-mob" class="text-rose text-sm font-medium uppercase tracking-widest mt-2">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE HERO -->
+  <section class="hero-gradient pt-32 pb-16 relative overflow-hidden">
+    <div class="orb w-72 h-72 bg-gold/8 top-0 right-0 pointer-events-none"></div>
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10 text-center">
+      <div
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gold/30 bg-gold/5 text-gold-light text-xs font-medium tracking-widest uppercase mb-4">
+        <i class="fa-solid fa-calendar-check text-gold"></i> Online Booking
+      </div>
+      <h1 class="font-serif text-6xl md:text-7xl text-white mb-4">Book <span class="gold-text">Appointment</span></h1>
+      <p class="text-gray-400 max-w-lg mx-auto">Reserve your slot in seconds. Choose your service, pick a stylist, and
+        select your preferred time.</p>
+    </div>
+  </section>
+
+  <!-- BOOKING FORM -->
+  <section class="py-16">
+    <div class="max-w-5xl mx-auto px-5 md:px-10">
+      <!-- Step Indicator -->
+      <div class="flex items-center justify-center gap-0 mb-12 reveal max-w-lg mx-auto overflow-hidden">
+        <div class="step-item flex flex-col items-center flex-shrink-0">
+          <div id="step-dot-1"
+            class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center text-dark font-bold text-xs md:text-sm shadow-lg shadow-gold/20">
+            1</div>
+          <span class="text-[10px] md:text-xs text-gold-light mt-2 font-medium">Service</span>
+        </div>
+        <div class="h-px flex-1 min-w-[20px] max-w-[60px] bg-gradient-to-r from-gold to-gold/20 mx-1 md:mx-4 mt-[-16px]"></div>
+        <div class="step-item flex flex-col items-center flex-shrink-0">
+          <div id="step-dot-2"
+            class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-dark-3 border border-white/10 flex items-center justify-center text-gray-400 font-bold text-xs md:text-sm">
+            2</div>
+          <span class="text-[10px] md:text-xs text-gray-500 mt-2">Stylist</span>
+        </div>
+        <div class="h-px flex-1 min-w-[20px] max-w-[60px] bg-white/10 mx-1 md:mx-4 mt-[-16px]"></div>
+        <div class="step-item flex flex-col items-center flex-shrink-0">
+          <div id="step-dot-3"
+            class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-dark-3 border border-white/10 flex items-center justify-center text-gray-400 font-bold text-xs md:text-sm">
+            3</div>
+          <span class="text-[10px] md:text-xs text-gray-500 mt-2">Date</span>
+        </div>
+        <div class="h-px flex-1 min-w-[20px] max-w-[60px] bg-white/10 mx-1 md:mx-4 mt-[-16px]"></div>
+        <div class="step-item flex flex-col items-center flex-shrink-0">
+          <div id="step-dot-4"
+            class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-dark-3 border border-white/10 flex items-center justify-center text-gray-400 font-bold text-xs md:text-sm">
+            4</div>
+          <span class="text-[10px] md:text-xs text-gray-500 mt-2">Confirm</span>
+        </div>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-8">
+        <!-- FORM -->
+        <div class="lg:col-span-2">
+          <form id="booking-form" class="glass-card p-8 reveal">
+            <!-- STEP 1: Service -->
+            <div id="step-1">
+              <h2 class="font-serif text-3xl text-white mb-2">Choose a Service</h2>
+              <p class="text-gray-400 text-sm mb-6">Select the treatment you'd like to book.</p>
+
+              <div class="mb-5">
+                <label class="form-label">Category</label>
+                <select id="cat-select" class="form-input">
+                  <option value="">All Categories</option>
+                </select>
+              </div>
+              <div class="mb-6">
+                <label class="form-label">Service</label>
+                <select id="service-select" class="form-input" required>
+                  <option value="">Select a service…</option>
+                </select>
+              </div>
+
+              <!-- Selected service info -->
+              <div id="service-info" class="hidden p-4 rounded-xl bg-gold/5 border border-gold/20 mb-6">
+                <div class="flex items-start justify-between">
+                  <div>
+                    <div id="svc-name" class="font-semibold text-white mb-1"></div>
+                    <div id="svc-desc" class="text-gray-400 text-xs"></div>
+                  </div>
+                  <div class="text-right">
+                    <div id="svc-price" class="text-gold font-serif text-xl font-semibold"></div>
+                    <div id="svc-dur" class="text-gray-500 text-xs"></div>
+                  </div>
+                </div>
+              </div>
+
+              <button type="button" id="next-1" class="btn-gold w-full py-3 justify-center" disabled>
+                Next: Choose Stylist <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+
+            <!-- STEP 2: Stylist -->
+            <div id="step-2" class="hidden">
+              <h2 class="font-serif text-3xl text-white mb-2">Pick a Stylist</h2>
+              <p class="text-gray-400 text-sm mb-6">Choose your preferred expert.</p>
+              <div id="staff-list" class="grid sm:grid-cols-2 gap-3 mb-6">
+                <div class="col-span-full text-center py-6 text-gray-500">
+                  <div class="loader mx-auto mb-2"></div>
+                </div>
+              </div>
+              <div class="flex gap-3">
+                <button type="button" id="back-2" class="btn-outline flex-1 py-3 justify-center"><i
+                    class="fa-solid fa-arrow-left"></i> Back</button>
+                <button type="button" id="next-2" class="btn-gold flex-1 py-3 justify-center" disabled>Next: Pick Date
+                  <i class="fa-solid fa-arrow-right"></i></button>
+              </div>
+            </div>
+
+            <!-- STEP 3: Date & Time -->
+            <div id="step-3" class="hidden">
+              <h2 class="font-serif text-3xl text-white mb-2">Date &amp; Time</h2>
+              <p class="text-gray-400 text-sm mb-6">Pick your preferred slot.</p>
+              <div class="grid sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label class="form-label">Date</label>
+                  <input id="appt-date" type="date" class="form-input" required />
+                </div>
+                <div>
+                  <label class="form-label flex justify-between">
+                    <span>Time</span>
+                    <span id="selected-time" class="text-gold font-medium text-xs self-end mb-1">Select an available
+                      time…</span>
+                  </label>
+                  <input type="hidden" id="appt-time" required />
+                  <div id="appt-time-container" class="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                    <div class="col-span-full text-sm text-gray-500 py-2">Select date first…</div>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-6">
+                <label class="form-label">Special Notes (optional)</label>
+                <textarea id="appt-notes" rows="3" class="form-input"
+                  placeholder="Any special requests or notes for your stylist…"></textarea>
+              </div>
+              <div class="flex gap-3">
+                <button type="button" id="back-3" class="btn-outline flex-1 py-3 justify-center"><i
+                    class="fa-solid fa-arrow-left"></i> Back</button>
+                <button type="button" id="next-3" class="btn-gold flex-1 py-3 justify-center">Review Booking <i
+                    class="fa-solid fa-arrow-right"></i></button>
+              </div>
+            </div>
+
+            <!-- STEP 4: Confirm & Pay -->
+            <div id="step-4" class="hidden">
+              <h2 class="font-serif text-3xl text-white mb-2">Confirm & Pay</h2>
+              <p class="text-gray-400 text-sm mb-6">Review your appointment details and complete payment.</p>
+              <div id="summary-card" class="p-5 rounded-xl bg-gold/5 border border-gold/20 mb-6 space-y-3 text-sm">
+                <!-- Filled by JS -->
+              </div>
+
+              <!-- Login check -->
+              <div id="login-required"
+                class="hidden p-4 rounded-xl bg-rose/10 border border-rose/30 mb-4 text-sm text-rose-light">
+                <i class="fa-solid fa-lock mr-2"></i>
+                Please <a href="login.html" class="underline text-gold-light">login or register</a> to confirm your
+                booking.
+              </div>
+
+              <!-- Payment Section -->
+              <div id="payment-section" class="hidden mb-6">
+                <h3 class="font-serif text-lg text-white mb-3"><i class="fa-solid fa-credit-card text-gold mr-2"></i>Payment Details</h3>
+                <div class="p-4 rounded-xl bg-dark-3 border border-white/10">
+                  <div id="payment-element">
+                    <!-- Stripe.js injects the Payment Element -->
+                  </div>
+                  <div id="payment-error" class="hidden mt-3 text-sm text-rose-400"></div>
+                </div>
+              </div>
+
+              <div id="user-fields" class="space-y-3 mb-5">
+                <!-- shown only if logged in, customer_id auto-filled -->
+              </div>
+
+              <div class="flex gap-3">
+                <button type="button" id="back-4" class="btn-outline flex-1 py-3 justify-center"><i
+                    class="fa-solid fa-arrow-left"></i> Back</button>
+                <button type="submit" id="submit-btn" class="btn-gold flex-1 py-3 justify-center">
+                  <i class="fa-solid fa-check"></i> Pay & Confirm
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="space-y-5">
+          <!-- Opening Hours -->
+          <div class="glass-card p-6 reveal">
+            <h3 class="font-semibold text-white mb-4"><i class="fa-solid fa-clock text-gold mr-2"></i>Opening Hours</h3>
+            <ul class="space-y-2 text-sm">
+              <li class="flex justify-between text-gray-400"><span>Monday – Friday</span><span class="text-white">9am –
+                  8pm</span></li>
+              <li class="flex justify-between text-gray-400"><span>Saturday</span><span class="text-white">9am –
+                  9pm</span></li>
+              <li class="flex justify-between text-gray-400"><span>Sunday</span><span class="text-white">10am –
+                  6pm</span></li>
+            </ul>
+          </div>
+          <!-- Contact -->
+          <div class="glass-card p-6 reveal" style="transition-delay:0.1s">
+            <h3 class="font-semibold text-white mb-4"><i class="fa-solid fa-phone text-gold mr-2"></i>Need Help?</h3>
+            <p class="text-gray-400 text-sm mb-3">Call us to book over the phone or for any queries.</p>
+            <a href="tel:+919000000000" class="btn-outline w-full justify-center text-xs py-2.5 block text-center">+91
+              90000 00000</a>
+          </div>
+          <!-- Policy -->
+          <div class="glass-card p-6 reveal" style="transition-delay:0.2s">
+            <h3 class="font-semibold text-white mb-3"><i class="fa-solid fa-shield-halved text-gold mr-2"></i>Booking
+              Policy</h3>
+            <ul class="text-gray-400 text-xs space-y-2">
+              <li class="flex gap-2"><i class="fa-solid fa-check text-gold mt-0.5 flex-shrink-0"></i>Free cancellation
+                up to 2 hours before</li>
+              <li class="flex gap-2"><i class="fa-solid fa-check text-gold mt-0.5 flex-shrink-0"></i>Arrive 5 minutes
+                early for your appointment</li>
+              <li class="flex gap-2"><i class="fa-solid fa-check text-gold mt-0.5 flex-shrink-0"></i>Same-day
+                rescheduling available</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+          <!-- ══ FOOTER ══════════════════════════════════════════════ -->
+  <footer class="pt-16 pb-8 border-t border-white/5 mt-auto w-full">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10">
+      <div class="grid md:grid-cols-4 gap-10 mb-12">
+        <!-- Brand -->
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center">
+              <i class="fa-solid fa-scissors text-dark text-sm"></i>
+            </div>
+            <span class="font-serif text-2xl gold-text font-semibold tracking-wide">Parlour</span>
+          </div>
+          <p class="text-gray-500 text-sm leading-relaxed mb-5 max-w-xs">
+            Where beauty meets luxury. Premium salon and spa services crafted to perfection.
+          </p>
+          <div class="flex gap-3">
+            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://wa.me/919000000000" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-widest">Quick Links</h4>
+          <ul class="space-y-2">
+            <li><a href="../index.html" class="footer-link">Home</a></li>
+            <li><a href="../home-2.html" class="footer-link">Home 2</a></li>
+            <li><a href="about.html" class="footer-link">About Us</a></li>
+            <li><a href="services.html" class="footer-link">Services</a></li>
+            <li><a href="staff.html" class="footer-link">Our Team</a></li>
+            <li><a href="booking.html" class="footer-link">Book Appointment</a></li>
+            <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="login.html" class="footer-link">Login / Register</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-widest">Contact</h4>
+          <ul class="space-y-3 text-sm text-gray-500">
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-location-dot text-gold mt-1"></i>
+              <a href="https://maps.google.com/?q=123+Luxury+Lane,+Mumbai,+Maharashtra+400001" target="_blank" rel="noopener noreferrer" class="footer-link">123 Luxury Lane, Mumbai, Maharashtra 400001</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-phone text-gold"></i>
+              <a href="tel:+919000000000" class="footer-link">+91 90000 00000</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-envelope text-gold"></i>
+              <a href="mailto:hello@parlour.com" class="footer-link">hello@parlour.com</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-clock text-gold"></i>
+              <span>Mon–Sun: 9:00 AM – 8:00 PM</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="border-t border-white/5 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-sm text-gray-600">
+        <p>&copy; 2024 Parlour Salon & Spa. All rights reserved.</p>
+        <div class="flex gap-4">
+          <a href="maintenance.html" class="footer-link">Site Map</a>
+          <a href="privacy.html" class="footer-link">Privacy Policy</a>
+          <a href="terms.html" class="footer-link">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://js.stripe.com/v3/"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script>
+    // ── State ─────────────────────────────────────────────────
+    const state = { serviceId: null, staffId: null, date: null, time: null, notes: '', paymentIntentId: null };
+    let allServices = [], allStaff = [];
+    let stripe, elements;
+
+    // ── Step helpers ──────────────────────────────────────────
+    function goToStep(n) {
+      [1, 2, 3, 4].forEach(i => {
+        document.getElementById(`step-${i}`).classList.toggle('hidden', i !== n);
+        const dot = document.getElementById(`step-dot-${i}`);
+        if (i < n) {
+          dot.className = 'w-10 h-10 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center text-dark font-bold text-sm';
+          dot.innerHTML = '<i class="fa-solid fa-check text-xs"></i>';
+        } else if (i === n) {
+          dot.className = 'w-10 h-10 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center text-dark font-bold text-sm shadow-lg shadow-gold/20';
+          dot.textContent = i;
+        } else {
+          dot.className = 'w-10 h-10 rounded-full bg-dark-3 border border-white/10 flex items-center justify-center text-gray-400 font-bold text-sm';
+          dot.textContent = i;
+        }
+      });
+    }
+
+    // ── Load Services ─────────────────────────────────────────
+    async function loadServices() {
+      try {
+        const [svcRes, catRes] = await Promise.all([api.services.getAll('active=1'), api.services.getCategories()]);
+        allServices = svcRes.data;
+
+        const catSel = document.getElementById('cat-select');
+        catRes.data.forEach(c => { const o = document.createElement('option'); o.value = c.id; o.textContent = c.name; catSel.appendChild(o); });
+
+        populateServiceSelect('');
+
+        catSel.addEventListener('change', () => populateServiceSelect(catSel.value));
+
+        // Pre-select from URL
+        const params = new URLSearchParams(window.location.search);
+        const preId = params.get('service');
+        if (preId) {
+          document.getElementById('service-select').value = preId;
+          document.getElementById('service-select').dispatchEvent(new Event('change'));
+        }
+      } catch (e) { showToast('Could not load services: ' + e.message, 'error'); }
+    }
+
+    function populateServiceSelect(catId) {
+      const sel = document.getElementById('service-select');
+      const filtered = catId ? allServices.filter(s => String(s.category_id) === catId) : allServices;
+      sel.innerHTML = '<option value="">Select a service…</option>';
+      filtered.forEach(s => { const o = document.createElement('option'); o.value = s.id; o.textContent = `${s.name} – ${formatPrice(s.price)}`; sel.appendChild(o); });
+      sel.dispatchEvent(new Event('change'));
+    }
+
+    document.getElementById('service-select').addEventListener('change', function () {
+      const svc = allServices.find(s => String(s.id) === this.value);
+      const info = document.getElementById('service-info');
+      if (svc) {
+        state.serviceId = svc.id;
+        document.getElementById('svc-name').textContent = svc.name;
+        document.getElementById('svc-desc').textContent = svc.description || '';
+        document.getElementById('svc-price').textContent = formatPrice(svc.price);
+        document.getElementById('svc-dur').textContent = svc.duration_min + ' min';
+        info.classList.remove('hidden');
+        document.getElementById('next-1').disabled = false;
+      } else {
+        state.serviceId = null;
+        info.classList.add('hidden');
+        document.getElementById('next-1').disabled = true;
+      }
+    });
+
+    document.getElementById('next-1').addEventListener('click', () => { loadStaff(); goToStep(2); });
+
+    // ── Load Staff ────────────────────────────────────────────
+    async function loadStaff() {
+      const list = document.getElementById('staff-list');
+      try {
+        // Ensure we have a valid numeric service_id
+        const numericServiceId = Number(state.serviceId);
+        console.log('[BOOKING DEBUG] Loading staff for service_id:', numericServiceId, '(type:', typeof numericServiceId, ')');
+
+        if (!numericServiceId || isNaN(numericServiceId)) {
+          list.innerHTML = '<div class="col-span-full text-center text-gray-500 py-4">Please select a service first.</div>';
+          return;
+        }
+
+        // Fetch staff filtered by service using the dedicated endpoint
+        const res = await api.staff.getByService(numericServiceId);
+        console.log('[BOOKING DEBUG] Staff API response:', res);
+        console.log('[BOOKING DEBUG] Staff count returned:', res.data?.length || 0);
+
+        allStaff = res.data;
+        const qualifiedStaff = allStaff;
+
+        if (!qualifiedStaff.length) {
+
+          list.innerHTML = '<div class="col-span-full text-center text-gray-500 py-4">No staff available for this service.</div>';
+          return;
+        }
+
+        const anyStylistHtml = `
+          <label class="staff-option cursor-pointer group">
+            <input type="radio" name="staff" value="0" class="sr-only"/>
+            <div class="glass-card p-4 flex items-center gap-3 hover:border-gold/40 transition-all h-full">
+              <div class="avatar-ring flex-shrink-0" style="width:48px;height:48px">
+                <div class="avatar-inner bg-gradient-to-br from-gold/20 to-gold/5" style="font-size:1.2rem"><i class="fa-solid fa-users text-gold/60 group-hover:text-gold transition-colors"></i></div>
+              </div>
+              <div>
+                <div class="font-semibold text-white text-sm">Any Stylist</div>
+                <div class="text-gold-light text-xs opacity-60">First Available</div>
+              </div>
+            </div>
+          </label>
+        `;
+
+        list.innerHTML = anyStylistHtml + qualifiedStaff.map(m => `
+          <label class="staff-option cursor-pointer">
+            <input type="radio" name="staff" value="${m.id}" class="sr-only"/>
+            <div class="glass-card p-4 flex items-center gap-3 hover:border-gold/40 transition-all h-full">
+              <div class="avatar-ring flex-shrink-0" style="width:48px;height:48px">
+                <div class="avatar-inner" style="font-size:1.2rem">${(m.name || "S")[0].toUpperCase()}</div>
+              </div>
+              <div>
+                <div class="font-semibold text-white text-sm">${m.name || "Staff Member"}</div>
+                <div class="text-gold-light text-xs">${m.specialization || 'Stylist'}</div>
+                <div class="text-yellow-400 text-xs">${'★'.repeat(Math.round(m.rating || 5))}</div>
+              </div>
+            </div>
+          </label>
+        `).join('');
+
+        list.querySelectorAll('input[name="staff"]').forEach(inp => inp.addEventListener('change', () => {
+          state.staffId = Number(inp.value);
+          list.querySelectorAll('.glass-card').forEach(c => c.classList.remove('border-gold/50', 'bg-gold/5'));
+          inp.closest('label').querySelector('.glass-card').classList.add('border-gold/50', 'bg-gold/5');
+          document.getElementById('next-2').disabled = false;
+        }));
+      } catch (e) { list.innerHTML = `<div class="col-span-full text-center text-gray-500">${e.message}</div>`; }
+    }
+
+    document.getElementById('back-2').addEventListener('click', () => goToStep(1));
+    document.getElementById('next-2').addEventListener('click', () => { setMinDate(); goToStep(3); });
+    document.getElementById('back-3').addEventListener('click', () => goToStep(2));
+
+    // Date change event for slots
+    document.getElementById('appt-date').addEventListener('change', async (e) => {
+      state.date = e.target.value;
+      if (state.date) {
+        await loadAvailableSlots();
+      } else {
+        const container = document.getElementById('appt-time-container');
+        container.innerHTML = '<div class="col-span-full text-sm text-gray-500 py-2">Select date first…</div>';
+        document.getElementById('appt-time').value = '';
+        document.getElementById('selected-time').textContent = 'Select an available time…';
+      }
+    });
+
+    async function loadAvailableSlots() {
+      // 1. Guard against overlapping requests
+      if (state.loadingSlots) return;
+
+      const container = document.getElementById('appt-time-container');
+      const timeInput = document.getElementById('appt-time');
+      const timeDisplay = document.getElementById('selected-time');
+
+      const currentDate = state.date; // Snap the date this request is for
+      
+      container.innerHTML = '<div class="col-span-full text-sm text-gray-500 py-2"><span class="loader align-middle mr-2" style="width:16px;height:16px;border-width:2px;"></span>Loading slots…</div>';
+      timeInput.value = '';
+      timeDisplay.textContent = 'Select an available time…';
+
+      state.loadingSlots = true;
+
+      try {
+        // Ensure staffId is normalized for the API call
+        const staffIdParam = (state.staffId === 0 || state.staffId === 'null' || state.staffId === null) ? '' : state.staffId;
+
+        const res = await api.appointments.getAvailable(state.date, staffIdParam, state.serviceId);
+        
+        // 2. Ignore response if user switched date while loading
+        if (state.date !== currentDate) return;
+
+        const slots = res.data;
+        if (!slots || slots.length === 0) {
+          container.innerHTML = '<div class="col-span-full text-sm text-rose-400 py-2">No slots available for this date.</div>';
+          return;
+        }
+
+        // --- PART 3: FRONTEND SLOT FILTER ---
+        const now = new Date();
+        const filteredSlots = slots.filter(s => {
+          const slotTime = new Date(`${state.date}T${s.time}`);
+          return slotTime > now;
+        });
+
+        if (filteredSlots.length === 0) {
+          container.innerHTML = '<div class="col-span-full text-sm text-rose-400 py-2">No future slots available for today.</div>';
+          return;
+        }
+
+        container.innerHTML = '';
+        filteredSlots.forEach(slotObj => {
+          const slot = slotObj.time;
+          const available = slotObj.available;
+          const [h, m] = slot.split(':').map(Number);
+          const ampm = h >= 12 ? 'PM' : 'AM';
+          const h12 = h % 12 || 12;
+          const displayTime = `${h12.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
+
+          const div = document.createElement('div');
+
+          if (available) {
+            div.className = 'time-slot cursor-pointer text-center py-2 px-1 text-sm border border-white/10 rounded bg-dark-3 hover:border-gold/50 hover:bg-gold/5 transition-all text-gray-300 select-none';
+            div.addEventListener('click', () => {
+              document.querySelectorAll('.time-slot').forEach(el => {
+                el.classList.remove('border-gold', 'bg-gold/10', 'text-white', 'active');
+                el.classList.add('border-white/10', 'bg-dark-3', 'text-gray-300');
+              });
+              div.classList.remove('border-white/10', 'bg-dark-3', 'text-gray-300');
+              div.classList.add('border-gold', 'bg-gold/10', 'text-white', 'active');
+              
+              timeDisplay.innerText = displayTime;
+              timeInput.value = slot;
+              state.time = slot;
+            });
+          } else {
+            div.className = 'booked-slot text-center py-2 px-1 text-sm border border-white/5 rounded bg-white/5 text-gray-600 select-none opacity-40 cursor-not-allowed';
+            div.innerHTML = `<span class="line-through">${displayTime}</span><div class="text-[8px] uppercase tracking-tighter opacity-50">Booked</div>`;
+          }
+
+          if (available) div.textContent = displayTime;
+          div.dataset.value = slot;
+          container.appendChild(div);
+        });
+      } catch (err) {
+        console.error("Availability Error:", err);
+        container.innerHTML = '<div class="col-span-full text-sm text-rose-400 py-2">Unable to load time slots, please try again.</div>';
+      } finally {
+        state.loadingSlots = false;
+      }
+    }
+
+    document.getElementById('next-3').addEventListener('click', () => {
+      state.date = document.getElementById('appt-date').value;
+      state.time = document.getElementById('appt-time').value;
+      state.notes = document.getElementById('appt-notes').value;
+      if (!state.date || !state.time) { showToast('Please select a date and time.', 'error'); return; }
+      showSummary(); goToStep(4);
+    });
+
+    document.getElementById('appt-date').addEventListener('change', (e) => {
+      state.date = e.target.value;
+      if (state.date) {
+        loadAvailableSlots();
+      }
+    });
+
+    document.getElementById('back-4').addEventListener('click', () => goToStep(3));
+
+    function setMinDate() {
+      const today = new Date();
+      const dateStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+      const el = document.getElementById('appt-date');
+      el.min = dateStr;
+      if (!state.date) { el.value = dateStr; state.date = dateStr; }
+    }
+
+    async function showSummary() {
+      const svc = allServices.find(s => s.id === state.serviceId);
+      const stf = (state.staffId === 0 || !state.staffId) ? { name: 'Any Stylist' } : allStaff.find(s => s.id === state.staffId);
+      const user = api.getUser();
+      const card = document.getElementById('summary-card');
+      const submitBtn = document.getElementById('submit-btn');
+
+      card.innerHTML = `
+        <div class="flex justify-between border-b border-white/5 pb-2"><span class="text-gray-400">Service</span><span class="text-white font-medium">${svc?.name || '—'}</span></div>
+        <div class="flex justify-between border-b border-white/5 pb-2"><span class="text-gray-400">Stylist</span><span class="text-white font-medium">${stf?.name || '—'}</span></div>
+        <div class="flex justify-between border-b border-white/5 pb-2"><span class="text-gray-400">Date</span><span class="text-white font-medium">${formatDate(state.date)}</span></div>
+        <div class="flex justify-between border-b border-white/5 pb-2"><span class="text-gray-400">Time</span><span class="text-white font-medium">${state.time || '—'}</span></div>
+        <div class="flex justify-between font-semibold"><span class="text-gold-light">Total</span><span class="text-gold text-lg font-serif">${formatPrice(svc?.price || 0)}</span></div>
+      `;
+
+      if (!user) {
+        document.getElementById('login-required').classList.remove('hidden');
+        document.getElementById('payment-section').classList.add('hidden');
+        submitBtn.disabled = true;
+        submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      } else {
+        document.getElementById('login-required').classList.add('hidden');
+        submitBtn.disabled = true; // Disabled until payment loads
+        submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        document.getElementById('payment-section').classList.remove('hidden');
+        document.getElementById('payment-element').innerHTML = '<div class="text-center py-4 text-sm text-gray-400"><span class="loader align-middle mr-2 mt-[-2px]" style="width:14px;height:14px;border-width:2px"></span>Initializing secure payment...</div>';
+
+        try {
+          const res = await api.payments.createIntent({ service_id: state.serviceId });
+          
+          if (res.mock) {
+            document.getElementById('payment-element').innerHTML = '<div class="text-center py-4 text-sm text-gold-light"><i class="fa-solid fa-vial mr-2"></i>Test Mode: Payment will be bypassed.</div>';
+            state.paymentIntentId = 'mock_payment_id';
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+          } else if (res.clientSecret && Stripe) {
+            stripe = Stripe(res.publishableKey);
+            const appearance = { theme: 'night', variables: { colorPrimary: '#c9a05a', colorBackground: '#1e1e1e', colorText: '#d1d5db' } };
+            elements = stripe.elements({ clientSecret: res.clientSecret, appearance });
+            const paymentElement = elements.create('payment');
+            document.getElementById('payment-element').innerHTML = ''; // clear loader
+            paymentElement.mount('#payment-element');
+            state.paymentIntentId = res.clientSecret; // We store it to check if it's mock
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+          }
+        } catch (err) {
+          console.error("Payment Error:", err);
+          document.getElementById('payment-element').innerHTML = '<div class="text-sm text-rose-400 py-3 text-center">Payment system unavailable. Please try again later.</div>';
+        }
+      }
+    }
+
+    // ── Submit ────────────────────────────────────────────────
+    document.getElementById('booking-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      
+      // 1. Double Submission Guard
+      if (window.isBooking) return;
+      
+      const user = api.getUser();
+      if (!user) {
+        showToast('Please login first.', 'error');
+        return;
+      }
+
+      // 2. State Validation
+      if (!state.serviceId || !state.date || !state.time) {
+        showToast('Please complete all steps before booking.', 'error');
+        return;
+      }
+
+      // 3. Sanitized Payload (Strict Types)
+      // Fallback staffId to 6 if Any/null/undefined as requested
+      const finalStaffId = (state.staffId === 0 || state.staffId === null || state.staffId === undefined) 
+        ? 6 
+        : Number(state.staffId);
+
+      const payload = {
+        staff_id: Number(finalStaffId),
+        service_id: Number(state.serviceId),
+        appointment_date: String(state.date),
+        start_time: state.time.length === 5 ? `${state.time}:00` : String(state.time),
+        notes: state.notes ? String(state.notes) : ''
+      };
+
+      const btn = document.getElementById('submit-btn');
+      const originalHTML = btn.innerHTML;
+
+      // 4. Lock UI
+      btn.innerHTML = '<span class="loader"></span> Booking...';
+      btn.disabled = true;
+      window.isBooking = true;
+
+      try {
+        // 5. Stripe Payment Processing
+        if (state.paymentIntentId !== 'mock_payment_id' && stripe && elements) {
+          const { error } = await stripe.confirmPayment({
+            elements,
+            confirmParams: {
+              // Redirect behaves like a redirect. Returning here if there's no immediate failure.
+            },
+            redirect: 'if_required' 
+          });
+
+          if (error) {
+            document.getElementById('payment-error').textContent = error.message;
+            document.getElementById('payment-error').classList.remove('hidden');
+            throw new Error(error.message);
+          }
+        }
+        
+        // Add payment intent to payload
+        payload.payment_intent_id = state.paymentIntentId;
+
+        const res = await api.appointments.create(payload);
+        console.log('[BOOKING SUCCESS]', res);
+
+        showToast('🌸 Appointment booked successfully!', 'success');
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Booked';
+
+        // 5. Reset internal state
+        state.serviceId = null;
+        state.staffId = null;
+        state.date = null;
+        state.time = null;
+        state.notes = '';
+
+        document.getElementById('booking-form').reset();
+        goToStep(1);
+        await loadServices();
+
+        // 6. Smooth delayed redirect
+        setTimeout(() => {
+          window.isBooking = false;
+          window.location.replace('../index.html');
+        }, 2500);
+
+      } catch (err) {
+        showToast(err.message || 'Booking failed', 'error');
+        btn.innerHTML = originalHTML;
+        btn.disabled = false;
+        window.isBooking = false;
+      }
+    });
+
+    // ── Init ──────────────────────────────────────────────────
+    setMinDate();
+    loadServices();
+  </script>
+</body>
+
+</html>

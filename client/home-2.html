@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parlour – Luxury Redeux</title>
+  <meta name="description" content="Experience the pinnacle of luxury salon and spa treatments at Parlour." />
+
+  <link rel="dns-prefetch" href="//cdn.tailwindcss.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: { DEFAULT: '#c9a05a', light: '#e8c98a', dark: '#a07a38' },
+            rose: { DEFAULT: '#d4829a', light: '#f0b8c8' },
+            dark: { DEFAULT: '#0f0d1a', 2: '#1a1626', 3: '#241f35', 4: '#2e2845' },
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+            display: ['"Playfair Display"', 'serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="preload" href="assets/css/style.css" as="style" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /></noscript>
+
+  <style>
+    /* Unique Home-2 Animations */
+    .marquee { overflow: hidden; white-space: nowrap; width: 100vw; margin-left: calc(-50vw + 50%); margin-right: calc(-50vw + 50%); background: #c9a05a; color: #0f0d1a; padding: 1rem 0; }
+    .marquee-content { display: inline-block; animation: marquee 20s linear infinite; }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    
+    .hover-expand { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+    .hover-expand:hover { flex: 2; }
+    
+    .text-outline { -webkit-text-stroke: 1px rgba(255,255,255,0.2); color: transparent; }
+    .text-outline-gold { -webkit-text-stroke: 1px rgba(201,160,90,0.5); color: transparent; }
+  </style>
+</head>
+
+<body class="bg-dark text-gray-100">
+
+  <!-- ══ PAGE LOADER ══ -->
+  <div id="page-loader">
+    <div class="text-4xl font-serif gold-text mb-2">Parlour</div><div class="loader"></div>
+  </div>
+
+          <!-- ══ NAVBAR ══════════════════════════════════════════════ -->
+  <nav id="navbar">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="index.html" class="flex items-center gap-3 text-decoration-none">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center">
+          <i class="fa-solid fa-scissors text-dark text-sm"></i>
+        </div>
+        <span class="font-serif text-2xl gold-text font-semibold tracking-wide">Parlour</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="home-2.html" class="nav-link">Home 2</a>
+        <a href="pages/about.html" class="nav-link">About Us</a>
+        <a href="pages/services.html" class="nav-link">Services</a>
+        <a href="pages/staff.html" class="nav-link">Our Team</a>
+        <a href="pages/booking.html" class="nav-link">Book Now</a>
+        <a href="pages/contact.html" class="nav-link">Contact</a>
+      </div>
+
+      <!-- Auth Buttons -->
+      <div class="hidden md:flex items-center gap-3">
+        <span id="nav-username" class="text-gold-light text-sm font-medium"></span>
+        <a id="nav-login" href="pages/login.html" class="btn-outline py-2 px-5 text-xs">
+          <i class="fa-solid fa-user"></i> Login
+        </a>
+        <button id="nav-logout" class="btn-outline py-2 px-5 text-xs hidden">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+        </button>
+        <a href="pages/booking.html" class="btn-gold py-2 px-5 text-xs">
+          <i class="fa-solid fa-calendar-check"></i> Book Appointment
+        </a>
+      </div>
+
+      <!-- Hamburger -->
+      <button id="menu-btn" class="md:hidden text-gold-light text-xl p-2">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══ MOBILE MENU ═════════════════════════════════════════ -->
+  <div id="mobile-menu">
+    <button id="menu-close" class="absolute top-6 right-6 text-gold-light text-2xl">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="home-2.html" class="nav-link">Home 2</a>
+    <a href="pages/about.html" class="nav-link">About Us</a>
+    <a href="pages/services.html" class="nav-link">Services</a>
+    <a href="pages/staff.html" class="nav-link">Our Team</a>
+    <a href="pages/booking.html" class="nav-link">Book Now</a>
+    <a href="pages/contact.html" class="nav-link">Contact</a>
+    
+    <div id="nav-auth-mob" class="flex flex-col items-center gap-3 w-full px-10">
+      <a id="nav-login-mob" href="pages/login.html" class="btn-gold w-full justify-center">Login / Register</a>
+      <div id="nav-user-mob" class="hidden flex flex-col items-center gap-3 w-full">
+        <a id="nav-username-mob" href="pages/user-dashboard.html" class="nav-link !text-gold-light">My Account</a>
+        <button id="nav-logout-mob" class="text-rose text-sm font-medium uppercase tracking-widest mt-2">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SPLIT HERO ══ -->
+  <header class="h-[90vh] min-h-[600px] flex flex-col md:flex-row w-full overflow-hidden">
+    <!-- Left Text Content -->
+    <div class="w-full md:w-1/2 flex items-center justify-center p-12 lg:p-24 relative z-10 bg-dark">
+      <div class="max-w-lg">
+        <div class="flex items-center gap-4 mb-8">
+          <div class="w-12 h-px bg-gold"></div>
+          <span class="text-gold uppercase tracking-[0.3em] text-xs">Exquisite Treatments</span>
+        </div>
+        <h1 class="font-display text-5xl lg:text-7xl text-white mb-6 leading-tight">
+          Where <span class="italic text-gold">Aesthetics</span> Meet Serenity.
+        </h1>
+        <p class="text-gray-400 text-lg leading-relaxed mb-10">
+          Elevate your daily ritual. Discover a sanctuary of luxury beauty carefully curated to transform your image and relax your soul.
+        </p>
+        <div class="flex items-center gap-6">
+          <a href="pages/booking.html" class="uppercase tracking-widest text-xs px-8 py-4 bg-gold text-dark font-medium hover:bg-gold-light transition duration-300">
+            Book Appointment
+          </a>
+          <a href="pages/about.html" class="uppercase tracking-widest text-xs text-white hover:text-gold transition">
+            Our Story <i class="fa-solid fa-arrow-right ml-2 text-gold"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Right Image -->
+    <div class="w-full md:w-1/2 h-full relative">
+      <img src="assets/images/home_alt_hero.png" alt="Luxury Salon" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-gradient-to-l from-transparent to-dark md:w-1/4"></div>
+      
+      <!-- Floating Badge -->
+      <div class="absolute bottom-12 right-12 glass-card p-6 border border-white/10 backdrop-blur-md hidden md:block w-72">
+        <div class="flex items-center gap-4 mb-2">
+          <div class="flex -space-x-2">
+             <div class="w-8 h-8 rounded-full border border-dark bg-rose"></div>
+             <div class="w-8 h-8 rounded-full border border-dark bg-gold"></div>
+             <div class="w-8 h-8 rounded-full border border-dark bg-gray-500"></div>
+          </div>
+          <div class="text-gold text-sm">★★★★★</div>
+        </div>
+        <p class="text-white text-sm">"The absolute pinnacle of luxury service in the city."</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Marquee -->
+  <div class="marquee border-y border-white/5 bg-dark-2">
+    <div class="marquee-content font-serif text-3xl italic text-gray-500 tracking-wider">
+      · PREMIUM HAIR COLORING · ADVANCED FACIAL THERAPY · HOLISTIC MASSAGE · LUXURY BRIDAL MAKEUP · MANICURE & PEDICURE · PREMIUM HAIR COLORING · ADVANCED FACIAL THERAPY · HOLISTIC MASSAGE · LUXURY BRIDAL MAKEUP · MANICURE & PEDICURE ·
+    </div>
+  </div>
+
+  <!-- ══ SIGNATURE COLLECTIONS (Expandable Flex Grid) ══ -->
+  <section class="py-32 relative bg-dark">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10">
+      <div class="flex flex-col md:flex-row items-end justify-between mb-16 reveal">
+        <div>
+          <h2 class="font-display text-4xl md:text-5xl text-white mb-4">Curated <span class="text-outline-gold">Collections</span></h2>
+          <p class="text-gray-400 max-w-md">Browse our most sought-after signature treatments, designed for absolute perfection.</p>
+        </div>
+        <a href="pages/services.html" class="uppercase tracking-widest text-[10px] pb-2 border-b border-gold text-gold hover:text-white transition mt-6 md:mt-0">View Menu</a>
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-4 h-[600px] reveal" style="transition-delay:0.2s">
+        <!-- Collection 1 -->
+        <div class="flex-1 hover-expand relative group overflow-hidden border border-white/5 cursor-pointer">
+          <img src="assets/images/about_interior.png" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition duration-700 group-hover:scale-105" />
+          <div class="absolute inset-0 bg-gradient-to-t from-dark to-transparent opacity-80"></div>
+          <div class="absolute bottom-0 left-0 p-8 w-full">
+            <span class="px-3 py-1 border border-gold/30 text-gold text-[10px] uppercase tracking-widest mb-4 inline-block">Skin</span>
+            <h3 class="font-display text-3xl text-white mb-2 group-hover:text-gold transition">Golden Glow Facial</h3>
+            <p class="text-gray-400 text-sm h-0 overflow-hidden opacity-0 group-hover:h-auto group-hover:opacity-100 group-hover:mt-2 transition-all duration-500">
+              A 90-minute immersive 24k gold leaf facial treatment to restore youthful radiance.
+            </p>
+          </div>
+        </div>
+
+        <!-- Collection 2 -->
+        <div class="flex-1 hover-expand relative group overflow-hidden border border-white/5 cursor-pointer">
+          <img src="assets/images/home_alt_hero.png" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition duration-700 group-hover:scale-105" />
+          <div class="absolute inset-0 bg-gradient-to-t from-dark to-transparent opacity-80"></div>
+          <div class="absolute bottom-0 left-0 p-8 w-full">
+            <span class="px-3 py-1 border border-gold/30 text-gold text-[10px] uppercase tracking-widest mb-4 inline-block">Hair</span>
+            <h3 class="font-display text-3xl text-white mb-2 group-hover:text-gold transition">Balayage & Scalp Spa</h3>
+            <p class="text-gray-400 text-sm h-0 overflow-hidden opacity-0 group-hover:h-auto group-hover:opacity-100 group-hover:mt-2 transition-all duration-500">
+              Expert free-hand painting integrated with our signature holistic scalp massage.
+            </p>
+          </div>
+        </div>
+
+        <!-- Collection 3 -->
+        <div class="flex-1 hover-expand relative group overflow-hidden border border-white/5 cursor-pointer">
+          <img src="assets/images/about_founder.png" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition duration-700 group-hover:scale-105" />
+          <div class="absolute inset-0 bg-gradient-to-t from-dark to-transparent opacity-80"></div>
+          <div class="absolute bottom-0 left-0 p-8 w-full">
+            <span class="px-3 py-1 border border-gold/30 text-gold text-[10px] uppercase tracking-widest mb-4 inline-block">Body</span>
+            <h3 class="font-display text-3xl text-white mb-2 group-hover:text-gold transition">Hot Stone Therapy</h3>
+            <p class="text-gray-400 text-sm h-0 overflow-hidden opacity-0 group-hover:h-auto group-hover:opacity-100 group-hover:mt-2 transition-all duration-500">
+              Melt away tension with basalt volcanic stones and custom infused aromatic oils.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ IMMERSIVE VIDEO/IMAGE BANNER ══ -->
+  <section class="py-32 relative bg-dark-2 overflow-hidden flex items-center justify-center text-center">
+    <div class="absolute inset-0 opacity-10">
+      <img src="assets/images/home_alt_hero.png" class="w-full h-full object-cover scale-110 blur-sm" />
+    </div>
+    <div class="relative z-10 max-w-4xl mx-auto px-5 md:px-10 reveal">
+      <i class="fa-solid fa-quote-right text-6xl text-gold/20 mb-8 block"></i>
+      <h2 class="font-display text-3xl md:text-5xl text-white leading-relaxed mb-10">
+        "I’ve visited spas across Europe, yet the meticulous attention to detail and atmosphere at Parlour surpasses them all."
+      </h2>
+      <div class="text-gold uppercase tracking-[0.2em] text-xs">— Vogue Architecture, 2024 Profile</div>
+    </div>
+  </section>
+
+        <!-- ══ FOOTER ══════════════════════════════════════════════ -->
+  <footer class="pt-16 pb-8 border-t border-white/5 mt-auto w-full">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10">
+      <div class="grid md:grid-cols-4 gap-10 mb-12">
+        <!-- Brand -->
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center">
+              <i class="fa-solid fa-scissors text-dark text-sm"></i>
+            </div>
+            <span class="font-serif text-2xl gold-text font-semibold tracking-wide">Parlour</span>
+          </div>
+          <p class="text-gray-500 text-sm leading-relaxed mb-5 max-w-xs">
+            Where beauty meets luxury. Premium salon and spa services crafted to perfection.
+          </p>
+          <div class="flex gap-3">
+            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://wa.me/919000000000" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-widest">Quick Links</h4>
+          <ul class="space-y-2">
+            <li><a href="index.html" class="footer-link">Home</a></li>
+            <li><a href="home-2.html" class="footer-link">Home 2</a></li>
+            <li><a href="pages/about.html" class="footer-link">About Us</a></li>
+            <li><a href="pages/services.html" class="footer-link">Services</a></li>
+            <li><a href="pages/staff.html" class="footer-link">Our Team</a></li>
+            <li><a href="pages/booking.html" class="footer-link">Book Appointment</a></li>
+            <li><a href="pages/contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="pages/login.html" class="footer-link">Login / Register</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-widest">Contact</h4>
+          <ul class="space-y-3 text-sm text-gray-500">
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-location-dot text-gold mt-1"></i>
+              <a href="https://maps.google.com/?q=123+Luxury+Lane,+Mumbai,+Maharashtra+400001" target="_blank" rel="noopener noreferrer" class="footer-link">123 Luxury Lane, Mumbai, Maharashtra 400001</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-phone text-gold"></i>
+              <a href="tel:+919000000000" class="footer-link">+91 90000 00000</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-envelope text-gold"></i>
+              <a href="mailto:hello@parlour.com" class="footer-link">hello@parlour.com</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-clock text-gold"></i>
+              <span>Mon–Sun: 9:00 AM – 8:00 PM</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="border-t border-white/5 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-sm text-gray-600">
+        <p>&copy; 2024 Parlour Salon & Spa. All rights reserved.</p>
+        <div class="flex gap-4">
+          <a href="pages/maintenance.html" class="footer-link">Site Map</a>
+          <a href="pages/privacy.html" class="footer-link">Privacy Policy</a>
+          <a href="pages/terms.html" class="footer-link">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Profile – Parlour Salon & Spa</title>
+  <meta name="description" content="View your booking history and manage preferences."/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config={theme:{extend:{colors:{gold:{DEFAULT:'#c9a05a',light:'#e8c98a',dark:'#a07a38'},rose:{DEFAULT:'#d4829a'},dark:{DEFAULT:'#0f0d1a',2:'#1a1626',3:'#241f35',4:'#2e2845'}},fontFamily:{serif:['"Cormorant Garamond"','serif'],sans:['Inter','sans-serif']}}}};
+  </script>
+  <link rel="stylesheet" href="../assets/css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body class="bg-dark text-gray-100 min-h-screen flex flex-col">
+<div id="page-loader"><div class="text-4xl font-serif gold-text mb-2">Parlour</div><div class="loader"></div></div>
+<div id="toast-container"></div>
+
+<!-- NAVBAR -->
+        <!-- ══ NAVBAR ══════════════════════════════════════════════ -->
+  <nav id="navbar">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="../index.html" class="flex items-center gap-3 text-decoration-none">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center">
+          <i class="fa-solid fa-scissors text-dark text-sm"></i>
+        </div>
+        <span class="font-serif text-2xl gold-text font-semibold tracking-wide">Parlour</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="../home-2.html" class="nav-link">Home 2</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="staff.html" class="nav-link">Our Team</a>
+        <a href="booking.html" class="nav-link">Book Now</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+
+      <!-- Auth Buttons -->
+      <div class="hidden md:flex items-center gap-3">
+        <span id="nav-username" class="text-gold-light text-sm font-medium"></span>
+        <a id="nav-login" href="login.html" class="btn-outline py-2 px-5 text-xs">
+          <i class="fa-solid fa-user"></i> Login
+        </a>
+        <button id="nav-logout" class="btn-outline py-2 px-5 text-xs hidden">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+        </button>
+        <a href="booking.html" class="btn-gold py-2 px-5 text-xs">
+          <i class="fa-solid fa-calendar-check"></i> Book Appointment
+        </a>
+      </div>
+
+      <!-- Hamburger -->
+      <button id="menu-btn" class="md:hidden text-gold-light text-xl p-2">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══ MOBILE MENU ═════════════════════════════════════════ -->
+  <div id="mobile-menu">
+    <button id="menu-close" class="absolute top-6 right-6 text-gold-light text-2xl">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <a href="../index.html" class="nav-link">Home</a>
+    <a href="../home-2.html" class="nav-link">Home 2</a>
+    <a href="about.html" class="nav-link">About Us</a>
+    <a href="services.html" class="nav-link">Services</a>
+    <a href="staff.html" class="nav-link">Our Team</a>
+    <a href="booking.html" class="nav-link">Book Now</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+    
+    <div id="nav-auth-mob" class="flex flex-col items-center gap-3 w-full px-10">
+      <a id="nav-login-mob" href="login.html" class="btn-gold w-full justify-center">Login / Register</a>
+      <div id="nav-user-mob" class="hidden flex flex-col items-center gap-3 w-full">
+        <a id="nav-username-mob" href="user-dashboard.html" class="nav-link !text-gold-light">My Account</a>
+        <button id="nav-logout-mob" class="text-rose text-sm font-medium uppercase tracking-widest mt-2">Logout</button>
+      </div>
+    </div>
+  </div>
+
+<!-- MAIN LAYOUT -->
+<div class="max-w-[1850px] mx-auto px-5 md:px-10 py-24 flex-1 flex flex-col md:flex-row gap-8 w-full mt-10">
+  
+  <!-- SIDEBAR (Profile info & Tabs) -->
+  <div class="w-full md:w-1/3 lg:w-1/4">
+    <div class="glass-card p-6 reveal text-center sticky top-24">
+      <div class="w-24 h-24 rounded-full mx-auto bg-gradient-to-br from-gold to-rose flex items-center justify-center text-dark text-3xl font-serif font-bold mb-4" id="prof-avatar">?</div>
+      <h2 class="font-semibold text-white text-lg mb-1" id="prof-name">Loading...</h2>
+      <p class="text-gray-400 text-xs mb-5" id="prof-email">...</p>
+      
+      <div class="flex flex-col gap-2 border-t border-white/5 pt-5">
+        <button id="tab-history" class="w-full text-left px-4 py-2 rounded-lg bg-gold/10 text-gold-light font-medium text-sm transition-all"><i class="fa-solid fa-calendar-days w-6"></i> My Bookings</button>
+        <button id="tab-prefs" class="w-full text-left px-4 py-2 rounded-lg hover:bg-white/5 text-gray-400 font-medium text-sm transition-all"><i class="fa-solid fa-user-gear w-6"></i> Preferences</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT AREA -->
+  <div class="w-full md:w-2/3 lg:w-3/4 flex flex-col gap-6">
+    
+    <!-- DASHBOARD PANEL: History -->
+    <div id="panel-history" class="glass-card p-8 reveal flex-1">
+      <div class="flex items-center justify-between border-b border-white/5 pb-4 mb-6">
+        <h2 class="font-serif text-2xl text-white">Upcoming & Past Appointments</h2>
+        <a href="booking.html" class="btn-gold py-1.5 px-4 text-xs"><i class="fa-solid fa-plus"></i> New</a>
+      </div>
+      <div id="appointments-list" class="space-y-4">
+        <div class="text-center py-10 text-gray-500"><div class="loader mx-auto mb-3"></div><p>Loading bookings...</p></div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD PANEL: Preferences -->
+    <div id="panel-prefs" class="glass-card p-8 reveal flex-1 hidden">
+      <div class="border-b border-white/5 pb-4 mb-6">
+        <h2 class="font-serif text-2xl text-white">Profile Preferences</h2>
+        <p class="text-xs text-gray-400 mt-1">Update your personal details used for reservations.</p>
+      </div>
+      <form id="profile-form" class="space-y-5 max-w-lg">
+        <div>
+          <label class="form-label">Full Name</label>
+          <input id="p-name" type="text" class="form-input" required/>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="form-label">Email (Read Only)</label>
+            <input id="p-email" type="email" class="form-input opacity-70 cursor-not-allowed" disabled/>
+          </div>
+          <div>
+            <label class="form-label">Phone Number</label>
+            <input id="p-phone" type="tel" class="form-input"/>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="form-label">Date of Birth</label>
+            <input id="p-dob" type="date" class="form-input"/>
+          </div>
+          <div>
+            <label class="form-label">Gender</label>
+            <select id="p-gender" class="form-input">
+              <option value="">Select...</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+              <option value="prefer_not">Prefer not to say</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="form-label">Address</label>
+          <input id="p-address" type="text" class="form-input"/>
+        </div>
+        <div>
+          <label class="form-label">Special Notes / Allergies</label>
+          <textarea id="p-notes" class="form-input" rows="3" placeholder="Any skin allergies or preferences we should know about?"></textarea>
+        </div>
+        <button type="submit" id="save-prof-btn" class="btn-gold py-2.5 px-5 md:px-10"><i class="fa-solid fa-save"></i> Save Preferences</button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+        <!-- ══ FOOTER ══════════════════════════════════════════════ -->
+  <footer class="pt-16 pb-8 border-t border-white/5 mt-auto w-full">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10">
+      <div class="grid md:grid-cols-4 gap-10 mb-12">
+        <!-- Brand -->
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center">
+              <i class="fa-solid fa-scissors text-dark text-sm"></i>
+            </div>
+            <span class="font-serif text-2xl gold-text font-semibold tracking-wide">Parlour</span>
+          </div>
+          <p class="text-gray-500 text-sm leading-relaxed mb-5 max-w-xs">
+            Where beauty meets luxury. Premium salon and spa services crafted to perfection.
+          </p>
+          <div class="flex gap-3">
+            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://wa.me/919000000000" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-widest">Quick Links</h4>
+          <ul class="space-y-2">
+            <li><a href="../index.html" class="footer-link">Home</a></li>
+            <li><a href="../home-2.html" class="footer-link">Home 2</a></li>
+            <li><a href="about.html" class="footer-link">About Us</a></li>
+            <li><a href="services.html" class="footer-link">Services</a></li>
+            <li><a href="staff.html" class="footer-link">Our Team</a></li>
+            <li><a href="booking.html" class="footer-link">Book Appointment</a></li>
+            <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="login.html" class="footer-link">Login / Register</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-widest">Contact</h4>
+          <ul class="space-y-3 text-sm text-gray-500">
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-location-dot text-gold mt-1"></i>
+              <a href="https://maps.google.com/?q=123+Luxury+Lane,+Mumbai,+Maharashtra+400001" target="_blank" rel="noopener noreferrer" class="footer-link">123 Luxury Lane, Mumbai, Maharashtra 400001</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-phone text-gold"></i>
+              <a href="tel:+919000000000" class="footer-link">+91 90000 00000</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-envelope text-gold"></i>
+              <a href="mailto:hello@parlour.com" class="footer-link">hello@parlour.com</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-clock text-gold"></i>
+              <span>Mon–Sun: 9:00 AM – 8:00 PM</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="border-t border-white/5 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-sm text-gray-600">
+        <p>&copy; 2024 Parlour Salon & Spa. All rights reserved.</p>
+        <div class="flex gap-4">
+          <a href="maintenance.html" class="footer-link">Site Map</a>
+          <a href="privacy.html" class="footer-link">Privacy Policy</a>
+          <a href="terms.html" class="footer-link">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+// Authentication Check
+if (!api.isLoggedIn()) {
+  window.location.href = 'login.html';
+}
+
+const tabHistory = document.getElementById('tab-history');
+const tabPrefs   = document.getElementById('tab-prefs');
+const panHistory = document.getElementById('panel-history');
+const panPrefs   = document.getElementById('panel-prefs');
+
+function switchTab(t) {
+  if(t==='history'){
+    panHistory.classList.remove('hidden'); panPrefs.classList.add('hidden');
+    tabHistory.className = "w-full text-left px-4 py-2 rounded-lg bg-gold/10 text-gold-light font-medium text-sm transition-all";
+    tabPrefs.className   = "w-full text-left px-4 py-2 rounded-lg hover:bg-white/5 text-gray-400 font-medium text-sm transition-all";
+    loadAppointments();
+  }else{
+    panPrefs.classList.remove('hidden'); panHistory.classList.add('hidden');
+    tabHistory.className = "w-full text-left px-4 py-2 rounded-lg hover:bg-white/5 text-gray-400 font-medium text-sm transition-all";
+    tabPrefs.className   = "w-full text-left px-4 py-2 rounded-lg bg-gold/10 text-gold-light font-medium text-sm transition-all";
+  }
+}
+tabHistory.addEventListener('click', () => switchTab('history'));
+tabPrefs.addEventListener('click',   () => switchTab('prefs'));
+
+// Load Profile Data
+async function loadProfile() {
+  try {
+    const res = await api.auth.profile();
+    const u = res.data;
+    document.getElementById('prof-name').textContent = u.name;
+    document.getElementById('prof-email').textContent = u.email;
+    document.getElementById('prof-avatar').textContent = u.name.charAt(0).toUpperCase();
+
+    // Fill form
+    document.getElementById('p-name').value = u.name || '';
+    document.getElementById('p-email').value = u.email || '';
+    document.getElementById('p-phone').value = u.phone || '';
+    if(u.date_of_birth) document.getElementById('p-dob').value = u.date_of_birth.split('T')[0];
+    if(u.gender) document.getElementById('p-gender').value = u.gender;
+    document.getElementById('p-address').value = u.address || '';
+    document.getElementById('p-notes').value = u.notes || '';
+    
+  } catch(e) {
+    showToast('Failed to load profile details.', 'error');
+  }
+}
+
+// Cancel Appointment function
+window.cancelAppointment = async function(id) {
+  if(!confirm('Are you sure you want to cancel this appointment?')) return;
+  try {
+    const btn = document.getElementById('cancel-btn-'+id);
+    if(btn) btn.innerHTML = '<span class="loader w-3 h-3 border-2 border-rose"></span>';
+    await api.appointments.cancelMy(id);
+    showToast('Appointment cancelled successfully.', 'success');
+    loadAppointments();
+  } catch(e) {
+    showToast(e.message, 'error');
+    const btn = document.getElementById('cancel-btn-'+id);
+    if(btn) btn.innerHTML = '<i class="fa-solid fa-xmark"></i> Cancel';
+  }
+}
+
+// Load Appointments
+async function loadAppointments() {
+  const container = document.getElementById('appointments-list');
+  try {
+    const res = await api.appointments.getMine();
+    const apps = res.data;
+    if(!apps.length) {
+      container.innerHTML = '<div class="text-center py-10 text-gray-500"><i class="fa-solid fa-calendar-xmark text-4xl mb-3 opacity-50"></i><p>No bookings yet.</p><a href="booking.html" class="btn-outline mt-3 block w-max mt-4 mx-auto py-1">Book Now</a></div>';
+      return;
+    }
+    container.innerHTML = apps.map(a => {
+      const canCancel = (a.status === 'pending' || a.status === 'confirmed');
+      return `
+      <div class="flex flex-col sm:flex-row shadow-lg items-center justify-between p-5 rounded-xl border border-white/5 bg-white/5 hover:border-gold/30 transition-all">
+        <div class="flex-1 w-full flex items-center gap-5">
+          <div class="w-16 h-16 rounded-2xl bg-dark-2 border border-white/10 flex flex-col items-center justify-center flex-shrink-0 shadow-inner">
+            <span class="text-xl text-white font-serif font-bold leading-none">${a.appointment_date.substring(8,10)}</span>
+            <span class="text-[10px] text-gold-light tracking-widest uppercase mt-1">${new Date(a.appointment_date).toLocaleString('default',{month:'short'})}</span>
+          </div>
+          <div>
+            <h4 class="font-semibold text-white text-base">${a.service_name}</h4>
+            <div class="text-gray-400 text-xs mt-1.5"><i class="fa-solid fa-clock text-gold mr-1"></i> ${a.start_time.substring(0,5)} • with <span class="text-gray-300 font-medium">${a.staff_name}</span></div>
+          </div>
+        </div>
+        <div class="flex flex-col items-end gap-3 mt-4 sm:mt-0 min-w-32">
+          <div class="text-gold font-serif font-bold text-xl leading-none">${formatPrice(a.total_price)}</div>
+          <div class="flex flex-col gap-2 items-end w-full">
+            ${statusBadge(a.status)}
+            ${canCancel ? `<button id="cancel-btn-${a.id}" onclick="cancelAppointment(${a.id})" class="text-[10px] text-rose/80 hover:text-rose transition-colors flex items-center gap-1 border border-rose/30 bg-rose/10 px-2 py-1 rounded-md"><i class="fa-solid fa-xmark"></i> Cancel</button>` : ''}
+          </div>
+        </div>
+      </div>
+    `}).join('');
+  } catch(e) {
+    container.innerHTML = `<div class="text-center py-8 text-rose">${e.message}</div>`;
+  }
+}
+
+// Save Profile
+document.getElementById('profile-form').addEventListener('submit', async(e) => {
+  e.preventDefault();
+  const btn = document.getElementById('save-prof-btn');
+  btn.innerHTML = '<span class="loader"></span> Saving...'; btn.disabled = true;
+  try {
+    await api.request('/auth/profile', 'PUT', {
+      name: document.getElementById('p-name').value,
+      phone: document.getElementById('p-phone').value,
+      date_of_birth: document.getElementById('p-dob').value || null,
+      gender: document.getElementById('p-gender').value || null,
+      address: document.getElementById('p-address').value,
+      notes: document.getElementById('p-notes').value
+    });
+    
+    // Update local user object
+    const user = api.getUser();
+    user.name = document.getElementById('p-name').value;
+    api.setUser(user);
+    if(window.updateAuthNav) window.updateAuthNav();
+    document.getElementById('prof-name').textContent = user.name;
+    
+    showToast('Preferences updated successfully!', 'success');
+  } catch(e) {
+    showToast(e.message, 'error');
+  }
+  btn.innerHTML = '<i class="fa-solid fa-save"></i> Save Preferences'; btn.disabled = false;
+});
+
+// Init
+window.onload = () => {
+    loadProfile();
+    loadAppointments();
+}
+</script>
+</body>
+</html>

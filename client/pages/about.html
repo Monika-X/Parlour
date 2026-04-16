@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us – Parlour Salon & Spa</title>
+  <meta name="description"
+    content="Discover the story behind Parlour out commitment to redefining luxury beauty and wellness since 2016." />
+
+  <link rel="dns-prefetch" href="//cdn.tailwindcss.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: { DEFAULT: '#c9a05a', light: '#e8c98a', dark: '#a07a38' },
+            rose: { DEFAULT: '#d4829a', light: '#f0b8c8' },
+            dark: { DEFAULT: '#0f0d1a', 2: '#1a1626', 3: '#241f35', 4: '#2e2845' },
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body class="bg-dark text-gray-100">
+
+          <!-- ══ NAVBAR ══════════════════════════════════════════════ -->
+  <nav id="navbar">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="../index.html" class="flex items-center gap-3 text-decoration-none">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center">
+          <i class="fa-solid fa-scissors text-dark text-sm"></i>
+        </div>
+        <span class="font-serif text-2xl gold-text font-semibold tracking-wide">Parlour</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="../home-2.html" class="nav-link">Home 2</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="staff.html" class="nav-link">Our Team</a>
+        <a href="booking.html" class="nav-link">Book Now</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+
+      <!-- Auth Buttons -->
+      <div class="hidden md:flex items-center gap-3">
+        <span id="nav-username" class="text-gold-light text-sm font-medium"></span>
+        <a id="nav-login" href="login.html" class="btn-outline py-2 px-5 text-xs">
+          <i class="fa-solid fa-user"></i> Login
+        </a>
+        <button id="nav-logout" class="btn-outline py-2 px-5 text-xs hidden">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+        </button>
+        <a href="booking.html" class="btn-gold py-2 px-5 text-xs">
+          <i class="fa-solid fa-calendar-check"></i> Book Appointment
+        </a>
+      </div>
+
+      <!-- Hamburger -->
+      <button id="menu-btn" class="md:hidden text-gold-light text-xl p-2">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══ MOBILE MENU ═════════════════════════════════════════ -->
+  <div id="mobile-menu">
+    <button id="menu-close" class="absolute top-6 right-6 text-gold-light text-2xl">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <a href="../index.html" class="nav-link">Home</a>
+    <a href="../home-2.html" class="nav-link">Home 2</a>
+    <a href="about.html" class="nav-link">About Us</a>
+    <a href="services.html" class="nav-link">Services</a>
+    <a href="staff.html" class="nav-link">Our Team</a>
+    <a href="booking.html" class="nav-link">Book Now</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+    
+    <div id="nav-auth-mob" class="flex flex-col items-center gap-3 w-full px-10">
+      <a id="nav-login-mob" href="login.html" class="btn-gold w-full justify-center">Login / Register</a>
+      <div id="nav-user-mob" class="hidden flex flex-col items-center gap-3 w-full">
+        <a id="nav-username-mob" href="user-dashboard.html" class="nav-link !text-gold-light">My Account</a>
+        <button id="nav-logout-mob" class="text-rose text-sm font-medium uppercase tracking-widest mt-2">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PAGE HEADER ══ -->
+  <header class="pt-32 pb-20 relative overflow-hidden">
+    <div class="absolute inset-0 bg-dark-2"></div>
+    <div class="absolute inset-0 bg-[url('../assets/images/about_interior.png')] bg-cover bg-center opacity-30 mix-blend-luminosity"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-dark to-dark/50"></div>
+    
+    <div class="max-w-4xl mx-auto px-5 md:px-10 text-center relative z-10">
+      <div class="section-divider justify-center mb-6">
+        <span class="text-gold text-xs tracking-[0.3em] uppercase">Our Story</span>
+      </div>
+      <h1 class="font-serif text-5xl md:text-7xl text-white mb-6">Redefining <span class="gold-text">Elegance</span></h1>
+      <p class="text-gray-300 text-lg md:text-xl leading-relaxed">
+        Founded on the belief that beauty is an art form, Parlour is a sanctuary where timeless techniques meet modern innovation.
+      </p>
+    </div>
+  </header>
+
+  <!-- ══ THE JOURNEY ══ -->
+  <section class="py-24 relative overflow-hidden">
+    <div class="orb w-96 h-96 bg-gold/5 top-0 -left-20 pointer-events-none"></div>
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <!-- Image Grid -->
+        <div class="relative reveal h-[500px]">
+          <div class="absolute top-0 left-0 w-3/4 h-[400px] rounded-2xl overflow-hidden shadow-2xl border border-gold/20">
+            <img src="../assets/images/about_interior.png" alt="Salon Interior" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+            <div class="absolute inset-0 bg-gold/10 mix-blend-overlay"></div>
+          </div>
+          <div class="absolute bottom-0 right-0 w-1/2 h-[300px] rounded-2xl bg-dark-2 border border-white/10 p-8 flex flex-col justify-center shadow-xl">
+             <i class="fa-solid fa-quote-left text-4xl text-gold/30 mb-4"></i>
+             <p class="font-serif text-xl italic text-gray-300 leading-snug">"Beauty is an experience, not a chore. We built Parlour to be your aesthetic sanctuary."</p>
+          </div>
+        </div>
+
+        <!-- Text -->
+        <div class="reveal" style="transition-delay:0.2s">
+          <h2 class="font-serif text-4xl md:text-5xl text-white mb-6">The <span class="gold-text">Parlour</span> Journey</h2>
+          <p class="text-gray-400 mb-6 leading-relaxed text-lg">
+            What started as a single visionary chair in 2016 has evolved into a premier luxury destination. We recognized a gap between clinical medi-spas and chaotic salons, and sought to bridge it with an environment of serene indulgence.
+          </p>
+          <p class="text-gray-400 mb-8 leading-relaxed text-lg">
+            Every element of our space—from the ambient lighting to the custom-blended aromatic oils—is curated to decompress your mind while we transform your look.
+          </p>
+          
+          <div class="grid grid-cols-2 gap-6 pt-6 border-t border-white/10">
+            <div>
+              <div class="text-3xl font-serif text-gold mb-1">2016</div>
+              <div class="text-sm text-gray-400 uppercase tracking-widest">Year Founded</div>
+            </div>
+            <div>
+              <div class="text-3xl font-serif text-gold mb-1">50+</div>
+              <div class="text-sm text-gray-400 uppercase tracking-widest">Global Awards</div>
+            </div>
+            <div>
+              <div class="text-3xl font-serif text-gold mb-1">100%</div>
+              <div class="text-sm text-gray-400 uppercase tracking-widest">Cruelty-Free</div>
+            </div>
+            <div>
+              <div class="text-3xl font-serif text-gold mb-1">25k+</div>
+              <div class="text-sm text-gray-400 uppercase tracking-widest">Transformations</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PHILOSOPHY ══ -->
+  <section class="py-24 bg-dark-2 relative">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10 text-center">
+      <div class="section-divider justify-center mb-16 reveal">
+        <span class="text-gold text-xs tracking-[0.3em] uppercase">Core Values</span>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-10">
+        <div class="glass-card p-10 reveal">
+          <div class="w-16 h-16 mx-auto rounded-full bg-gold/10 flex items-center justify-center text-gold text-2xl mb-6">
+            <i class="fa-solid fa-leaf"></i>
+          </div>
+          <h3 class="font-serif text-2xl text-white mb-4">Ethical Luxury</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">
+            We exclusively partner with sustainable, cruelty-free brands. Luxury should never come at the cost of our planet.
+          </p>
+        </div>
+
+        <div class="glass-card p-10 reveal" style="transition-delay:0.1s">
+          <div class="w-16 h-16 mx-auto rounded-full bg-gold/10 flex items-center justify-center text-gold text-2xl mb-6">
+            <i class="fa-solid fa-gem"></i>
+          </div>
+          <h3 class="font-serif text-2xl text-white mb-4">Unrivalled Artistry</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">
+            Our team undergoes continuous international training, ensuring you receive world-class technique tailored to your personal aesthetic.
+          </p>
+        </div>
+
+        <div class="glass-card p-10 reveal" style="transition-delay:0.2s">
+          <div class="w-16 h-16 mx-auto rounded-full bg-gold/10 flex items-center justify-center text-gold text-2xl mb-6">
+            <i class="fa-solid fa-spa"></i>
+          </div>
+          <h3 class="font-serif text-2xl text-white mb-4">Holistic Serenity</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">
+            We believe outer beauty is deeply connected to inner calm. Our treatments are designed as holistic rituals, not just services.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOUNDER'S NOTE ══ -->
+  <section class="py-24 relative overflow-hidden">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10">
+      <div class="glass-card overflow-hidden">
+        <div class="grid md:grid-cols-2">
+          <div class="h-[400px] md:h-auto">
+            <img src="../assets/images/about_founder.png" alt="Founder Portrait" class="w-full h-full object-cover object-top" />
+          </div>
+          <div class="p-10 lg:p-16 flex flex-col justify-center">
+            <div class="text-gold text-xs tracking-[0.3em] uppercase mb-4">Meet The Founder</div>
+            <h2 class="font-serif text-4xl text-white mb-8">Elevating the Standard</h2>
+            <p class="text-gray-400 text-lg leading-relaxed mb-6 italic">
+              "I started Parlour to create the space I couldn't find—a salon that doesn't just process clients, but celebrates them. I wanted an environment where artists could thrive and clients could exhale the moment they walked through the door."
+            </p>
+            <p class="text-gray-400 leading-relaxed mb-8">
+              We've spent years perfecting our craft and curating our environment. When you sit in our chairs, you are trusting us with your image, and we consider that a profound privilege.
+            </p>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-px bg-gold"></div>
+              <div class="font-serif text-xl text-white">Eleanor Vance</div>
+            </div>
+            <div class="text-sm text-gray-500 mt-1 ml-16">Creative Director & Founder</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CTA ══ -->
+  <section class="py-24 relative overflow-hidden text-center bg-dark-2">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(201,160,90,0.05),transparent)]"></div>
+    <div class="max-w-2xl mx-auto px-5 md:px-10 relative z-10 reveal">
+      <h2 class="font-serif text-5xl text-white mb-6">Experience the Difference</h2>
+      <p class="text-gray-400 mb-10 text-lg">Join us at Parlour to relax, rejuvenate, and reinvent yourself.</p>
+      <a href="booking.html" class="btn-gold px-10 py-4 text-sm"><i class="fa-solid fa-calendar-check mr-2"></i> Book Your Visit</a>
+    </div>
+  </section>
+
+        <!-- ══ FOOTER ══════════════════════════════════════════════ -->
+  <footer class="pt-16 pb-8 border-t border-white/5 mt-auto w-full">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10">
+      <div class="grid md:grid-cols-4 gap-10 mb-12">
+        <!-- Brand -->
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center">
+              <i class="fa-solid fa-scissors text-dark text-sm"></i>
+            </div>
+            <span class="font-serif text-2xl gold-text font-semibold tracking-wide">Parlour</span>
+          </div>
+          <p class="text-gray-500 text-sm leading-relaxed mb-5 max-w-xs">
+            Where beauty meets luxury. Premium salon and spa services crafted to perfection.
+          </p>
+          <div class="flex gap-3">
+            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://wa.me/919000000000" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-widest">Quick Links</h4>
+          <ul class="space-y-2">
+            <li><a href="../index.html" class="footer-link">Home</a></li>
+            <li><a href="../home-2.html" class="footer-link">Home 2</a></li>
+            <li><a href="about.html" class="footer-link">About Us</a></li>
+            <li><a href="services.html" class="footer-link">Services</a></li>
+            <li><a href="staff.html" class="footer-link">Our Team</a></li>
+            <li><a href="booking.html" class="footer-link">Book Appointment</a></li>
+            <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="login.html" class="footer-link">Login / Register</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-widest">Contact</h4>
+          <ul class="space-y-3 text-sm text-gray-500">
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-location-dot text-gold mt-1"></i>
+              <a href="https://maps.google.com/?q=123+Luxury+Lane,+Mumbai,+Maharashtra+400001" target="_blank" rel="noopener noreferrer" class="footer-link">123 Luxury Lane, Mumbai, Maharashtra 400001</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-phone text-gold"></i>
+              <a href="tel:+919000000000" class="footer-link">+91 90000 00000</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-envelope text-gold"></i>
+              <a href="mailto:hello@parlour.com" class="footer-link">hello@parlour.com</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-clock text-gold"></i>
+              <span>Mon–Sun: 9:00 AM – 8:00 PM</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="border-t border-white/5 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-sm text-gray-600">
+        <p>&copy; 2024 Parlour Salon & Spa. All rights reserved.</p>
+        <div class="flex gap-4">
+          <a href="maintenance.html" class="footer-link">Site Map</a>
+          <a href="privacy.html" class="footer-link">Privacy Policy</a>
+          <a href="terms.html" class="footer-link">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/api.js" defer></script>
+  <script src="../assets/js/main.js" defer></script>
+</body>
+</html>

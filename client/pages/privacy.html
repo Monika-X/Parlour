@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy – Parlour Salon & Spa</title>
+  <meta name="description" content="Read Parlour's commitment to protecting your privacy and personal information." />
+
+  <link rel="dns-prefetch" href="//cdn.tailwindcss.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: { DEFAULT: '#c9a05a', light: '#e8c98a', dark: '#a07a38' },
+            rose: { DEFAULT: '#d4829a', light: '#f0b8c8' },
+            dark: { DEFAULT: '#0f0d1a', 2: '#1a1626', 3: '#241f35', 4: '#2e2845' },
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body class="bg-dark text-gray-100 flex flex-col min-h-screen">
+
+  <!-- ══ NAVBAR ══════════════════════════════════════════════ -->
+    <!-- ══ NAVBAR ══════════════════════════════════════════════ -->
+  <nav id="navbar">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="../index.html" class="flex items-center gap-3 text-decoration-none">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center">
+          <i class="fa-solid fa-scissors text-dark text-sm"></i>
+        </div>
+        <span class="font-serif text-2xl gold-text font-semibold tracking-wide">Parlour</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="../home-2.html" class="nav-link">Home 2</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="staff.html" class="nav-link">Our Team</a>
+        <a href="booking.html" class="nav-link">Book Now</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+
+      <!-- Auth Buttons -->
+      <div class="hidden md:flex items-center gap-3">
+        <span id="nav-username" class="text-gold-light text-sm font-medium"></span>
+        <a id="nav-login" href="login.html" class="btn-outline py-2 px-5 text-xs">
+          <i class="fa-solid fa-user"></i> Login
+        </a>
+        <button id="nav-logout" class="btn-outline py-2 px-5 text-xs hidden">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+        </button>
+        <a href="booking.html" class="btn-gold py-2 px-5 text-xs">
+          <i class="fa-solid fa-calendar-check"></i> Book Appointment
+        </a>
+      </div>
+
+      <!-- Hamburger -->
+      <button id="menu-btn" class="md:hidden text-gold-light text-xl p-2">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══ MOBILE MENU ═════════════════════════════════════════ -->
+  <div id="mobile-menu">
+    <button id="menu-close" class="absolute top-6 right-6 text-gold-light text-2xl">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <a href="../index.html" class="nav-link">Home</a>
+    <a href="../home-2.html" class="nav-link">Home 2</a>
+    <a href="about.html" class="nav-link">About Us</a>
+    <a href="services.html" class="nav-link">Services</a>
+    <a href="staff.html" class="nav-link">Our Team</a>
+    <a href="booking.html" class="nav-link">Book Now</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+    
+    <div id="nav-auth-mob" class="flex flex-col items-center gap-3 w-full px-10">
+      <a id="nav-login-mob" href="login.html" class="btn-gold w-full justify-center">Login / Register</a>
+      <div id="nav-user-mob" class="hidden flex flex-col items-center gap-3 w-full">
+        <a id="nav-username-mob" href="user-dashboard.html" class="nav-link !text-gold-light">My Account</a>
+        <button id="nav-logout-mob" class="text-rose text-sm font-medium uppercase tracking-widest mt-2">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PAGE HEADER ══ -->
+  <header class="pt-32 pb-16 relative overflow-hidden">
+    <div class="absolute inset-0 bg-dark-2"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-dark to-dark/50"></div>
+    
+    <div class="max-w-4xl mx-auto px-5 md:px-10 text-center relative z-10">
+      <div class="section-divider justify-center mb-6">
+        <span class="text-gold text-xs tracking-[0.3em] uppercase">Security & Privacy</span>
+      </div>
+      <h1 class="font-serif text-5xl md:text-6xl text-white mb-6">Privacy <span class="gold-text">Policy</span></h1>
+      <p class="text-gray-400">Last updated: April 2024</p>
+    </div>
+  </header>
+
+  <!-- ══ CONTENT ══ -->
+  <main class="flex-1 py-20 relative">
+    <div class="max-w-4xl mx-auto px-5 md:px-10 content-area">
+      <div class="glass-card p-8 md:p-12 border-white/5 space-y-12">
+        
+        <section>
+          <h2 class="font-serif text-3xl text-gold-light mb-4">1. Introduction</h2>
+          <p class="text-gray-400 leading-relaxed">
+            At Parlour Salon & Spa, we respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website (regardless of where you visit it from) and tell you about your privacy rights and how the law protects you.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="font-serif text-3xl text-gold-light mb-4">2. The Data We Collect</h2>
+          <p class="text-gray-400 leading-relaxed mb-4">
+            Personal data, or personal information, means any information about an individual from which that person can be identified. We may collect, use, store and transfer different kinds of personal data about you which we have grouped together as follows:
+          </p>
+          <ul class="list-disc list-inside text-gray-500 space-y-2 ml-4">
+            <li><strong class="text-gray-300">Identity Data:</strong> first name, last name, username or similar identifier.</li>
+            <li><strong class="text-gray-300">Contact Data:</strong> billing address, email address and telephone numbers.</li>
+            <li><strong class="text-gray-300">Transaction Data:</strong> details about payments to and from you and other details of services you have purchased from us.</li>
+            <li><strong class="text-gray-300">Technical Data:</strong> internet protocol (IP) address, your login data, browser type and version.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="font-serif text-3xl text-gold-light mb-4">3. How We Use Your Data</h2>
+          <p class="text-gray-400 leading-relaxed">
+            We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances:
+            To perform the contract we are about to enter into or have entered into with you (e.g., booking an appointment), where it is necessary for our legitimate interests, and where we need to comply with a legal obligation.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="font-serif text-3xl text-gold-light mb-4">4. Data Security</h2>
+          <p class="text-gray-400 leading-relaxed">
+            We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used or accessed in an unauthorised way, altered or disclosed. In addition, we limit access to your personal data to those employees, agents, contractors and other third parties who have a business need to know.
+          </p>
+        </section>
+
+        <section class="pt-8 border-t border-white/5">
+          <p class="text-gray-500 text-sm">
+            If you have any questions about this Privacy Policy or our privacy practices, please contact us at <a href="mailto:privacy@parlour.com" class="text-gold-light hover:underline">privacy@parlour.com</a>.
+          </p>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+    <!-- ══ FOOTER ══════════════════════════════════════════════ -->
+  <footer class="pt-16 pb-8 border-t border-white/5 mt-auto w-full">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10">
+      <div class="grid md:grid-cols-4 gap-10 mb-12">
+        <!-- Brand -->
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center">
+              <i class="fa-solid fa-scissors text-dark text-sm"></i>
+            </div>
+            <span class="font-serif text-2xl gold-text font-semibold tracking-wide">Parlour</span>
+          </div>
+          <p class="text-gray-500 text-sm leading-relaxed mb-5 max-w-xs">
+            Where beauty meets luxury. Premium salon and spa services crafted to perfection.
+          </p>
+          <div class="flex gap-3">
+            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://wa.me/919000000000" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-widest">Quick Links</h4>
+          <ul class="space-y-2">
+            <li><a href="../index.html" class="footer-link">Home</a></li>
+            <li><a href="../home-2.html" class="footer-link">Home 2</a></li>
+            <li><a href="about.html" class="footer-link">About Us</a></li>
+            <li><a href="services.html" class="footer-link">Services</a></li>
+            <li><a href="staff.html" class="footer-link">Our Team</a></li>
+            <li><a href="booking.html" class="footer-link">Book Appointment</a></li>
+            <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="login.html" class="footer-link">Login / Register</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-widest">Contact</h4>
+          <ul class="space-y-3 text-sm text-gray-500">
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-location-dot text-gold mt-1"></i>
+              <a href="https://maps.google.com/?q=123+Luxury+Lane,+Mumbai,+Maharashtra+400001" target="_blank" rel="noopener noreferrer" class="footer-link">123 Luxury Lane, Mumbai, Maharashtra 400001</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-phone text-gold"></i>
+              <a href="tel:+919000000000" class="footer-link">+91 90000 00000</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-envelope text-gold"></i>
+              <a href="mailto:hello@parlour.com" class="footer-link">hello@parlour.com</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-clock text-gold"></i>
+              <span>Mon–Sun: 9:00 AM – 8:00 PM</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="border-t border-white/5 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-sm text-gray-600">
+        <p>&copy; 2024 Parlour Salon & Spa. All rights reserved.</p>
+        <div class="flex gap-4">
+          <a href="maintenance.html" class="footer-link">Site Map</a>
+          <a href="privacy.html" class="footer-link">Privacy Policy</a>
+          <a href="terms.html" class="footer-link">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+
+</html>

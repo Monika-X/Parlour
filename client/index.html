@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parlour – Premium Salon & Spa Experience</title>
+  <meta name="description"
+    content="Parlour is a luxury salon and spa offering premium hair, skin, nail, and wellness services. Book your appointment online today." />
+
+  <!-- DNS Prefetch for faster CDN resolution -->
+  <link rel="dns-prefetch" href="//cdn.tailwindcss.com" />
+  <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
+  <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+
+  <!-- Preconnect to critical origins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: { DEFAULT: '#c9a05a', light: '#e8c98a', dark: '#a07a38' },
+            rose: { DEFAULT: '#d4829a', light: '#f0b8c8' },
+            dark: { DEFAULT: '#0f0d1a', 2: '#1a1626', 3: '#241f35', 4: '#2e2845' },
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Critical CSS (preloaded) -->
+  <link rel="preload" href="assets/css/style.css" as="style" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- Font Awesome (deferred — non-critical for initial paint) -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /></noscript>
+</head>
+
+<body class="bg-dark text-gray-100">
+
+  <!-- ══ PAGE LOADER ════════════════════════════════════════ -->
+  <div id="page-loader">
+    <div class="text-4xl font-serif gold-text mb-2">Parlour</div>
+    <div class="loader"></div>
+  </div>
+
+  <!-- ══ TOAST CONTAINER ════════════════════════════════════ -->
+  <div id="toast-container"></div>
+
+        <!-- ══ NAVBAR ══════════════════════════════════════════════ -->
+  <nav id="navbar">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="index.html" class="flex items-center gap-3 text-decoration-none">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center">
+          <i class="fa-solid fa-scissors text-dark text-sm"></i>
+        </div>
+        <span class="font-serif text-2xl gold-text font-semibold tracking-wide">Parlour</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="home-2.html" class="nav-link">Home 2</a>
+        <a href="pages/about.html" class="nav-link">About Us</a>
+        <a href="pages/services.html" class="nav-link">Services</a>
+        <a href="pages/staff.html" class="nav-link">Our Team</a>
+        <a href="pages/booking.html" class="nav-link">Book Now</a>
+        <a href="pages/contact.html" class="nav-link">Contact</a>
+      </div>
+
+      <!-- Auth Buttons -->
+      <div class="hidden md:flex items-center gap-3">
+        <span id="nav-username" class="text-gold-light text-sm font-medium"></span>
+        <a id="nav-login" href="pages/login.html" class="btn-outline py-2 px-5 text-xs">
+          <i class="fa-solid fa-user"></i> Login
+        </a>
+        <button id="nav-logout" class="btn-outline py-2 px-5 text-xs hidden">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+        </button>
+        <a href="pages/booking.html" class="btn-gold py-2 px-5 text-xs">
+          <i class="fa-solid fa-calendar-check"></i> Book Appointment
+        </a>
+      </div>
+
+      <!-- Hamburger -->
+      <button id="menu-btn" class="md:hidden text-gold-light text-xl p-2">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══ MOBILE MENU ═════════════════════════════════════════ -->
+  <div id="mobile-menu">
+    <button id="menu-close" class="absolute top-6 right-6 text-gold-light text-2xl">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="home-2.html" class="nav-link">Home 2</a>
+    <a href="pages/about.html" class="nav-link">About Us</a>
+    <a href="pages/services.html" class="nav-link">Services</a>
+    <a href="pages/staff.html" class="nav-link">Our Team</a>
+    <a href="pages/booking.html" class="nav-link">Book Now</a>
+    <a href="pages/contact.html" class="nav-link">Contact</a>
+    
+    <div id="nav-auth-mob" class="flex flex-col items-center gap-3 w-full px-10">
+      <a id="nav-login-mob" href="pages/login.html" class="btn-gold w-full justify-center">Login / Register</a>
+      <div id="nav-user-mob" class="hidden flex flex-col items-center gap-3 w-full">
+        <a id="nav-username-mob" href="pages/user-dashboard.html" class="nav-link !text-gold-light">My Account</a>
+        <button id="nav-logout-mob" class="text-rose text-sm font-medium uppercase tracking-widest mt-2">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ HERO ════════════════════════════════════════════════ -->
+  <section id="hero" class="hero-gradient relative min-h-screen flex items-center overflow-hidden pt-24">
+    <!-- Particles container -->
+    <div id="particles" class="absolute inset-0 pointer-events-none"></div>
+
+    <!-- Orbs -->
+    <div class="orb w-96 h-96 bg-gold/10 top-10 -left-24" style="animation-delay:0s"></div>
+    <div class="orb w-72 h-72 bg-rose/8  bottom-20 right-0" style="animation-delay:3s"></div>
+    <div class="orb w-56 h-56 bg-gold/6  top-1/2   right-1/4" style="animation-delay:6s"></div>
+
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10 grid lg:grid-cols-2 gap-12 items-center w-full">
+      <!-- Left: Text -->
+      <div class="relative z-10">
+        <div
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gold/30 bg-gold/5 text-gold-light text-xs font-medium tracking-widest uppercase mb-6">
+          <span class="w-1.5 h-1.5 rounded-full bg-gold animate-pulse"></span>
+          Luxury Salon &amp; Spa Experience
+        </div>
+
+        <h1 class="hero-title font-serif text-white leading-tight mb-6">
+          Your Beauty,<br />
+          <span class="gold-text">Our Passion</span>
+        </h1>
+
+        <p class="text-gray-400 text-lg leading-relaxed mb-8 max-w-lg">
+          Indulge in world-class salon and spa treatments crafted by expert stylists.
+          From hair transformations to rejuvenating therapies — experience luxury like never before.
+        </p>
+
+        <div class="flex flex-wrap gap-4">
+          <a href="pages/booking.html" class="btn-gold text-sm px-8 py-3">
+            <i class="fa-solid fa-calendar-check"></i> Book Appointment
+          </a>
+          <a href="pages/services.html" class="btn-outline text-sm px-8 py-3">
+            <i class="fa-solid fa-spa"></i> Explore Services
+          </a>
+        </div>
+
+        <!-- Trust badges -->
+        <div class="flex items-center gap-6 mt-10">
+          <div class="flex -space-x-2">
+            <div
+              class="w-9 h-9 rounded-full bg-gradient-to-br from-gold to-rose border-2 border-dark flex items-center justify-center text-xs">
+              A</div>
+            <div
+              class="w-9 h-9 rounded-full bg-gradient-to-br from-rose to-purple-600 border-2 border-dark flex items-center justify-center text-xs">
+              S</div>
+            <div
+              class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-gold border-2 border-dark flex items-center justify-center text-xs">
+              R</div>
+          </div>
+          <div>
+            <div class="text-yellow-400 text-sm">★★★★★</div>
+            <div class="text-gray-400 text-xs">500+ Happy Clients</div>
+          </div>
+          <div class="h-8 w-px bg-white/10"></div>
+          <div class="text-center">
+            <div class="text-gold font-serif text-xl font-semibold">8+</div>
+            <div class="text-gray-400 text-xs">Years of Excellence</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Feature Cards -->
+      <div class="relative hidden lg:block">
+        <div class="grid grid-cols-2 gap-4 relative z-10">
+          <div class="glass-card p-5 col-span-2">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-10 h-10 rounded-xl bg-gold/20 flex items-center justify-center text-gold text-lg">
+                <i class="fa-solid fa-scissors"></i>
+              </div>
+              <div>
+                <div class="font-semibold text-white">Hair Transformation</div>
+                <div class="text-xs text-gray-400">Expert Styling</div>
+              </div>
+            </div>
+            <div class="h-1 bg-dark-3 rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-gold to-gold-dark rounded-full" style="width:92%"></div>
+            </div>
+            <div class="text-right text-xs text-gold-light mt-1">92% satisfaction</div>
+          </div>
+
+          <div class="glass-card p-5">
+            <div class="text-2xl mb-2">✨</div>
+            <div class="font-semibold text-white text-sm">Skin Care</div>
+            <div class="text-xs text-gray-400 mt-1">Glow Treatments</div>
+            <div class="mt-3 text-gold font-serif text-xl">14+</div>
+            <div class="text-xs text-gray-500">Services</div>
+          </div>
+
+          <div class="glass-card p-5">
+            <div class="text-2xl mb-2">💆</div>
+            <div class="font-semibold text-white text-sm">Wellness</div>
+            <div class="text-xs text-gray-400 mt-1">Body & Soul</div>
+            <div class="mt-3 text-gold font-serif text-xl">8+</div>
+            <div class="text-xs text-gray-500">Therapies</div>
+          </div>
+
+          <div class="glass-card p-5 col-span-2 bg-gradient-to-r from-gold/10 to-rose/5 border-gold/20">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-xs text-gray-400 uppercase tracking-widest mb-1">Next Available Slot</div>
+                <div class="text-white font-semibold">Today, 3:00 PM</div>
+              </div>
+              <a href="pages/booking.html" class="btn-gold py-2 px-4 text-xs">
+                Book Now <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Decorative ring -->
+        <div class="absolute -top-8 -right-8 w-64 h-64 rounded-full border border-gold/10 pointer-events-none"></div>
+        <div class="absolute -bottom-4 -left-4 w-40 h-40 rounded-full border border-rose/10 pointer-events-none"></div>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-500 text-xs">
+      <span class="uppercase tracking-widest">Scroll</span>
+      <div class="w-px h-8 bg-gradient-to-b from-gray-500 to-transparent animate-pulse"></div>
+    </div>
+  </section>
+
+  <!-- ══ STATS ════════════════════════════════════════════════ -->
+  <section class="py-16 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-dark-2 via-dark-3 to-dark-2"></div>
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10 relative z-10">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div class="reveal">
+          <div id="stat-clients" class="stat-number gold-text">0</div>
+          <div class="text-gray-400 text-sm mt-1 uppercase tracking-widest">Happy Clients</div>
+        </div>
+        <div class="reveal" style="transition-delay:0.1s">
+          <div id="stat-services" class="stat-number gold-text">0</div>
+          <div class="text-gray-400 text-sm mt-1 uppercase tracking-widest">Services</div>
+        </div>
+        <div class="reveal" style="transition-delay:0.2s">
+          <div id="stat-experts" class="stat-number gold-text">0</div>
+          <div class="text-gray-400 text-sm mt-1 uppercase tracking-widest">Expert Stylists</div>
+        </div>
+        <div class="reveal" style="transition-delay:0.3s">
+          <div id="stat-years" class="stat-number gold-text">0</div>
+          <div class="text-gray-400 text-sm mt-1 uppercase tracking-widest">Years of Experience</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SERVICES PREVIEW ════════════════════════════════════ -->
+  <section class="py-24 relative" id="services-section">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10">
+      <!-- Heading -->
+      <div class="text-center mb-16 reveal">
+        <div class="section-divider justify-center">
+          <span class="text-gold text-xs tracking-[0.3em] uppercase">What We Offer</span>
+        </div>
+        <h2 class="font-serif text-5xl md:text-6xl text-white mt-4 mb-4">
+          Our <span class="gold-text">Services</span>
+        </h2>
+        <p class="text-gray-400 max-w-xl mx-auto">
+          Handcrafted beauty experiences designed to rejuvenate, transform, and inspire.
+        </p>
+      </div>
+
+      <!-- Category Filter -->
+      <div id="category-tabs" class="flex flex-wrap justify-center gap-3 mb-10 reveal">
+        <button data-cat="all"
+          class="cat-btn active-cat px-5 py-2 rounded-full text-sm font-medium border border-gold/40 text-gold-light bg-gold/10 transition-all duration-300">All</button>
+      </div>
+
+      <!-- Services Grid -->
+      <div id="services-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <!-- Populated by JS -->
+        <div class="col-span-full text-center py-12 text-gray-500">
+          <div class="loader mx-auto mb-3"></div>
+          <p>Loading services...</p>
+        </div>
+      </div>
+
+      <div class="text-center mt-10 reveal">
+        <a href="pages/services.html" class="btn-outline">
+          View All Services <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ WHY CHOOSE US ═══════════════════════════════════════ -->
+  <section class="py-24 bg-dark-2 relative overflow-hidden">
+    <div class="orb w-80 h-80 bg-rose/5 top-0 right-0 pointer-events-none"></div>
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="reveal">
+          <div class="section-divider">
+            <span class="text-gold text-xs tracking-[0.3em] uppercase">Why Parlour</span>
+          </div>
+          <h2 class="font-serif text-5xl text-white mt-4 mb-6 leading-tight">
+            Experience <span class="gold-text">Luxury</span><br />Redefined
+          </h2>
+          <p class="text-gray-400 mb-8 leading-relaxed">
+            We combine cutting-edge techniques with time-honoured traditions to deliver beauty treatments that are as
+            therapeutic as they are transformative.
+          </p>
+          <div class="space-y-4">
+            <div class="flex items-start gap-4">
+              <div
+                class="w-10 h-10 rounded-xl bg-gold/15 flex items-center justify-center text-gold flex-shrink-0 mt-0.5">
+                <i class="fa-solid fa-award"></i>
+              </div>
+              <div>
+                <div class="font-semibold text-white mb-1">Certified Expert Stylists</div>
+                <div class="text-gray-400 text-sm">Our team holds international certifications with continuous training.
+                </div>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div
+                class="w-10 h-10 rounded-xl bg-gold/15 flex items-center justify-center text-gold flex-shrink-0 mt-0.5">
+                <i class="fa-solid fa-leaf"></i>
+              </div>
+              <div>
+                <div class="font-semibold text-white mb-1">Premium Organic Products</div>
+                <div class="text-gray-400 text-sm">We use only cruelty-free, premium products safe for all skin types.
+                </div>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div
+                class="w-10 h-10 rounded-xl bg-gold/15 flex items-center justify-center text-gold flex-shrink-0 mt-0.5">
+                <i class="fa-solid fa-calendar-check"></i>
+              </div>
+              <div>
+                <div class="font-semibold text-white mb-1">Easy Online Booking</div>
+                <div class="text-gray-400 text-sm">Book, reschedule, or cancel appointments 24/7 from any device.</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div
+                class="w-10 h-10 rounded-xl bg-gold/15 flex items-center justify-center text-gold flex-shrink-0 mt-0.5">
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <div>
+                <div class="font-semibold text-white mb-1">5-Star Rated Experience</div>
+                <div class="text-gray-400 text-sm">Consistently rated 5 stars by our clients for service quality.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal grid grid-cols-2 gap-4" style="transition-delay:0.2s">
+          <div class="glass-card p-6 text-center">
+            <div class="text-4xl mb-3">💇</div>
+            <div class="font-semibold text-white mb-1">Hair Care</div>
+            <div class="text-gray-400 text-sm">Cut · Colour · Spa</div>
+          </div>
+          <div class="glass-card p-6 text-center mt-8">
+            <div class="text-4xl mb-3">🧖</div>
+            <div class="font-semibold text-white mb-1">Skin Care</div>
+            <div class="text-gray-400 text-sm">Facials · Glow · Cleanup</div>
+          </div>
+          <div class="glass-card p-6 text-center">
+            <div class="text-4xl mb-3">💅</div>
+            <div class="font-semibold text-white mb-1">Nail Art</div>
+            <div class="text-gray-400 text-sm">Mani · Pedi · Gel</div>
+          </div>
+          <div class="glass-card p-6 text-center mt-8">
+            <div class="text-4xl mb-3">🌿</div>
+            <div class="font-semibold text-white mb-1">Wellness</div>
+            <div class="text-gray-400 text-sm">Massage · Therapy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ OUR TEAM PREVIEW ════════════════════════════════════ -->
+  <section class="py-24 relative">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10">
+      <div class="text-center mb-16 reveal">
+        <div class="section-divider justify-center">
+          <span class="text-gold text-xs tracking-[0.3em] uppercase">The Artists</span>
+        </div>
+        <h2 class="font-serif text-5xl md:text-6xl text-white mt-4 mb-4">
+          Meet Our <span class="gold-text">Team</span>
+        </h2>
+        <p class="text-gray-400 max-w-lg mx-auto">
+          Passionate professionals dedicated to making you look and feel your absolute best.
+        </p>
+      </div>
+
+      <div id="staff-grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        <!-- Populated by JS -->
+        <div class="col-span-full text-center py-12 text-gray-500">
+          <div class="loader mx-auto mb-3"></div>
+          <p>Loading team...</p>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <a href="pages/staff.html" class="btn-outline">
+          Meet The Full Team <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ TESTIMONIALS ════════════════════════════════════════ -->
+  <section class="py-24 bg-dark-2 relative overflow-hidden">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10">
+      <div class="text-center mb-16 reveal">
+        <div class="section-divider justify-center">
+          <span class="text-gold text-xs tracking-[0.3em] uppercase">Client Words</span>
+        </div>
+        <h2 class="font-serif text-5xl text-white mt-4 mb-4">
+          What They <span class="gold-text">Say</span>
+        </h2>
+      </div>
+
+      <div id="testimonials-grid" class="grid md:grid-cols-3 gap-6">
+        <!-- Populated by JS -->
+        <div class="col-span-full text-center py-12 text-gray-500">
+          <div class="loader mx-auto mb-3"></div>
+          <p>Loading testimonials...</p>
+        </div>
+      </div>
+
+      <div class="text-center mt-12 reveal">
+        <a href="pages/user-dashboard.html#reviews" class="btn-outline">
+          Share Your Experience <i class="fa-solid fa-star text-gold ml-2"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ BOOKING CTA ══════════════════════════════════════════ -->
+  <section class="py-24 relative overflow-hidden">
+    <div class="absolute inset-0 hero-gradient"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,rgba(201,160,90,0.1),transparent)]">
+    </div>
+    <div class="max-w-3xl mx-auto px-5 md:px-10 text-center relative z-10 reveal">
+      <div class="text-5xl mb-6">🌸</div>
+      <h2 class="font-serif text-5xl md:text-6xl text-white mb-6">
+        Ready to <span class="gold-text">Glow Up?</span>
+      </h2>
+      <p class="text-gray-400 text-lg mb-8">
+        Book your appointment today and let our experts craft the perfect experience just for you.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="pages/booking.html" class="btn-gold px-10 py-4 text-sm">
+          <i class="fa-solid fa-calendar-check"></i> Book Your Appointment
+        </a>
+        <a href="pages/contact.html" class="btn-outline px-10 py-4 text-sm">
+          <i class="fa-solid fa-phone"></i> Call Us
+        </a>
+      </div>
+    </div>
+  </section>
+
+        <!-- ══ FOOTER ══════════════════════════════════════════════ -->
+  <footer class="pt-16 pb-8 border-t border-white/5 mt-auto w-full">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10">
+      <div class="grid md:grid-cols-4 gap-10 mb-12">
+        <!-- Brand -->
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center">
+              <i class="fa-solid fa-scissors text-dark text-sm"></i>
+            </div>
+            <span class="font-serif text-2xl gold-text font-semibold tracking-wide">Parlour</span>
+          </div>
+          <p class="text-gray-500 text-sm leading-relaxed mb-5 max-w-xs">
+            Where beauty meets luxury. Premium salon and spa services crafted to perfection.
+          </p>
+          <div class="flex gap-3">
+            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://wa.me/919000000000" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-widest">Quick Links</h4>
+          <ul class="space-y-2">
+            <li><a href="index.html" class="footer-link">Home</a></li>
+            <li><a href="home-2.html" class="footer-link">Home 2</a></li>
+            <li><a href="pages/about.html" class="footer-link">About Us</a></li>
+            <li><a href="pages/services.html" class="footer-link">Services</a></li>
+            <li><a href="pages/staff.html" class="footer-link">Our Team</a></li>
+            <li><a href="pages/booking.html" class="footer-link">Book Appointment</a></li>
+            <li><a href="pages/contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="pages/login.html" class="footer-link">Login / Register</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-widest">Contact</h4>
+          <ul class="space-y-3 text-sm text-gray-500">
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-location-dot text-gold mt-1"></i>
+              <a href="https://maps.google.com/?q=123+Luxury+Lane,+Mumbai,+Maharashtra+400001" target="_blank" rel="noopener noreferrer" class="footer-link">123 Luxury Lane, Mumbai, Maharashtra 400001</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-phone text-gold"></i>
+              <a href="tel:+919000000000" class="footer-link">+91 90000 00000</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-envelope text-gold"></i>
+              <a href="mailto:hello@parlour.com" class="footer-link">hello@parlour.com</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-clock text-gold"></i>
+              <span>Mon–Sun: 9:00 AM – 8:00 PM</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="border-t border-white/5 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-sm text-gray-600">
+        <p>&copy; 2024 Parlour Salon & Spa. All rights reserved.</p>
+        <div class="flex gap-4">
+          <a href="pages/maintenance.html" class="footer-link">Site Map</a>
+          <a href="pages/privacy.html" class="footer-link">Privacy Policy</a>
+          <a href="pages/terms.html" class="footer-link">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ══ SCRIPTS ══════════════════════════════════════════════ -->
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    // ── Initialise hero particles
+    createParticles('particles', 25);
+
+    // ── Load Services (homepage preview)
+    async function loadServicesPreview() {
+      const grid = document.getElementById('services-grid');
+      const catTabs = document.getElementById('category-tabs');
+      if (!grid || !catTabs) return;
+
+      try {
+        const results = await Promise.allSettled([
+          api.services.getAll('active=1'),
+          api.services.getCategories()
+        ]);
+
+        const services = results[0].status === 'fulfilled' && Array.isArray(results[0].value.data) ? results[0].value.data : [];
+        const categories = results[1].status === 'fulfilled' && Array.isArray(results[1].value.data) ? results[1].value.data : [];
+
+        if (!services.length && !categories.length) {
+          grid.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500"><p>Services currently unavailable.</p></div>';
+          return;
+        }
+
+        // Build category tabs
+        catTabs.innerHTML = '<button data-cat="all" class="cat-btn active-cat px-5 py-2 rounded-full text-sm font-medium border border-gold/40 text-gold-light bg-gold/10 transition-all duration-300">All Services</button>';
+        
+        categories.forEach(cat => {
+          if (!cat || !cat.id) return;
+          const btn = document.createElement('button');
+          btn.dataset.cat = cat.id;
+          btn.className = 'cat-btn px-5 py-2 rounded-full text-sm font-medium border border-white/10 text-gray-400 bg-white/5 transition-all duration-300 hover:border-gold/40 hover:text-gold-light';
+          btn.textContent = cat.name || 'Category';
+          catTabs.appendChild(btn);
+        });
+
+        // Category filter logic
+        catTabs.querySelectorAll('.cat-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const catId = btn.dataset.cat;
+            catTabs.querySelectorAll('.cat-btn').forEach(b => {
+              b.className = 'cat-btn px-5 py-2 rounded-full text-sm font-medium border border-white/10 text-gray-400 bg-white/5 transition-all duration-300 hover:border-gold/40 hover:text-gold-light';
+            });
+            btn.className = 'cat-btn active-cat px-5 py-2 rounded-full text-sm font-medium border border-gold/40 text-gold-light bg-gold/10 transition-all duration-300';
+            
+            if (catId === 'all') {
+              renderServices(services.slice(0, 8));
+            } else {
+              const filtered = services.filter(s => s && String(s.category_id) === String(catId));
+              renderServices(filtered);
+            }
+          });
+        });
+
+        renderServices(services.slice(0, 8));
+
+      } catch (e) {
+        console.error('Core UI error:', e);
+        grid.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500"><p>Services currently unavailable.</p></div>';
+      }
+    }
+
+    const ICONS = { 'Hair Care': 'scissors', 'Skin Care': 'wand-magic-sparkles', 'Skincare': 'wand-magic-sparkles', 'Nail Care': 'hand', 'Body Wellness': 'leaf', 'Bridal': 'heart' };
+
+    function renderServices(list) {
+      const grid = document.getElementById('services-grid');
+      if (!grid) return;
+      
+      if (!Array.isArray(list) || !list.length) {
+        grid.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500"><i class="fa-solid fa-circle-info mb-2 block opacity-20"></i>No matching services found.</div>';
+        return;
+      }
+
+      grid.innerHTML = list.map(s => {
+        if (!s) return '';
+        const icon = s.category_icon || ICONS[s.category_name] || 'spa';
+        const name = s.name || 'Parlour Treatment';
+        const desc = s.description || 'Experience our professional beauty and wellness services tailored just for you.';
+        const price = formatPrice(s.price || 0);
+        const duration = s.duration_min || 30;
+
+        return `
+          <div class="glass-card service-card p-6 reveal h-full flex flex-col">
+            <span class="price-badge">${price}</span>
+            <div class="icon-wrap mb-4">
+              <i class="fa-solid fa-${icon}"></i>
+            </div>
+            <h3 class="font-semibold text-white mb-1 pr-16">${name}</h3>
+            <p class="text-gray-400 text-xs mb-3 line-clamp-2">${desc}</p>
+            <div class="flex items-center justify-between mt-auto pt-2 border-t border-white/5">
+              <span class="text-xs text-gray-500"><i class="fa-regular fa-clock mr-1 text-gold"></i>${duration} min</span>
+              <a href="pages/booking.html?service=${s.id || ''}" class="text-gold text-xs font-medium hover:text-gold-light transition-colors">
+                Book <i class="fa-solid fa-arrow-right text-[10px] ml-1"></i>
+              </a>
+            </div>
+          </div>
+        `;
+      }).join('');
+      initReveal();
+    }
+    // ── Load Testimonials
+    async function loadTestimonials() {
+      const grid = document.getElementById('testimonials-grid');
+      if(!grid) return;
+      try {
+        const res = await api.reviews.getApproved();
+        const reviews = res.data;
+        if (!reviews.length) {
+          grid.innerHTML = '<div class="col-span-full text-center py-4 text-gray-500 italic">Be the first to share your experience!</div>';
+          return;
+        }
+        grid.innerHTML = reviews.slice(0, 6).map((r, i) => `
+          <div class="glass-card testimonial-card p-7 reveal flex flex-col h-full" style="transition-delay:${i * 0.1}s">
+            <div class="star-rating text-sm mb-3 text-gold">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+            <p class="text-gray-300 text-sm leading-relaxed mb-4 italic flex-1">"${r.comment}"</p>
+            <div class="flex items-center gap-3 mt-auto pt-4 border-t border-white/5">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gold to-rose flex items-center justify-center font-semibold text-dark text-xs shadow-lg uppercase">
+                ${(r.name || 'C')[0]}
+              </div>
+              <div>
+                <div class="font-semibold text-white text-sm">${r.name || 'Valued Customer'}</div>
+                <div class="text-gray-500 text-[10px] tracking-widest uppercase">Member</div>
+              </div>
+            </div>
+          </div>
+        `).join('');
+        initReveal();
+      } catch (e) {
+        console.error('Testimonials:', e);
+        grid.innerHTML = '<div class="col-span-full text-center py-8 text-gray-500">Testimonials unavailable.</div>';
+      }
+    }
+
+    // ── Load Staff Preview
+    async function loadStaffPreview() {
+      const grid = document.getElementById('staff-grid');
+      if(!grid) return;
+      try {
+        const res = await api.staff.getAll();
+        const staff = (res.data || []).slice(0, 4);
+        if (!staff.length) { grid.innerHTML = '<div class="col-span-full text-center py-4 text-gray-500">Team coming soon!</div>'; return; }
+        grid.innerHTML = staff.map(m => `
+          <div class="glass-card staff-card p-6 text-center reveal">
+            <div class="avatar-ring mx-auto mb-4">
+              <div class="avatar-inner">${m.avatar ? `<img src="${m.avatar}" class="w-full h-full object-cover rounded-full" loading="lazy"/>` : `<span class="text-2xl">${(m.name || "S")[0].toUpperCase()}</span>`}</div>
+            </div>
+            <h3 class="font-semibold text-white mb-0.5">${m.name || "Staff Member"}</h3>
+            <p class="text-gold-light text-xs mb-2">${m.specialization || 'Expert Stylist'}</p>
+            <div class="star-rating text-xs mb-3 text-gold">${'★'.repeat(Math.round(m.rating || 5))}</div>
+            <div class="flex flex-wrap gap-1 justify-center">
+              ${(m.services || []).slice(0, 2).map(sv => `<span class="bg-dark-3 text-gray-400 text-[10px] px-2 py-0.5 rounded-full">${sv.name}</span>`).join('')}
+            </div>
+          </div>
+        `).join('');
+        initReveal();
+      } catch (e) {
+        grid.innerHTML = `<div class="col-span-full text-center text-gray-500 py-4">Team data unavailable. <span class="text-xs">${e.message}</span></div>`;
+      }
+    }
+
+    // Load all sections in parallel (non-blocking)
+    window.onload = () => {
+      Promise.allSettled([
+        loadServicesPreview(),
+        loadStaffPreview(),
+        loadTestimonials()
+      ]);
+    };
+
+    // ── Animated counters (trigger on scroll)
+    const statsSection = document.querySelector('.grid.grid-cols-2.md\\:grid-cols-4');
+    const countersObserver = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        animateCounter(document.getElementById('stat-clients'), 500);
+        animateCounter(document.getElementById('stat-services'), 14);
+        animateCounter(document.getElementById('stat-experts'), 12);
+        animateCounter(document.getElementById('stat-years'), 8);
+        countersObserver.disconnect();
+      }
+    }, { threshold: 0.4 });
+    if (statsSection) countersObserver.observe(statsSection);
+  </script>
+</body>
+
+</html>

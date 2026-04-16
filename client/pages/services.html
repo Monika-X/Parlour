@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Services – Parlour Salon & Spa</title>
+  <meta name="description" content="Browse all premium salon and spa services offered at Parlour – hair, skin, nails, bridal, and wellness."/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        colors: { gold:{ DEFAULT:'#c9a05a',light:'#e8c98a',dark:'#a07a38' }, rose:{ DEFAULT:'#d4829a' }, dark:{ DEFAULT:'#0f0d1a',2:'#1a1626',3:'#241f35',4:'#2e2845' } },
+        fontFamily: { serif:['"Cormorant Garamond"','serif'], sans:['Inter','sans-serif'] }
+      }}
+    };
+  </script>
+  <link rel="stylesheet" href="../assets/css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body class="bg-dark text-gray-100">
+
+<div id="page-loader"><div class="text-4xl font-serif gold-text mb-2">Parlour</div><div class="loader"></div></div>
+<div id="toast-container"></div>
+
+        <!-- ══ NAVBAR ══════════════════════════════════════════════ -->
+  <nav id="navbar">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="../index.html" class="flex items-center gap-3 text-decoration-none">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center">
+          <i class="fa-solid fa-scissors text-dark text-sm"></i>
+        </div>
+        <span class="font-serif text-2xl gold-text font-semibold tracking-wide">Parlour</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="../home-2.html" class="nav-link">Home 2</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="staff.html" class="nav-link">Our Team</a>
+        <a href="booking.html" class="nav-link">Book Now</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+
+      <!-- Auth Buttons -->
+      <div class="hidden md:flex items-center gap-3">
+        <span id="nav-username" class="text-gold-light text-sm font-medium"></span>
+        <a id="nav-login" href="login.html" class="btn-outline py-2 px-5 text-xs">
+          <i class="fa-solid fa-user"></i> Login
+        </a>
+        <button id="nav-logout" class="btn-outline py-2 px-5 text-xs hidden">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+        </button>
+        <a href="booking.html" class="btn-gold py-2 px-5 text-xs">
+          <i class="fa-solid fa-calendar-check"></i> Book Appointment
+        </a>
+      </div>
+
+      <!-- Hamburger -->
+      <button id="menu-btn" class="md:hidden text-gold-light text-xl p-2">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══ MOBILE MENU ═════════════════════════════════════════ -->
+  <div id="mobile-menu">
+    <button id="menu-close" class="absolute top-6 right-6 text-gold-light text-2xl">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <a href="../index.html" class="nav-link">Home</a>
+    <a href="../home-2.html" class="nav-link">Home 2</a>
+    <a href="about.html" class="nav-link">About Us</a>
+    <a href="services.html" class="nav-link">Services</a>
+    <a href="staff.html" class="nav-link">Our Team</a>
+    <a href="booking.html" class="nav-link">Book Now</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+    
+    <div id="nav-auth-mob" class="flex flex-col items-center gap-3 w-full px-10">
+      <a id="nav-login-mob" href="login.html" class="btn-gold w-full justify-center">Login / Register</a>
+      <div id="nav-user-mob" class="hidden flex flex-col items-center gap-3 w-full">
+        <a id="nav-username-mob" href="user-dashboard.html" class="nav-link !text-gold-light">My Account</a>
+        <button id="nav-logout-mob" class="text-rose text-sm font-medium uppercase tracking-widest mt-2">Logout</button>
+      </div>
+    </div>
+  </div>
+
+<!-- PAGE HERO -->
+<section class="hero-gradient pt-32 pb-16 relative overflow-hidden">
+  <div class="orb w-80 h-80 bg-gold/8 top-0 right-0 pointer-events-none"></div>
+  <div class="max-w-[1850px] mx-auto px-5 md:px-10 text-center">
+    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gold/30 bg-gold/5 text-gold-light text-xs font-medium tracking-widest uppercase mb-4">
+      <i class="fa-solid fa-spa text-gold"></i> Premium Treatments
+    </div>
+    <h1 class="font-serif text-6xl md:text-7xl text-white mb-4">Our <span class="gold-text">Services</span></h1>
+    <p class="text-gray-400 max-w-lg mx-auto">Discover our full range of luxury beauty and wellness treatments curated by expert professionals.</p>
+  </div>
+</section>
+
+<!-- BREADCRUMBS -->
+<section class="pt-6 pb-2">
+  <div class="max-w-[1850px] mx-auto px-5 md:px-10">
+    <div class="breadcrumb reveal">
+      <a href="../index.html">Home</a>
+      <i class="fa-solid fa-chevron-right"></i>
+      <span class="text-white">Services</span>
+    </div>
+  </div>
+</section>
+
+<!-- SEARCH + FILTER BAR -->
+<section class="py-8 bg-dark-2 sticky top-0 z-50 border-b border-white/5 shadow-2xl">
+  <div class="max-w-[1850px] mx-auto px-5 md:px-10 flex flex-wrap gap-6 items-center justify-between">
+    <div class="search-container">
+      <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i>
+      <input id="search-input" type="text" placeholder="Search services... (Press /)" class="form-input pl-9 pr-10 py-2.5"/>
+      <i id="search-clear" class="fa-solid fa-xmark search-clear"></i>
+    </div>
+    
+    <div id="filter-tabs" class="flex flex-wrap gap-2">
+      <button data-cat="all" class="cat-btn active-cat px-4 py-1.5 rounded-full text-sm border border-gold/40 text-gold-light bg-gold/10 transition-all">All</button>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2">
+        <label class="text-[10px] uppercase tracking-widest text-gray-500">Sort By</label>
+        <select id="sort-select" class="form-input py-1.5 px-3 text-xs w-32">
+          <option value="default">Featured</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+          <option value="duration">Duration</option>
+          <option value="name">Name A-Z</option>
+        </select>
+      </div>
+      <div class="text-sm text-gray-400">
+        <span id="service-count" class="text-gold font-semibold">—</span> services
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SERVICES GRID -->
+<section class="py-16">
+  <div class="max-w-[1850px] mx-auto px-5 md:px-10">
+    <div id="services-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      <div class="col-span-full text-center py-12 text-gray-500"><div class="loader mx-auto mb-3"></div><p>Loading…</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL OVERLAY (Quick View) -->
+<div id="svc-modal" class="modal-overlay">
+  <div class="modal-content glass-card p-8">
+    <button id="modal-close" class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+    <div id="modal-body">
+      <!-- Dynamic Content -->
+    </div>
+  </div>
+</div>
+
+<!-- BACK TO TOP -->
+<button id="back-to-top" class="back-to-top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<!-- FOOTER -->
+        <!-- ══ FOOTER ══════════════════════════════════════════════ -->
+  <footer class="pt-16 pb-8 border-t border-white/5 mt-auto w-full">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10">
+      <div class="grid md:grid-cols-4 gap-10 mb-12">
+        <!-- Brand -->
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center">
+              <i class="fa-solid fa-scissors text-dark text-sm"></i>
+            </div>
+            <span class="font-serif text-2xl gold-text font-semibold tracking-wide">Parlour</span>
+          </div>
+          <p class="text-gray-500 text-sm leading-relaxed mb-5 max-w-xs">
+            Where beauty meets luxury. Premium salon and spa services crafted to perfection.
+          </p>
+          <div class="flex gap-3">
+            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://wa.me/919000000000" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-widest">Quick Links</h4>
+          <ul class="space-y-2">
+            <li><a href="../index.html" class="footer-link">Home</a></li>
+            <li><a href="../home-2.html" class="footer-link">Home 2</a></li>
+            <li><a href="about.html" class="footer-link">About Us</a></li>
+            <li><a href="services.html" class="footer-link">Services</a></li>
+            <li><a href="staff.html" class="footer-link">Our Team</a></li>
+            <li><a href="booking.html" class="footer-link">Book Appointment</a></li>
+            <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="login.html" class="footer-link">Login / Register</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-widest">Contact</h4>
+          <ul class="space-y-3 text-sm text-gray-500">
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-location-dot text-gold mt-1"></i>
+              <a href="https://maps.google.com/?q=123+Luxury+Lane,+Mumbai,+Maharashtra+400001" target="_blank" rel="noopener noreferrer" class="footer-link">123 Luxury Lane, Mumbai, Maharashtra 400001</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-phone text-gold"></i>
+              <a href="tel:+919000000000" class="footer-link">+91 90000 00000</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-envelope text-gold"></i>
+              <a href="mailto:hello@parlour.com" class="footer-link">hello@parlour.com</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-clock text-gold"></i>
+              <span>Mon–Sun: 9:00 AM – 8:00 PM</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="border-t border-white/5 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-sm text-gray-600">
+        <p>&copy; 2024 Parlour Salon & Spa. All rights reserved.</p>
+        <div class="flex gap-4">
+          <a href="maintenance.html" class="footer-link">Site Map</a>
+          <a href="privacy.html" class="footer-link">Privacy Policy</a>
+          <a href="terms.html" class="footer-link">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+const ICONS = { 'Hair Care':'scissors','Skin Care':'wand-magic-sparkles','Skincare':'wand-magic-sparkles','Nail Care':'hand','Body Wellness':'leaf','Bridal':'heart' };
+let allServices = [];
+let currentFilters = { category: 'all', search: '', sort: 'default' };
+
+async function loadPage() {
+  const tabs = document.getElementById('filter-tabs');
+  try {
+    const [svcRes, catRes] = await Promise.all([api.services.getAll('active=1'), api.services.getCategories()]);
+    allServices = svcRes.data;
+
+    // Populate Category Tabs
+    catRes.data.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.dataset.cat = cat.id;
+      btn.className = 'cat-btn px-4 py-1.5 rounded-full text-sm border border-white/10 text-gray-400 bg-white/5 transition-all hover:border-gold/30 hover:text-gold-light';
+      btn.textContent = cat.name;
+      tabs.appendChild(btn);
+    });
+
+    // Event Listeners
+    tabs.querySelectorAll('.cat-btn').forEach(btn => btn.addEventListener('click', () => {
+      tabs.querySelectorAll('.cat-btn').forEach(b => b.className = 'cat-btn px-4 py-1.5 rounded-full text-sm border border-white/10 text-gray-400 bg-white/5 transition-all hover:border-gold/30 hover:text-gold-light');
+      btn.className = 'cat-btn active-cat px-4 py-1.5 rounded-full text-sm border border-gold/40 text-gold-light bg-gold/10 transition-all';
+      currentFilters.category = btn.dataset.cat;
+      // Clear search on category change
+      document.getElementById('search-input').value = '';
+      currentFilters.search = '';
+      toggleClearBtn();
+      applyFilters();
+    }));
+
+    document.getElementById('search-input').addEventListener('input', e => {
+      currentFilters.search = e.target.value.toLowerCase();
+      toggleClearBtn();
+      applyFilters();
+    });
+
+    document.getElementById('search-clear').addEventListener('click', () => {
+      document.getElementById('search-input').value = '';
+      currentFilters.search = '';
+      toggleClearBtn();
+      applyFilters();
+    });
+
+    document.getElementById('sort-select').addEventListener('change', e => {
+      currentFilters.sort = e.target.value;
+      applyFilters();
+    });
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', e => {
+      if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+        e.preventDefault();
+        document.getElementById('search-input').focus();
+      }
+    });
+
+    // Modal Close
+    document.getElementById('modal-close').addEventListener('click', closeQuickView);
+    document.getElementById('svc-modal').addEventListener('click', e => { if (e.target.id === 'svc-modal') closeQuickView(); });
+
+    // Back to Top logic
+    const btt = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => btt.classList.toggle('visible', window.scrollY > 400));
+    btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    applyFilters();
+  } catch(e) {
+    document.getElementById('services-grid').innerHTML = `<div class="col-span-full text-center py-12 text-gray-500"><i class="fa-solid fa-wifi-slash text-3xl mb-3 block text-gold/40"></i><p>Server offline. Start the backend first.</p></div>`;
+  }
+}
+
+function toggleClearBtn() {
+  document.getElementById('search-clear').style.display = currentFilters.search ? 'block' : 'none';
+}
+
+function applyFilters() {
+  let filtered = [...allServices];
+
+  // Category Filter
+  if (currentFilters.category !== 'all') {
+    filtered = filtered.filter(s => String(s.category_id) === currentFilters.category);
+  }
+
+  // Search Filter
+  if (currentFilters.search) {
+    filtered = filtered.filter(s => 
+      s.name.toLowerCase().includes(currentFilters.search) || 
+      (s.description||'').toLowerCase().includes(currentFilters.search)
+    );
+  }
+
+  // Sort Logic
+  if (currentFilters.sort === 'price-low') filtered.sort((a,b) => a.price - b.price);
+  else if (currentFilters.sort === 'price-high') filtered.sort((a,b) => b.price - a.price);
+  else if (currentFilters.sort === 'duration') filtered.sort((a,b) => a.duration_min - b.duration_min);
+  else if (currentFilters.sort === 'name') filtered.sort((a,b) => a.name.localeCompare(b.name));
+
+  renderServices(filtered);
+}
+
+function renderServices(list) {
+  const grid = document.getElementById('services-grid');
+  document.getElementById('service-count').textContent = list.length;
+  
+  if (!list.length) { 
+    grid.innerHTML = `
+      <div class="col-span-full text-center py-20 reveal">
+        <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 border border-white/10">
+          <i class="fa-solid fa-magnifying-glass text-gray-600 text-xl"></i>
+        </div>
+        <h3 class="text-white text-xl mb-2">No services found</h3>
+        <p class="text-gray-500 text-sm mb-6">Try adjusting your filters or search term.</p>
+        <button onclick="resetFilters()" class="btn-outline py-2 px-5 md:px-10 text-xs">Clear All Filters</button>
+      </div>
+    `; 
+    initReveal();
+    return; 
+  }
+
+  grid.innerHTML = list.map(s => `
+    <div class="glass-card service-card p-6 reveal group cursor-pointer" onclick="openQuickView(${s.id})">
+      <span class="price-badge">${formatPrice(s.price)}</span>
+      <div class="icon-wrap mb-4"><i class="fa-solid fa-${ICONS[s.category_name]||'spa'}"></i></div>
+      <div class="text-[10px] text-gold uppercase tracking-widest mb-1">${s.category_name||''}</div>
+      <h3 class="font-semibold text-white mb-2 pr-14 leading-snug group-hover:text-gold-light transition-colors">${s.name}</h3>
+      <p class="text-gray-400 text-xs mb-4 line-clamp-2 leading-relaxed">${s.description||'Premium salon service.'}</p>
+      <div class="flex items-center justify-between mt-auto pt-3 border-t border-white/5">
+        <span class="text-xs text-gray-500"><i class="fa-regular fa-clock mr-1 text-gold"></i>${s.duration_min} min</span>
+        <div class="flex items-center gap-2">
+            <span class="text-[10px] text-gold-light opacity-0 group-hover:opacity-100 transition-opacity">Quick View <i class="fa-solid fa-eye ml-1"></i></span>
+            <a href="booking.html?service=${s.id}" onclick="event.stopPropagation()" class="btn-gold py-1.5 px-4 text-[10px] rounded-lg">Book</a>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  initReveal();
+}
+
+function resetFilters() {
+  currentFilters = { category: 'all', search: '', sort: 'default' };
+  document.getElementById('search-input').value = '';
+  document.getElementById('sort-select').value = 'default';
+  document.querySelectorAll('.cat-btn').forEach(b => {
+    b.classList.toggle('active-cat', b.dataset.cat === 'all');
+    if (b.dataset.cat === 'all') {
+      b.className = 'cat-btn active-cat px-4 py-1.5 rounded-full text-sm border border-gold/40 text-gold-light bg-gold/10 transition-all';
+    } else {
+      b.className = 'cat-btn px-4 py-1.5 rounded-full text-sm border border-white/10 text-gray-400 bg-white/5 transition-all hover:border-gold/30 hover:text-gold-light';
+    }
+  });
+  toggleClearBtn();
+  applyFilters();
+}
+
+function openQuickView(id) {
+  const s = allServices.find(svc => svc.id === id);
+  if (!s) return;
+  const modal = document.getElementById('svc-modal');
+  const body = document.getElementById('modal-body');
+  
+  body.innerHTML = `
+    <div class="flex flex-col md:flex-row gap-8">
+      <div class="w-full md:w-1/3 flex-shrink-0">
+        <div class="w-full aspect-square rounded-2xl bg-gradient-to-br from-gold/20 to-gold/5 flex items-center justify-center border border-gold/20">
+          <i class="fa-solid fa-${ICONS[s.category_name]||'spa'} text-6xl text-gold/40"></i>
+        </div>
+      </div>
+      <div class="flex-1">
+        <div class="text-xs text-gold uppercase tracking-widest mb-2">${s.category_name}</div>
+        <h2 class="text-4xl text-white mb-4">${s.name}</h2>
+        <div class="svc-info-grid mb-6">
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+            <div class="text-[10px] uppercase text-gray-500 mb-1">Price</div>
+            <div class="text-2xl font-serif gold-text">${formatPrice(s.price)}</div>
+          </div>
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+            <div class="text-[10px] uppercase text-gray-500 mb-1">Duration</div>
+            <div class="text-2xl font-serif text-white">${s.duration_min} min</div>
+          </div>
+        </div>
+        <p class="text-gray-400 mb-8 leading-relaxed">${s.description || 'Experience the ultimate luxury with our premium treatment designed to rejuvenate and refresh.'}</p>
+        <div class="flex gap-4">
+          <a href="booking.html?service=${s.id}" class="btn-gold flex-1 justify-center py-3">Book This Service</a>
+          <button onclick="closeQuickView()" class="btn-outline flex-1 justify-center py-3">Close</button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeQuickView() {
+  document.getElementById('svc-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+loadPage();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Team – Parlour Salon & Spa</title>
+  <meta name="description" content="Meet the talented team of stylists and therapists at Parlour Salon & Spa."/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config={theme:{extend:{colors:{gold:{DEFAULT:'#c9a05a',light:'#e8c98a',dark:'#a07a38'},rose:{DEFAULT:'#d4829a'},dark:{DEFAULT:'#0f0d1a',2:'#1a1626',3:'#241f35',4:'#2e2845'}},fontFamily:{serif:['"Cormorant Garamond"','serif'],sans:['Inter','sans-serif']}}}};
+  </script>
+  <link rel="stylesheet" href="../assets/css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body class="bg-dark text-gray-100">
+<div id="page-loader"><div class="text-4xl font-serif gold-text mb-2">Parlour</div><div class="loader"></div></div>
+<div id="toast-container"></div>
+
+<!-- NAVBAR -->
+        <!-- ══ NAVBAR ══════════════════════════════════════════════ -->
+  <nav id="navbar">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="../index.html" class="flex items-center gap-3 text-decoration-none">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center">
+          <i class="fa-solid fa-scissors text-dark text-sm"></i>
+        </div>
+        <span class="font-serif text-2xl gold-text font-semibold tracking-wide">Parlour</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="../home-2.html" class="nav-link">Home 2</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="staff.html" class="nav-link">Our Team</a>
+        <a href="booking.html" class="nav-link">Book Now</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+
+      <!-- Auth Buttons -->
+      <div class="hidden md:flex items-center gap-3">
+        <span id="nav-username" class="text-gold-light text-sm font-medium"></span>
+        <a id="nav-login" href="login.html" class="btn-outline py-2 px-5 text-xs">
+          <i class="fa-solid fa-user"></i> Login
+        </a>
+        <button id="nav-logout" class="btn-outline py-2 px-5 text-xs hidden">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+        </button>
+        <a href="booking.html" class="btn-gold py-2 px-5 text-xs">
+          <i class="fa-solid fa-calendar-check"></i> Book Appointment
+        </a>
+      </div>
+
+      <!-- Hamburger -->
+      <button id="menu-btn" class="md:hidden text-gold-light text-xl p-2">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══ MOBILE MENU ═════════════════════════════════════════ -->
+  <div id="mobile-menu">
+    <button id="menu-close" class="absolute top-6 right-6 text-gold-light text-2xl">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <a href="../index.html" class="nav-link">Home</a>
+    <a href="../home-2.html" class="nav-link">Home 2</a>
+    <a href="about.html" class="nav-link">About Us</a>
+    <a href="services.html" class="nav-link">Services</a>
+    <a href="staff.html" class="nav-link">Our Team</a>
+    <a href="booking.html" class="nav-link">Book Now</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+    
+    <div id="nav-auth-mob" class="flex flex-col items-center gap-3 w-full px-10">
+      <a id="nav-login-mob" href="login.html" class="btn-gold w-full justify-center">Login / Register</a>
+      <div id="nav-user-mob" class="hidden flex flex-col items-center gap-3 w-full">
+        <a id="nav-username-mob" href="user-dashboard.html" class="nav-link !text-gold-light">My Account</a>
+        <button id="nav-logout-mob" class="text-rose text-sm font-medium uppercase tracking-widest mt-2">Logout</button>
+      </div>
+    </div>
+  </div>
+
+<!-- HERO -->
+<section class="hero-gradient pt-32 pb-16 relative overflow-hidden">
+  <div class="orb w-72 h-72 bg-rose/8 top-0 right-0 pointer-events-none"></div>
+  <div class="max-w-[1850px] mx-auto px-5 md:px-10 text-center">
+    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gold/30 bg-gold/5 text-gold-light text-xs font-medium tracking-widest uppercase mb-4">
+      <i class="fa-solid fa-users text-gold"></i> The Experts
+    </div>
+    <h1 class="font-serif text-6xl md:text-7xl text-white mb-4">Our <span class="gold-text">Team</span></h1>
+    <p class="text-gray-400 max-w-lg mx-auto">Passionate beauty professionals with years of expertise, dedicated to making you feel extraordinary.</p>
+  </div>
+</section>
+
+<!-- TEAM GRID -->
+<section class="py-16">
+  <div class="max-w-[1850px] mx-auto px-5 md:px-10">
+    <div id="staff-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div class="col-span-full text-center py-16 text-gray-500"><div class="loader mx-auto mb-3"></div><p>Loading team…</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- JOIN TEAM CTA -->
+<section class="py-20 bg-dark-2 relative overflow-hidden">
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(201,160,90,0.06),transparent)]"></div>
+  <div class="max-w-3xl mx-auto px-5 md:px-10 text-center relative z-10 reveal">
+    <div class="text-4xl mb-4">💼</div>
+    <h2 class="font-serif text-4xl text-white mb-4">Want to Join Our <span class="gold-text">Team?</span></h2>
+    <p class="text-gray-400 mb-6">We're always looking for passionate beauty professionals to grow with us.</p>
+    <a href="contact.html" class="btn-gold px-8 py-3"><i class="fa-solid fa-paper-plane"></i> Get In Touch</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+        <!-- ══ FOOTER ══════════════════════════════════════════════ -->
+  <footer class="pt-16 pb-8 border-t border-white/5 mt-auto w-full">
+    <div class="max-w-[1850px] mx-auto px-5 md:px-10">
+      <div class="grid md:grid-cols-4 gap-10 mb-12">
+        <!-- Brand -->
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center">
+              <i class="fa-solid fa-scissors text-dark text-sm"></i>
+            </div>
+            <span class="font-serif text-2xl gold-text font-semibold tracking-wide">Parlour</span>
+          </div>
+          <p class="text-gray-500 text-sm leading-relaxed mb-5 max-w-xs">
+            Where beauty meets luxury. Premium salon and spa services crafted to perfection.
+          </p>
+          <div class="flex gap-3">
+            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://wa.me/919000000000" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" class="social-icon hover:text-gold transition-colors"><i class="fa-brands fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-widest">Quick Links</h4>
+          <ul class="space-y-2">
+            <li><a href="../index.html" class="footer-link">Home</a></li>
+            <li><a href="../home-2.html" class="footer-link">Home 2</a></li>
+            <li><a href="about.html" class="footer-link">About Us</a></li>
+            <li><a href="services.html" class="footer-link">Services</a></li>
+            <li><a href="staff.html" class="footer-link">Our Team</a></li>
+            <li><a href="booking.html" class="footer-link">Book Appointment</a></li>
+            <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="login.html" class="footer-link">Login / Register</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-widest">Contact</h4>
+          <ul class="space-y-3 text-sm text-gray-500">
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-location-dot text-gold mt-1"></i>
+              <a href="https://maps.google.com/?q=123+Luxury+Lane,+Mumbai,+Maharashtra+400001" target="_blank" rel="noopener noreferrer" class="footer-link">123 Luxury Lane, Mumbai, Maharashtra 400001</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-phone text-gold"></i>
+              <a href="tel:+919000000000" class="footer-link">+91 90000 00000</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-envelope text-gold"></i>
+              <a href="mailto:hello@parlour.com" class="footer-link">hello@parlour.com</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-clock text-gold"></i>
+              <span>Mon–Sun: 9:00 AM – 8:00 PM</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="border-t border-white/5 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-sm text-gray-600">
+        <p>&copy; 2024 Parlour Salon & Spa. All rights reserved.</p>
+        <div class="flex gap-4">
+          <a href="maintenance.html" class="footer-link">Site Map</a>
+          <a href="privacy.html" class="footer-link">Privacy Policy</a>
+          <a href="terms.html" class="footer-link">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+async function loadStaff() {
+  const grid = document.getElementById('staff-grid');
+  try {
+    const res = await api.staff.getAll();
+    const staff = res.data;
+    if (!staff.length) {
+      grid.innerHTML = `
+        <div class="col-span-full text-center py-16">
+          <div class="text-6xl mb-4">👋</div>
+          <h3 class="font-serif text-3xl text-white mb-2">Team Coming Soon</h3>
+          <p class="text-gray-400 mb-6">Our expert stylists will be listed here. Start the server to load real data.</p>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+            ${['Priya Menon','Rahul Sharma','Anita Kapoor','Suresh Nair'].map((name,i)=>`
+              <div class="glass-card staff-card p-6 text-center reveal" style="transition-delay:${i*0.1}s">
+                <div class="avatar-ring mx-auto mb-4"><div class="avatar-inner">${name[0]}</div></div>
+                <h3 class="font-semibold text-white mb-0.5">${name}</h3>
+                <p class="text-gold-light text-xs mb-2">${['Hair Specialist','Skin Expert','Nail Artist','Massage Therapist'][i]}</p>
+                <div class="star-rating text-xs mb-3">★★★★★</div>
+                <a href="booking.html" class="btn-gold w-full justify-center text-xs py-1.5 block text-center mt-3">Book Appointment</a>
+              </div>`).join('')}
+          </div>
+        </div>`;
+      initReveal(); return;
+    }
+    grid.innerHTML = staff.map((m,i) => `
+      <div class="glass-card staff-card p-6 text-center reveal" style="transition-delay:${i*0.05}s">
+        <div class="avatar-ring mx-auto mb-4" style="width:88px;height:88px">
+          <div class="avatar-inner" style="font-size:2rem">
+            ${m.avatar ? `<img src="${m.avatar}" class="w-full h-full object-cover rounded-full" alt="Staff"/>` : `<span>${(m.specialization || "S")[0]}</span>`}
+          </div>
+        </div>
+        <h3 class="font-serif text-xl text-white mb-0.5">${m.specialization || "Staff Member"}</h3>
+        <p class="text-gold-light text-xs mb-1 tracking-wide uppercase">${m.specialization || 'Beauty Specialist'}</p>
+        <p class="text-gray-500 text-xs mb-3">${m.experience_yrs || 0}+ years experience</p>
+        <div class="star-rating text-sm mb-3">${'★'.repeat(Math.min(5,Math.round(m.rating||5)))}</div>
+        <p class="text-gray-400 text-xs mb-4 line-clamp-2">${m.bio || "No description available"}</p>
+        <div class="flex flex-wrap gap-1 justify-center mb-4">
+          ${(m.services||[]).slice(0,3).map(s=>`<span class="bg-dark-3 text-gray-400 text-[10px] px-2 py-0.5 rounded-full border border-white/5">${s.name}</span>`).join('')}
+        </div>
+        <a href="booking.html" class="btn-gold w-full justify-center text-xs py-2 block text-center">
+          <i class="fa-solid fa-calendar-check"></i> Book Appointment
+        </a>
+      </div>
+    `).join('');
+    initReveal();
+  } catch(e) {
+    grid.innerHTML = `
+      <div class="col-span-full text-center py-16">
+        <i class="fa-solid fa-wifi-slash text-4xl text-gold/30 mb-4 block"></i>
+        <h3 class="font-serif text-2xl text-white mb-2">Server Offline</h3>
+        <p class="text-gray-400 text-sm mb-2">Start the backend server to load team data.</p>
+        <p class="text-gray-600 text-xs">${e.message}</p>
+      </div>`;
+  }
+}
+loadStaff();
+</script>
+</body>
+</html>

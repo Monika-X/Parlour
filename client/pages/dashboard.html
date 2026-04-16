@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard – Parlour Salon & Spa</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config={theme:{extend:{colors:{gold:{DEFAULT:'#c9a05a',light:'#e8c98a',dark:'#a07a38'},rose:{DEFAULT:'#d4829a'},dark:{DEFAULT:'#0f0d1a',2:'#1a1626',3:'#241f35',4:'#2e2845'}},fontFamily:{serif:['"Cormorant Garamond"','serif'],sans:['Inter','sans-serif']}}}};
+  </script>
+  <link rel="stylesheet" href="../assets/css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .sidebar { width:240px; min-height:100vh; background:var(--dark-2); border-right:1px solid var(--glass-border); position:fixed; top:0; left:0; z-index:50; display:flex; flex-direction:column; transition:transform .3s; }
+    .sidebar-link { display:flex; align-items:center; gap:12px; padding:10px 20px; color:var(--text-muted); font-size:.875rem; font-weight:500; text-decoration:none; border-radius:10px; margin:2px 8px; transition:all .25s; }
+    .sidebar-link:hover, .sidebar-link.active { background:rgba(201,160,90,.1); color:var(--gold-light); }
+    .sidebar-link.active { border-left:3px solid var(--gold); }
+    .main-content { margin-left:240px; min-height:100vh; background:var(--dark); }
+    .stat-card { background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:16px; padding:20px 24px; transition:all .3s; }
+    .stat-card:hover { transform:translateY(-3px); border-color:rgba(201,160,90,.35); box-shadow:0 12px 40px rgba(201,160,90,.1); }
+    @media(max-width:768px){ .sidebar{ transform:translateX(-100%); } .sidebar.open{ transform:translateX(0); } .main-content{ margin-left:0; } }
+  </style>
+</head>
+<body class="bg-dark text-gray-100">
+<div id="page-loader"><div class="text-4xl font-serif gold-text mb-2">Parlour</div><div class="loader"></div></div>
+<div id="toast-container"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="p-5 border-b border-white/5 flex items-center gap-3">
+    <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-scissors text-dark text-sm"></i></div>
+    <span class="font-serif text-xl gold-text font-semibold">Parlour</span>
+  </div>
+    <a href="#" data-section="overview" class="sidebar-link active mt-4"><i class="fa-solid fa-chart-pie w-5"></i> Overview</a>
+    <a href="#" data-section="appointments" class="sidebar-link"><i class="fa-solid fa-calendar-check w-5"></i> Appointments</a>
+    <a href="#" data-section="services" class="sidebar-link"><i class="fa-solid fa-spa w-5"></i> Services</a>
+    <a href="#" data-section="staff" class="sidebar-link"><i class="fa-solid fa-users w-5"></i> Team</a>
+    <a href="#" data-section="customers" class="sidebar-link"><i class="fa-solid fa-address-book w-5"></i> Customers</a>
+    <a href="#" data-section="reviews" class="sidebar-link"><i class="fa-solid fa-star-half-stroke w-5"></i> Reviews</a>
+    <a href="#" data-section="analytics" class="sidebar-link"><i class="fa-solid fa-chart-line w-5"></i> Analytics</a>
+    <div class="flex-1"></div>
+  <div class="p-4 border-t border-white/5">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold to-rose flex items-center justify-center text-dark font-bold text-sm" id="admin-avatar">A</div>
+      <div class="flex-1 min-w-0">
+        <div class="text-white text-sm font-medium truncate" id="admin-name">Admin</div>
+        <div class="text-gray-600 text-xs">Administrator</div>
+      </div>
+      <button id="logout-btn" title="Logout" class="text-gray-600 hover:text-rose text-sm transition-colors"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main-content">
+  <!-- TOPBAR -->
+  <header class="sticky top-0 z-40 bg-dark-2/80 backdrop-blur-xl border-b border-white/5 px-5 md:px-10 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <button id="menu-toggle" class="md:hidden text-gold-light text-lg"><i class="fa-solid fa-bars"></i></button>
+      <div>
+        <h1 id="page-title" class="font-serif text-2xl text-white">Overview</h1>
+        <p class="text-gray-500 text-xs" id="page-subtitle">Welcome back! Here's what's happening.</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <span id="today-date" class="text-gray-500 text-xs hidden sm:block"></span>
+      <a href="booking.html" class="btn-gold py-2 px-4 text-xs"><i class="fa-solid fa-plus"></i> New Booking</a>
+    </div>
+  </header>
+
+  <div class="p-6">
+
+    <!-- ── OVERVIEW SECTION ─────────────────────────────── -->
+    <div id="section-overview">
+      <!-- Stat Cards -->
+      <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
+        <!-- Total Appointments -->
+        <div class="stat-card">
+          <div class="flex items-center justify-between mb-3">
+            <div class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400"><i class="fa-solid fa-calendar-check"></i></div>
+            <span class="text-xs text-gray-500">Total</span>
+          </div>
+          <div id="stat-appts" class="stat-number text-white mb-1">—</div>
+          <div class="text-gray-400 text-sm">Appointments</div>
+        </div>
+        <!-- Monthly Revenue -->
+        <div class="stat-card">
+          <div class="flex items-center justify-between mb-3">
+            <div class="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center text-green-400"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+            <span class="text-xs text-gray-500">This Month</span>
+          </div>
+          <div id="stat-monthly-revenue" class="stat-number text-white mb-1">—</div>
+          <div class="text-gray-400 text-sm">Monthly Revenue</div>
+        </div>
+        <!-- Daily Revenue -->
+        <div class="stat-card">
+          <div class="flex items-center justify-between mb-3">
+            <div class="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400"><i class="fa-solid fa-coins"></i></div>
+            <span class="text-xs text-gray-500">Today</span>
+          </div>
+          <div id="stat-daily-revenue" class="stat-number text-white mb-1">—</div>
+          <div class="text-gray-400 text-sm">Today's Revenue</div>
+        </div>
+        <!-- Today's Bookings -->
+        <div class="stat-card">
+          <div class="flex items-center justify-between mb-3">
+            <div class="w-10 h-10 rounded-xl bg-gold/20 flex items-center justify-center text-gold"><i class="fa-solid fa-sun"></i></div>
+            <span class="text-xs text-gray-500">Today</span>
+          </div>
+          <div id="stat-today" class="stat-number text-white mb-1">—</div>
+          <div class="text-gray-400 text-sm">Today's Bookings</div>
+        </div>
+      </div>
+
+      <!-- Charts row -->
+      <div class="grid lg:grid-cols-3 gap-6 mb-8">
+        <!-- Upcoming Appts -->
+        <div class="glass-card p-6">
+          <h3 class="font-semibold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-clock text-gold"></i> Upcoming Today</h3>
+          <div id="upcoming-today-list" class="space-y-3 max-h-[300px] overflow-y-auto">
+            <div class="text-center py-8 text-gray-500"><div class="loader mx-auto mb-2"></div>Loading...</div>
+          </div>
+        </div>
+        <!-- Top Services -->
+        <div class="glass-card p-6">
+          <h3 class="font-semibold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-chart-bar text-gold"></i> Popular Services</h3>
+          <div id="services-chart" class="space-y-3">
+            <div class="text-center py-8 text-gray-500"><div class="loader mx-auto mb-2"></div>Loading...</div>
+          </div>
+        </div>
+        <!-- Top Staff -->
+        <div class="glass-card p-6">
+          <h3 class="font-semibold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-star text-gold"></i> Top Staff</h3>
+          <div id="top-staff-list" class="space-y-3">
+            <div class="text-center py-8 text-gray-500"><div class="loader mx-auto mb-2"></div>Loading...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-6">
+        <!-- Status Distribution -->
+        <div class="glass-card p-6">
+          <h3 class="font-semibold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-circle-half-stroke text-gold"></i> Appointment Status</h3>
+          <div id="status-chart" class="flex flex-wrap gap-4">
+            <div class="text-center py-8 text-gray-500 w-full"><div class="loader mx-auto mb-2"></div>Loading...</div>
+          </div>
+        </div>
+        <!-- Peak Hours -->
+        <div class="glass-card p-6">
+          <h3 class="font-semibold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-chart-line text-gold"></i> Peak Hours Today</h3>
+          <div id="peak-hours-chart" class="space-y-3">
+            <div class="text-center py-8 text-gray-500"><div class="loader mx-auto mb-2"></div>Loading...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── APPOINTMENTS SECTION ─────────────────────────── -->
+    <div id="section-appointments" class="hidden">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex gap-2 flex-wrap">
+          <select id="appt-status-filter" class="form-input py-2 text-sm" style="width:auto">
+            <option value="">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="in_progress">In Progress</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+            <option value="no_show">No Show</option>
+          </select>
+          <input id="appt-date-filter" type="date" class="form-input py-2 text-sm" style="width:auto"/>
+        </div>
+        <button id="appt-refresh" class="btn-outline text-xs py-2 px-4"><i class="fa-solid fa-rotate"></i> Refresh</button>
+      </div>
+      <div class="glass-card overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-white/5 text-gray-500">
+                <th class="text-left py-3 px-5 font-medium text-xs uppercase tracking-wider">Customer</th>
+                <th class="text-left py-3 px-4 font-medium text-xs uppercase tracking-wider">Service</th>
+                <th class="text-left py-3 px-4 font-medium text-xs uppercase tracking-wider">Staff</th>
+                <th class="text-left py-3 px-4 font-medium text-xs uppercase tracking-wider">Date & Time</th>
+                <th class="text-left py-3 px-4 font-medium text-xs uppercase tracking-wider">Price</th>
+                <th class="text-left py-3 px-4 font-medium text-xs uppercase tracking-wider">Status</th>
+                <th class="text-left py-3 px-4 font-medium text-xs uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="appt-table-body">
+              <tr><td colspan="7" class="text-center py-12 text-gray-500"><div class="loader mx-auto mb-2"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- RESCHEDULE MODAL -->
+      <div id="reschedule-modal" class="fixed inset-0 z-50 bg-dark/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="glass-card p-6 w-full max-w-md relative">
+          <button onclick="closeRescheduleModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+          <h3 class="font-serif text-2xl text-white mb-4">Reschedule Appointment</h3>
+          <form id="reschedule-form" class="space-y-4">
+            <input type="hidden" id="resch-appt-id"/>
+            <input type="hidden" id="resch-svc-id"/>
+            <div>
+              <label class="form-label">New Date</label>
+              <input id="resch-date" type="date" class="form-input" required/>
+            </div>
+            <div>
+              <label class="form-label">Staff Member</label>
+              <select id="resch-staff" class="form-input text-white" required>
+                <!-- Filled via JS -->
+              </select>
+            </div>
+            <div>
+              <label class="form-label">New Time</label>
+              <select id="resch-time" class="form-input text-white" required>
+                <!-- Filled via JS -->
+              </select>
+            </div>
+            <div class="flex items-center gap-2 mt-4 pt-4 border-t border-white/5">
+              <button type="button" onclick="closeRescheduleModal()" class="btn-outline flex-1 py-2">Cancel</button>
+              <button type="submit" id="resch-save-btn" class="btn-gold flex-1 py-2">Reschedule</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── CUSTOMERS SECTION ────────────────────────────── -->
+    <div id="section-customers" class="hidden">
+      <div class="glass-card overflow-hidden">
+        <div class="p-5 border-b border-white/5 flex items-center justify-between">
+          <h3 class="font-semibold text-white">All Customers</h3>
+          <div class="relative"><i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs"></i><input id="cust-search" type="text" placeholder="Search…" class="form-input pl-8 py-2 text-sm" style="width:200px"/></div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead><tr class="border-b border-white/5 text-gray-500"><th class="text-left py-3 px-5 font-medium text-xs uppercase tracking-wider">Name</th><th class="text-left py-3 px-4 font-medium text-xs uppercase tracking-wider">Email</th><th class="text-left py-3 px-4 font-medium text-xs uppercase tracking-wider">Phone</th><th class="text-left py-3 px-4 font-medium text-xs uppercase tracking-wider">History & Loyalty</th><th class="text-left py-3 px-4 font-medium text-xs uppercase tracking-wider">Actions</th></tr></thead>
+            <tbody id="cust-table-body"><tr><td colspan="5" class="text-center py-12 text-gray-500"><div class="loader mx-auto mb-2"></div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- CUSTOMER HISTORY MODAL -->
+      <div id="cust-history-modal" class="fixed inset-0 z-50 bg-dark/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="glass-card p-6 w-full max-w-2xl relative overflow-y-auto max-h-[90vh]">
+          <button onclick="document.getElementById('cust-history-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+          <h3 class="font-serif text-2xl text-white mb-2">Customer History</h3>
+          <p id="hist-cust-name" class="text-gold-light text-sm mb-6"></p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead><tr class="border-b border-white/5 text-gray-500"><th class="text-left py-2 px-3 font-medium text-xs uppercase tracking-wider">Date</th><th class="text-left py-2 px-3 font-medium text-xs uppercase tracking-wider">Service</th><th class="text-left py-2 px-3 font-medium text-xs uppercase tracking-wider">Staff</th><th class="text-left py-2 px-3 font-medium text-xs uppercase tracking-wider">Status</th></tr></thead>
+              <tbody id="hist-table-body"><tr><td colspan="4" class="text-center py-12 text-gray-500"><div class="loader mx-auto mb-2"></div></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SERVICES SECTION ─────────────────────────────── -->
+    <div id="section-services" class="hidden">
+      <div class="glass-card overflow-hidden relative">
+        <div class="p-5 border-b border-white/5 flex items-center justify-between">
+          <h3 class="font-semibold text-white">All Services</h3>
+          <button onclick="openServiceModal()" class="btn-gold py-1.5 px-4 text-xs"><i class="fa-solid fa-plus"></i> Add Service</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead><tr class="border-b border-white/5 text-gray-500"><th class="text-left py-3 px-5 font-medium text-xs uppercase tracking-wider">Service</th><th class="text-left py-3 px-4 font-medium text-xs uppercase tracking-wider">Category</th><th class="text-left py-3 px-4 font-medium text-xs uppercase tracking-wider">Price</th><th class="text-left py-3 px-4 font-medium text-xs uppercase tracking-wider">Duration</th><th class="text-left py-3 px-4 font-medium text-xs uppercase tracking-wider">Status</th><th class="text-left py-3 px-4 font-medium text-xs uppercase tracking-wider">Actions</th></tr></thead>
+            <tbody id="svc-table-body"><tr><td colspan="6" class="text-center py-12 text-gray-500"><div class="loader mx-auto mb-2"></div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- SERVICE MODAL -->
+      <div id="service-modal" class="fixed inset-0 z-50 bg-dark/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="glass-card p-6 w-full max-w-md relative">
+          <button onclick="closeServiceModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+          <h3 id="svc-modal-title" class="font-serif text-2xl text-white mb-4">Add Service</h3>
+          <form id="svc-form" class="space-y-4">
+            <input type="hidden" id="svc-id"/>
+            <div><label class="form-label">Service Name</label><input id="svc-name" type="text" class="form-input" required/></div>
+            <div class="grid grid-cols-2 gap-4">
+              <div><label class="form-label">Category</label><select id="svc-category" class="form-input" required><option value="">Loading…</option></select></div>
+              <div><label class="form-label">Status</label><select id="svc-status" class="form-input"><option value="1">Active</option><option value="0">Inactive</option></select></div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div><label class="form-label">Price (₹)</label><input id="svc-price" type="number" step="0.01" class="form-input" required/></div>
+              <div><label class="form-label">Duration (m)</label><input id="svc-duration" type="number" class="form-input" required/></div>
+            </div>
+            <div class="flex items-center gap-2 mt-4 pt-4 border-t border-white/5">
+              <button type="button" onclick="closeServiceModal()" class="btn-outline flex-1 py-2">Cancel</button>
+              <button type="submit" id="svc-save-btn" class="btn-gold flex-1 py-2">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── STAFF SECTION ────────────────────────────────── -->
+    <div id="section-staff" class="hidden">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="font-semibold text-white">Team Members</h3>
+        <button onclick="openStaffModal()" class="btn-gold py-1.5 px-4 text-xs"><i class="fa-solid fa-plus"></i> Add Member</button>
+      </div>
+      <div id="staff-admin-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div class="col-span-full text-center py-12 text-gray-500"><div class="loader mx-auto mb-3"></div></div>
+      </div>
+
+      <!-- STAFF MODAL -->
+      <div id="staff-modal" class="fixed inset-0 z-50 bg-dark/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="glass-card p-6 w-full max-w-lg relative overflow-y-auto max-h-[90vh]">
+          <button onclick="closeStaffModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+          <h3 id="staff-modal-title" class="font-serif text-2xl text-white mb-4">Add Staff Member</h3>
+          <form id="staff-form" class="space-y-4">
+            <input type="hidden" id="edit-staff-id"/>
+            <div class="grid grid-cols-2 gap-4">
+              <div><label class="form-label">Full Name</label><input id="staff-name-inp" type="text" class="form-input" required/></div>
+              <div><label class="form-label">Email</label><input id="staff-email-inp" type="email" class="form-input" required/></div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div><label class="form-label">Specialization</label><input id="staff-spec-inp" type="text" class="form-input" placeholder="e.g. Master Stylist" required/></div>
+              <div><label class="form-label">Experience (yrs)</label><input id="staff-exp-inp" type="number" class="form-input" required/></div>
+            </div>
+            <div>
+              <label class="form-label">Bio</label>
+              <textarea id="staff-bio-inp" rows="2" class="form-input" placeholder="Short professional bio…"></textarea>
+            </div>
+            <div>
+              <label class="form-label mb-2 block">Assigned Services</label>
+              <div id="staff-services-checklist" class="grid grid-cols-2 gap-2 h-32 overflow-y-auto p-3 bg-dark-3 rounded-lg border border-white/5">
+                <!-- Loaded via JS -->
+              </div>
+            </div>
+            <div class="flex items-center gap-2 mt-4 pt-4 border-t border-white/5">
+              <button type="button" onclick="closeStaffModal()" class="btn-outline flex-1 py-2">Cancel</button>
+              <button type="submit" id="staff-save-btn" class="btn-gold flex-1 py-2">Save Profile</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- SCHEDULE MODAL -->
+      <div id="schedule-modal" class="fixed inset-0 z-50 bg-dark/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="glass-card p-6 w-full max-w-2xl relative overflow-y-auto max-h-[90vh]">
+          <button onclick="closeScheduleModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+          <h3 class="font-serif text-2xl text-white mb-2">Weekly Availability</h3>
+          <p id="schedule-staff-name" class="text-gold-light text-sm mb-6"></p>
+          
+          <div class="space-y-3">
+            <div class="grid grid-cols-4 gap-4 px-4 text-[10px] uppercase tracking-widest text-gray-500 font-bold">
+              <div class="col-span-1">Day</div>
+              <div>Start Time</div>
+              <div>End Time</div>
+              <div class="text-center">Off</div>
+            </div>
+            <div id="schedule-rows" class="space-y-2">
+              <!-- Loaded via JS -->
+            </div>
+            <div class="flex items-center gap-2 mt-6 pt-4 border-t border-white/5">
+              <button onclick="closeScheduleModal()" class="btn-outline flex-1 py-2">Close</button>
+              <button id="schedule-save-btn" class="btn-gold flex-1 py-2 font-bold uppercase tracking-wider text-xs">Update Schedule</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ANALYTICS SECTION ─────────────────────────────── -->
+    <div id="section-analytics" class="hidden">
+      <div class="grid sm:grid-cols-3 gap-6 mb-8">
+        <div class="stat-card">
+          <div class="text-xs text-gray-500 uppercase tracking-widest mb-2">Monthly Revenue</div>
+          <div id="an-monthly" class="text-2xl font-serif text-white">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="text-xs text-gray-500 uppercase tracking-widest mb-2">Total Revenue</div>
+          <div id="an-total" class="text-2xl font-serif text-white">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="text-xs text-gray-500 uppercase tracking-widest mb-2">Total Staff</div>
+          <div id="an-staff" class="text-2xl font-serif text-white">—</div>
+        </div>
+      </div>
+
+      <div class="glass-card p-6">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="font-semibold text-white">Revenue Trends</h3>
+          <select id="revenue-period" class="bg-dark border border-white/10 text-gray-300 text-xs rounded py-1 px-2 focus:border-gold">
+            <option value="daily">Daily (Last 14d)</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly" selected>Monthly</option>
+          </select>
+        </div>
+        <div id="revenue-trend" class="space-y-4">
+          <!-- Loaded via JS -->
+          <div class="text-center py-12 text-gray-500"><div class="loader mx-auto mb-2"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── REVIEWS SECTION ────────────────────────────────── -->
+    <div id="section-reviews" class="hidden">
+      <div class="glass-card overflow-hidden">
+        <div class="p-5 border-b border-white/5">
+          <h3 class="font-semibold text-white">Client Feedback & Moderation</h3>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-white/5 text-gray-500">
+                <th class="text-left py-3 px-5 font-medium text-xs uppercase tracking-wider">Client</th>
+                <th class="text-left py-3 px-4 font-medium text-xs uppercase tracking-wider">Rating</th>
+                <th class="text-left py-3 px-4 font-medium text-xs uppercase tracking-wider">Comment</th>
+                <th class="text-left py-3 px-4 font-medium text-xs uppercase tracking-wider">Status</th>
+                <th class="text-left py-3 px-4 font-medium text-xs uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="reviews-table-body">
+              <tr><td colspan="5" class="text-center py-12 text-gray-500"><div class="loader mx-auto mb-2"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+// ── Auth Guard ────────────────────────────────────────────
+const user = api.getUser();
+if (!user || user.role !== 'admin') { window.location.href = 'login.html'; }
+document.getElementById('admin-name').textContent   = user?.name || 'Admin';
+document.getElementById('admin-avatar').textContent = (user?.name||'A')[0].toUpperCase();
+document.getElementById('today-date').textContent   = new Date().toLocaleDateString('en-IN', { weekday:'short', year:'numeric', month:'short', day:'numeric' });
+
+document.getElementById('logout-btn').addEventListener('click', () => { api.clearToken(); window.location.href = 'login.html'; });
+
+// ── Mobile sidebar ────────────────────────────────────────
+document.getElementById('menu-toggle').addEventListener('click', () => document.getElementById('sidebar').classList.toggle('open'));
+
+// ── Section Navigation ────────────────────────────────────
+const sections = ['overview','appointments','services','staff','customers','reviews','analytics'];
+const titles   = { overview:'Overview', appointments:'Appointments', services:'Services', staff:'Staff', customers:'Customers', reviews:'Reviews', analytics:'Analytics' };
+const subtitles= { overview:"Welcome back! Here's what's happening.", appointments:'Manage all appointment bookings.', services:'Browse and manage services.', staff:'Your expert team.', customers:'Registered customer accounts.', reviews:'Moderate and approve user testimonials.', analytics:'Performance insights.' };
+const loaded   = {};
+
+function showSection(name) {
+  console.log(`[NAV] Switching to section: ${name}`);
+  if (!sections.includes(name)) { console.warn(`[NAV] Section ${name} not found in registry.`); return; }
+
+  sections.forEach(s => {
+    const el = document.getElementById(`section-${s}`);
+    if (el) {
+      if (s === name) {
+        el.classList.remove('hidden');
+        el.style.display = 'block'; // Ensure visibility
+      } else {
+        el.classList.add('hidden');
+        el.style.display = 'none';
+      }
+    }
+  });
+
+  document.querySelectorAll('.sidebar-link').forEach(l => {
+    l.classList.toggle('active', l.dataset.section === name);
+  });
+  
+  const pt = document.getElementById('page-title');
+  if (pt) pt.textContent = titles[name] || 'Admin';
+  
+  const ps = document.getElementById('page-subtitle');
+  if (ps) ps.textContent = subtitles[name] || '';
+  
+  if (!loaded[name]) { 
+    loaded[name] = true; 
+    console.log(`[NAV] Triggering load for: ${name}`);
+    loadSection(name).catch(e => { 
+      console.error(`[NAV] Load failed for ${name}:`, e);
+      loaded[name] = false; 
+    }); 
+  }
+}
+
+function initNavigation() {
+  document.querySelectorAll('.sidebar-link[data-section]').forEach(link => {
+    link.addEventListener('click', e => { 
+      e.preventDefault(); 
+      const name = link.dataset.section;
+      console.log(`[NAV] Clicked: ${name}`);
+      showSection(name); 
+      document.getElementById('sidebar')?.classList.remove('open'); 
+    });
+  });
+}
+
+// Listeners are now initialized in initNavigation() called during DOMContentLoaded
+
+// ── Load Sections ─────────────────────────────────────────
+async function loadSection(name) {
+  try {
+    if (name === 'overview')     await loadOverview();
+    if (name === 'appointments') await loadAppointments();
+    if (name === 'customers')    await loadCustomers();
+    if (name === 'services')     await loadServicesList();
+    if (name === 'staff')        await loadStaffAdmin();
+    if (name === 'reviews')      await loadReviews();
+    if (name === 'analytics')    await loadAnalytics();
+  } catch (e) {
+    console.error(`Error loading section ${name}:`, e);
+    throw e;
+  }
+}
+
+// ── OVERVIEW ──────────────────────────────────────────────
+async function loadOverview() {
+  const errDiv = (msg) => `<div class="text-center py-4 text-rose-400 text-[10px] leading-tight">${msg}</div>`;
+
+  console.log('[DASHBOARD] Initializing Overview Loading...');
+
+  // 1. Stats and Overview Counts
+  try {
+    console.log('[DASHBOARD] Fetching Stats Cards...');
+    const statsRes = await api.analytics.dashboard();
+    console.log('[DASHBOARD] Stats Response:', statsRes);
+    const d = statsRes.data || {};
+    
+    document.getElementById('stat-appts').textContent           = d.total_appointments ?? '—';
+    document.getElementById('stat-monthly-revenue').textContent = formatPrice(d.monthly_revenue || 0);
+    document.getElementById('stat-daily-revenue').textContent   = formatPrice(d.daily_revenue || 0);
+    document.getElementById('stat-today').textContent           = d.todays_appointments ?? 0;
+  } catch (e) {
+    console.error('[DASHBOARD] Stats card load failed:', e);
+  }
+
+  // 2. Dashboard Full (Upcoming)
+  try {
+    console.log('[DASHBOARD] Fetching Dashboard Full (Upcoming)...');
+    const dfRes = await api.analytics.dashboardFull();
+    console.log('[DASHBOARD] Dashboard Full Response:', dfRes);
+    const df = dfRes.data || {};
+    
+    // Update IDs if they were missed by the first loader
+    if (df.monthlyRevenue) document.getElementById('stat-monthly-revenue').textContent = formatPrice(df.monthlyRevenue);
+    if (df.dailyRevenue)   document.getElementById('stat-daily-revenue').textContent   = formatPrice(df.dailyRevenue);
+    if (df.dailyBookings !== undefined) document.getElementById('stat-today').textContent = df.dailyBookings;
+
+    const upcoming = df.upcomingAppointments || [];
+    const upcomingList = document.getElementById('upcoming-today-list');
+    if (upcomingList) {
+      upcomingList.innerHTML = upcoming.length
+        ? upcoming.map(a => `
+            <div class="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/5">
+              <div>
+                <div class="text-sm text-white font-medium">${a.customer_name || 'Customer'}</div>
+                <div class="text-xs text-gray-400">${a.service_name} • <span class="text-gold">${(a.start_time||'').slice(0,5)}</span></div>
+              </div>
+              ${statusBadge(a.status)}
+            </div>`).join('')
+        : '<p class="text-gray-500 text-sm py-4 text-center">No upcoming appointments today.</p>';
+    }
+  } catch (e) { 
+    console.error('[DASHBOARD] Upcoming load failed:', e);
+    document.getElementById('upcoming-today-list').innerHTML = errDiv('Failed to load upcoming appts'); 
+  }
+
+  // 3. Services Chart
+  try {
+    console.log('[DASHBOARD] Fetching Popular Services...');
+    const res = await api.analytics.services();
+    const data = res.data || [];
+    const el = document.getElementById('services-chart');
+    if (el) {
+      const maxBookings = Math.max(...(data.map(s => s.bookings)), 1);
+      el.innerHTML = data.length
+        ? data.map(s => `
+            <div>
+              <div class="flex justify-between text-xs mb-1"><span class="text-gray-300">${s.name}</span><span class="text-gold">${s.bookings} bookings</span></div>
+              <div class="h-2 bg-dark-3 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-gold to-gold-dark rounded-full transition-all duration-700" style="width:${(s.bookings / maxBookings * 100).toFixed(1)}%"></div></div>
+            </div>`).join('')
+        : '<p class="text-gray-500 text-sm text-center py-4">No data yet.</p>';
+    }
+  } catch (e) { document.getElementById('services-chart').innerHTML = errDiv('Failed to load services stats'); }
+
+  // 4. Top Staff
+  try {
+    console.log('[DASHBOARD] Fetching Top Staff...');
+    const res = await api.analytics.topStaff();
+    const data = res.data || [];
+    const el = document.getElementById('top-staff-list');
+    if (el) {
+      const gradients = ['from-gold to-rose','from-blue-400 to-purple-500','from-green-400 to-teal-500','from-rose to-gold','from-purple-500 to-blue-400'];
+      el.innerHTML = data.length
+        ? data.map((m, i) => `
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-gradient-to-br ${gradients[i % 5]} flex items-center justify-center font-bold text-xs text-dark">${m.name[0]}</div>
+              <div class="flex-1 min-w-0"><div class="text-white text-sm font-medium truncate">${m.name}</div><div class="text-gray-500 text-xs">${m.appointments} appts</div></div>
+              <div class="text-gold text-xs font-medium">${formatPrice(m.revenue)}</div>
+            </div>`).join('')
+        : '<p class="text-gray-500 text-sm text-center py-4">No data yet.</p>';
+    }
+  } catch (e) { document.getElementById('top-staff-list').innerHTML = errDiv('Failed to load team stats'); }
+
+  // 5. Status Distribution
+  try {
+    console.log('[DASHBOARD] Fetching Status Distribution...');
+    const res = await api.analytics.status();
+    const data = res.data || [];
+    const el = document.getElementById('status-chart');
+    if (el) {
+      const total = data.reduce((a, s) => a + s.count, 0) || 1;
+      const colors = { pending:'bg-yellow-500', confirmed:'bg-blue-500', in_progress:'bg-purple-500', completed:'bg-green-500', cancelled:'bg-red-500', no_show:'bg-gray-500' };
+      el.innerHTML = data.length
+        ? data.map(s => `
+            <div class="flex items-center gap-2 text-sm w-full">
+              <div class="w-3 h-3 rounded-full ${colors[s.status] || 'bg-gray-500'} flex-shrink-0"></div>
+              <span class="text-gray-300 capitalize w-20">${s.status.replace('_', ' ')}</span>
+              <div class="flex-1 h-1.5 bg-dark-3 rounded-full overflow-hidden mx-2"><div class="h-full ${colors[s.status] || 'bg-gray-500'} rounded-full" style="width:${(s.count / total * 100).toFixed(1)}%"></div></div>
+              <span class="text-xs text-gray-500 w-8 text-right">${(s.count / total * 100).toFixed(0)}%</span>
+            </div>`).join('')
+        : '<p class="text-gray-500 text-sm text-center py-4">No data yet.</p>';
+    }
+  } catch (e) { document.getElementById('status-chart').innerHTML = errDiv('Failed to load status insights'); }
+
+  // 6. Peak Hours
+  try {
+    console.log('[DASHBOARD] Fetching Peak Hours...');
+    const res = await api.analytics.peakHours();
+    const data = res.data || [];
+    const el = document.getElementById('peak-hours-chart');
+    if (el) {
+      const maxPeak = Math.max(...(data.map(p => p.count)), 1);
+      el.innerHTML = data.length
+        ? data.map(p => `
+            <div class="flex items-center gap-3">
+              <div class="w-16 text-xs text-gray-400 text-right">${p.time}</div>
+              <div class="flex-1 h-2 bg-dark-3 rounded overflow-hidden"><div class="h-full bg-gradient-to-r from-orange-500 to-rose-500 rounded" style="width:${(p.count / maxPeak * 100)}%"></div></div>
+              <div class="w-6 text-xs text-gold text-right">${p.count}</div>
+            </div>`).join('')
+        : '<p class="text-gray-500 text-sm text-center py-4">No data yet.</p>';
+    }
+  } catch (e) { document.getElementById('peak-hours-chart').innerHTML = errDiv('Failed to load booking trends'); }
+
+  // Ensure loader is hidden
+  document.getElementById('page-loader')?.classList.add('hidden');
+  if (typeof initReveal === 'function') initReveal();
+  console.log('[DASHBOARD] Overview Initialization Complete.');
+}
+
+// ── APPOINTMENTS ──────────────────────────────────────────
+async function loadAppointments(status='', date='') {
+  const body = document.getElementById('appt-table-body');
+  body.innerHTML = '<tr><td colspan="7" class="text-center py-10 text-gray-500"><div class="loader mx-auto mb-2"></div></td></tr>';
+  try {
+    let params = '';
+    if (status) params += `status=${status}&`;
+    if (date)   params += `date=${date}&`;
+    const res = await api.appointments.getAll(params);
+    console.log('[DEBUG] Admin: Fresh Appointments List from DB:', res.data);
+    if (!res.data.length) { body.innerHTML = '<tr><td colspan="7" class="text-center py-10 text-gray-500">No appointments found.</td></tr>'; return; }
+    body.innerHTML = res.data.map(a => `
+      <tr class="border-b border-white/5 hover:bg-white/2 transition-colors">
+        <td class="py-3 px-5"><div class="font-medium text-white text-sm">${a.customer_name||'—'}</div><div class="text-gray-500 text-xs">${a.customer_phone||''}</div></td>
+        <td class="py-3 px-4 text-gray-300 text-sm">${a.service_name||'—'}</td>
+        <td class="py-3 px-4 text-gray-300 text-sm">${a.staff_name||'—'}</td>
+        <td class="py-3 px-4"><div class="text-gray-300 text-sm">${formatDate(a.appointment_date)}</div><div class="text-gray-500 text-xs">${a.start_time?.slice(0,5)||''}</div></td>
+        <td class="py-3 px-4 text-gold text-sm font-medium">${formatPrice(a.total_price||0)}</td>
+        <td class="py-3 px-4">${statusBadge(a.status)}</td>
+        <td class="py-3 px-4 flex gap-2 items-center">
+          <select onchange="updateStatus(${a.id},this.value)" class="bg-dark-3 border border-white/10 text-gray-400 text-xs rounded-lg px-2 py-1 outline-none focus:border-gold/40 max-w-[110px]">
+            <option>Change…</option>
+            ${['pending','confirmed','in_progress','completed','cancelled','no_show'].map(s=>`<option value="${s}" ${s===a.status?'selected':''}>${s.replace('_',' ')}</option>`).join('')}
+          </select>
+          ${['pending','confirmed'].includes(a.status) ? `<button onclick="openRescheduleModal(${a.id}, '${a.appointment_date}', ${a.service_id}, ${a.staff_id || 0})" title="Reschedule" class="text-gray-400 hover:text-gold transition-colors ml-1"><i class="fa-solid fa-calendar-days"></i></button>` : ''}
+        </td>
+      </tr>`).join('');
+  } catch(e) { body.innerHTML = `<tr><td colspan="7" class="text-center py-10 text-gray-500">${e.message}</td></tr>`; }
+}
+
+async function updateStatus(id, status) {
+  if (!status || status === 'Change…') return;
+  try {
+    await api.appointments.updateStatus(id, status);
+    showToast('Status updated!', 'success');
+    loadAppointments(document.getElementById('appt-status-filter').value, document.getElementById('appt-date-filter').value);
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+document.getElementById('appt-refresh').addEventListener('click', () => loadAppointments(document.getElementById('appt-status-filter').value, document.getElementById('appt-date-filter').value));
+document.getElementById('appt-status-filter').addEventListener('change', function() { loadAppointments(this.value, document.getElementById('appt-date-filter').value); });
+document.getElementById('appt-date-filter').addEventListener('change', function()   { loadAppointments(document.getElementById('appt-status-filter').value, this.value); });
+
+// ── RESCHEDULE LOGIC ──────────────────────────────────────
+async function openRescheduleModal(apptId, dateStr, serviceId, currentStaffId) {
+  document.getElementById('resch-appt-id').value = apptId;
+  document.getElementById('resch-svc-id').value = serviceId;
+  
+  // Set date value, validate against past dates
+  const today = new Date();
+  const todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+  
+  // Extract "YYYY-MM-DD" directly from dateStr without Date parsing
+  const formattedDateStr = dateStr.substring(0, 10);
+  
+  const dateInput = document.getElementById('resch-date');
+  dateInput.min = todayStr;
+  dateInput.value = formattedDateStr;
+  
+  const staffSelect = document.getElementById('resch-staff');
+  staffSelect.innerHTML = '<option>Loading...</option>';
+  document.getElementById('reschedule-modal').classList.remove('hidden');
+
+  try {
+    const sRes = api.staff.getByService ? await api.staff.getByService(serviceId) : await fetch(`http://localhost:5000/api/staff/by-service?service_id=${serviceId}`).then(r=>r.json());
+    const staffList = sRes.data || [];
+    staffSelect.innerHTML = '<option value="0">Any Stylist</option>' + staffList.map(s => 
+      `<option value="${s.id}" ${s.id === currentStaffId ? 'selected' : ''}>${s.name}</option>`
+    ).join('');
+
+    const timeSelect = document.getElementById('resch-time');
+    let timeOpts = '';
+    for(let h=9; h<=20; h++) {
+      for(let m=0; m<60; m+=30) {
+        if(h===20 && m>0) continue;
+        const hh = String(h).padStart(2,'0'); const mm = String(m).padStart(2,'0');
+        timeOpts += `<option value="${hh}:${mm}:00">${hh}:${mm}</option>`;
+      }
+    }
+    timeSelect.innerHTML = timeOpts;
+  } catch(e) { showToast('Error loading staff: ' + e.message, 'error'); }
+}
+
+function closeRescheduleModal() { document.getElementById('reschedule-modal').classList.add('hidden'); }
+
+document.getElementById('reschedule-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('resch-save-btn');
+  btn.innerHTML = '<div class="loader w-3 h-3 border-2 border-dark"></div>'; btn.disabled = true;
+  
+  const rawTime = document.getElementById('resch-time').value; // HH:mm:00
+  const data = {
+    date: document.getElementById('resch-date').value,
+    time: rawTime.substring(0, 5), // Send as HH:mm
+    staffId: parseInt(document.getElementById('resch-staff').value)
+  };
+  
+  try {
+    const res = await api.appointments.reschedule(document.getElementById('resch-appt-id').value, data);
+    console.log('[DEBUG] Admin Reschedule API Response:', res);
+    
+    showToast('Appointment rescheduled successfully! 🌸', 'success');
+    closeRescheduleModal();
+    
+    // Always re-fetch updated data with current filters
+    const status = document.getElementById('appt-status-filter')?.value || '';
+    const date = document.getElementById('appt-date-filter')?.value || '';
+    await loadAppointments(status, date);
+  } catch(e) { 
+    console.error(e);
+    showToast(e.message || 'Reschedule failed. Please try again.', 'error'); 
+  }
+  btn.innerHTML = 'Reschedule'; btn.disabled = false;
+});
+
+// ── CUSTOMERS ─────────────────────────────────────────────
+let allCustomers = [];
+async function loadCustomers() {
+  const body = document.getElementById('cust-table-body');
+  try {
+    const res = await api.staff.getAll ? await fetch('http://localhost:5000/api/customers', { headers: { Authorization: 'Bearer ' + api.getToken() } }).then(r=>r.json()) : { data:[] };
+    allCustomers = res.data || [];
+    renderCustomers(allCustomers);
+  } catch(e) { body.innerHTML = `<tr><td colspan="5" class="text-center py-10 text-gray-500">${e.message}</td></tr>`; }
+}
+function renderCustomers(list) {
+  const body = document.getElementById('cust-table-body');
+  if (!list.length) { body.innerHTML = '<tr><td colspan="5" class="text-center py-10 text-gray-500">No customers found.</td></tr>'; return; }
+  body.innerHTML = list.map(c => {
+    const phone = c.phone || c.phone_number || c.phoneNumber || '—';
+    return `
+      <tr class="border-b border-white/5 hover:bg-white/2 transition-colors">
+        <td class="py-3 px-5"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-gradient-to-br from-gold to-rose flex items-center justify-center text-dark text-xs font-bold">${(c.name||'?')[0]}</div><span class="text-white text-sm">${c.name||'—'}</span></div></td>
+        <td class="py-3 px-4 text-gray-400 text-sm">${c.email||'—'}</td>
+        <td class="py-3 px-4 text-gray-400 text-sm">${phone}</td>
+        <td class="py-3 px-4">
+          <div class="flex items-center gap-2">
+             <span class="text-gold text-sm font-medium">${c.loyalty_pts||0} pts</span>
+             ${c.loyalty_pts >= 100 ? '<span class="bg-gold/20 text-gold px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider">Loyal</span>' : ''}
+          </div>
+        </td>
+        <td class="py-3 px-4 flex gap-3">
+          <button onclick="viewCustomerHistory(${c.id}, '${c.name ? c.name.replace("'","\\'") : ''}')" class="text-gray-400 hover:text-gold text-xs flex items-center gap-1"><i class="fa-solid fa-clock-rotate-left"></i> History</button>
+        </td>
+      </tr>`;
+  }).join('');
+}
+
+async function viewCustomerHistory(id, name) {
+  document.getElementById('hist-cust-name').textContent = 'Appointments for: ' + name;
+  const tbody = document.getElementById('hist-table-body');
+  tbody.innerHTML = '<tr><td colspan="4" class="text-center py-12 text-gray-500"><div class="loader mx-auto mb-2"></div></td></tr>';
+  document.getElementById('cust-history-modal').classList.remove('hidden');
+
+  try {
+    const res = await api.appointments.getAll(`customer_id=${id}`);
+    if(!res.data.length) { tbody.innerHTML = '<tr><td colspan="4" class="text-center py-8 text-gray-500">No past bookings.</td></tr>'; return; }
+    tbody.innerHTML = res.data.map(a => `
+      <tr class="border-b border-white/5 hover:bg-white/5">
+        <td class="py-3 px-3 text-gray-300 text-sm">${formatDate(a.appointment_date)}</td>
+        <td class="py-3 px-3 text-gray-300 text-sm">${a.service_name}</td>
+        <td class="py-3 px-3 text-gray-400 text-xs">${a.staff_name}</td>
+        <td class="py-3 px-3">${statusBadge(a.status)}</td>
+      </tr>
+    `).join('');
+  } catch(e) { tbody.innerHTML = `<tr><td colspan="4" class="text-center py-8 text-red-400">${e.message}</td></tr>`; }
+}
+
+document.getElementById('cust-search').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  renderCustomers(allCustomers.filter(c => c.name?.toLowerCase().includes(q) || c.email?.toLowerCase().includes(q)));
+});
+async function deleteCustomer(id) {
+  if (!confirm('Delete this customer?')) return;
+  try { await fetch(`http://localhost:5000/api/customers/${id}`, { method:'DELETE', headers:{ Authorization:'Bearer '+api.getToken() } }); showToast('Customer deleted.','success'); loadCustomers(); } catch(e) { showToast(e.message,'error'); }
+}
+
+// ── SERVICES LIST ─────────────────────────────────────────
+async function loadServicesList() {
+  const body = document.getElementById('svc-table-body');
+  try {
+    const res = await api.services.getAll();
+    if (!res.data.length) { body.innerHTML = '<tr><td colspan="6" class="text-center py-10 text-gray-500">No services found.</td></tr>'; return; }
+    
+    // Fetch categories silently if not loaded yet
+    if(document.getElementById('svc-category').options.length <= 1) {
+      const catRes = await api.services.getCategories();
+      document.getElementById('svc-category').innerHTML = catRes.data.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+    }
+
+    body.innerHTML = res.data.map(s => `
+      <tr class="border-b border-white/5 hover:bg-white/2 transition-colors">
+        <td class="py-3 px-5 text-white font-medium text-sm">${s.name}</td>
+        <td class="py-3 px-4 text-gray-400 text-sm">${s.category_name||'—'}</td>
+        <td class="py-3 px-4 text-gold text-sm font-medium">${formatPrice(s.price)}</td>
+        <td class="py-3 px-4 text-gray-400 text-sm">${s.duration_min} min</td>
+        <td class="py-3 px-4">${s.is_active ? '<span class="px-2 py-0.5 rounded-full text-xs bg-green-500/20 text-green-300 border border-green-500/30">Active</span>' : '<span class="px-2 py-0.5 rounded-full text-xs bg-gray-500/20 text-gray-400 border border-gray-500/30">Inactive</span>'}</td>
+        <td class="py-3 px-4 flex gap-2">
+           <button onclick="editService(${s.id})" class="text-gray-400 hover:text-gold transition-colors"><i class="fa-solid fa-pen"></i></button>
+           <button onclick="deleteService(${s.id})" class="text-gray-400 hover:text-rose transition-colors"><i class="fa-solid fa-trash"></i></button>
+        </td>
+      </tr>`).join('');
+  } catch(e) { body.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-gray-500">${e.message}</td></tr>`; }
+}
+
+const svcModal = document.getElementById('service-modal');
+function openServiceModal() {
+  document.getElementById('svc-form').reset();
+  document.getElementById('svc-id').value = '';
+  document.getElementById('svc-modal-title').textContent = 'Add Service';
+  svcModal.classList.remove('hidden');
+}
+function closeServiceModal() { svcModal.classList.add('hidden'); }
+
+async function editService(id) {
+  try {
+    const res = await api.services.getById(id);
+    const s = res.data;
+    document.getElementById('svc-id').value       = s.id;
+    document.getElementById('svc-name').value     = s.name;
+    document.getElementById('svc-category').value = s.category_id;
+    document.getElementById('svc-price').value    = s.price;
+    document.getElementById('svc-duration').value = s.duration_min;
+    document.getElementById('svc-status').value   = s.is_active;
+    
+    document.getElementById('svc-modal-title').textContent = 'Edit Service';
+    svcModal.classList.remove('hidden');
+  } catch(e) { showToast('Error loading service', 'error'); }
+}
+
+async function deleteService(id) {
+  if(!confirm('Are you sure you want to delete this service?')) return;
+  try {
+    await api.services.delete(id);
+    showToast('Service deleted.', 'success');
+    loadServicesList();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+document.getElementById('svc-form').addEventListener('submit', async(e) => {
+  e.preventDefault();
+  const btn = document.getElementById('svc-save-btn');
+  btn.innerHTML = '<span class="loader w-3 h-3 border-2 border-dark"></span>';
+  btn.disabled = true;
+  
+  const id = document.getElementById('svc-id').value;
+  const data = {
+    name: document.getElementById('svc-name').value,
+    category_id: document.getElementById('svc-category').value,
+    price: document.getElementById('svc-price').value,
+    duration_min: document.getElementById('svc-duration').value,
+    is_active: document.getElementById('svc-status').value
+  };
+
+  try {
+    if(id) {
+      await api.services.update(id, data);
+      showToast('Service updated!', 'success');
+    } else {
+      await api.services.create(data);
+      showToast('Service added!', 'success');
+    }
+    closeServiceModal();
+    loadServicesList();
+  } catch(err) {
+    showToast(err.message, 'error');
+  }
+  btn.innerHTML = 'Save';
+  btn.disabled = false;
+});
+
+// ── STAFF ADMIN ───────────────────────────────────────────
+const staffModal = document.getElementById('staff-modal');
+const scheduleModal = document.getElementById('schedule-modal');
+
+async function loadStaffAdmin() {
+  const grid = document.getElementById('staff-admin-grid');
+  grid.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500"><div class="loader mx-auto mb-3"></div></div>';
+  try {
+    const res = await api.staff.getAll();
+    if (!res.data.length) { grid.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500">No staff records found.</div>'; return; }
+    grid.innerHTML = res.data.map(m => `
+      <div class="glass-card p-5 group">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <div class="avatar-ring" style="width:48px;height:48px"><div class="avatar-inner" style="font-size:1.3rem">${(m.name || "S")[0].toUpperCase()}</div></div>
+            <div>
+              <div class="font-semibold text-white text-sm">${m.name || "Staff Member"}</div>
+              <div class="text-gold-light text-xs">${m.specialization || 'Stylist'}</div>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="editStaff(${m.id})" title="Edit Profile" class="text-gray-500 hover:text-gold transition-colors"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button onclick="openScheduleModal(${m.id}, '${m.name?.replace("'","\\'")}')" title="Manage Schedule" class="text-gray-500 hover:text-gold transition-colors"><i class="fa-solid fa-clock"></i></button>
+            <button onclick="deleteStaff(${m.id})" title="Delete" class="text-gray-500 hover:text-rose transition-colors"><i class="fa-solid fa-trash-can"></i></button>
+          </div>
+        </div>
+        <div class="text-gray-400 text-xs mb-3 line-clamp-2 h-8">${m.bio || 'Expert beauty professional.'}</div>
+        <div class="flex justify-between text-[10px] text-gray-500 uppercase tracking-widest pt-3 border-t border-white/5">
+          <span><i class="fa-solid fa-star text-gold mr-1"></i>${m.rating || '5.0'}</span>
+          <span><i class="fa-solid fa-briefcase text-gold mr-1"></i>${m.experience_yrs || 0} YRS EXP</span>
+          <span class="${m.is_available ? 'text-green-400' : 'text-red-400'}">${m.is_available ? 'Available' : 'Busy'}</span>
+        </div>
+      </div>`).join('');
+  } catch(e) { grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500">${e.message}</div>`; }
+}
+
+async function openStaffModal() {
+  document.getElementById('staff-form').reset();
+  document.getElementById('edit-staff-id').value = '';
+  document.getElementById('staff-modal-title').textContent = 'Add Staff Member';
+  
+  // Load services for checklist
+  const svcRes = await api.services.getAll();
+  const list = document.getElementById('staff-services-checklist');
+  list.innerHTML = svcRes.data.map(s => `
+    <label class="flex items-center gap-2 p-2 hover:bg-white/5 rounded cursor-pointer transition-colors">
+      <input type="checkbox" name="services" value="${s.id}" class="rounded border-white/10 bg-dark text-gold focus:ring-gold"/>
+      <span class="text-xs text-gray-300 truncate">${s.name}</span>
+    </label>
+  `).join('');
+  
+  staffModal.classList.remove('hidden');
+}
+
+function closeStaffModal() { staffModal.classList.add('hidden'); }
+
+async function editStaff(id) {
+  try {
+    await openStaffModal();
+    const res = await api.staff.getById(id);
+    const m = res.data;
+    
+    document.getElementById('staff-modal-title').textContent = 'Edit Profile';
+    document.getElementById('edit-staff-id').value = m.id;
+    document.getElementById('staff-name-inp').value = m.name;
+    document.getElementById('staff-email-inp').value = m.email;
+    document.getElementById('staff-email-inp').disabled = true; // Email unique
+    document.getElementById('staff-spec-inp').value = m.specialization;
+    document.getElementById('staff-exp-inp').value = m.experience_yrs;
+    document.getElementById('staff-bio-inp').value = m.bio;
+    
+    const serviceIds = m.services.map(s => s.id);
+    document.querySelectorAll('#staff-services-checklist input').forEach(cb => {
+      if (serviceIds.includes(parseInt(cb.value))) cb.checked = true;
+    });
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+document.getElementById('staff-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const id = document.getElementById('edit-staff-id').value;
+  const btn = document.getElementById('staff-save-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="loader w-3 h-3"></span> Saving…';
+  
+  const selectedSvcs = Array.from(document.querySelectorAll('#staff-services-checklist input:checked')).map(cb => parseInt(cb.value));
+  
+  const data = {
+    name: document.getElementById('staff-name-inp').value,
+    email: document.getElementById('staff-email-inp').value,
+    specialization: document.getElementById('staff-spec-inp').value,
+    experience_yrs: parseInt(document.getElementById('staff-exp-inp').value),
+    bio: document.getElementById('staff-bio-inp').value,
+    service_ids: selectedSvcs
+  };
+
+  try {
+    if (id) {
+      await api.staff.update(id, data);
+      showToast('Profile updated!', 'success');
+    } else {
+      await api.staff.create(data);
+      showToast('Staff added! Temporary password: Staff@123', 'success');
+    }
+    closeStaffModal(); loadStaffAdmin();
+  } catch(err) { showToast(err.message, 'error'); }
+  btn.disabled = false; btn.innerHTML = 'Save Profile';
+});
+
+async function deleteStaff(id) {
+  if (!confirm('Permanently remove this staff member?')) return;
+  try { await api.staff.delete(id); showToast('Staff removed.', 'success'); loadStaffAdmin(); } catch(e) { showToast(e.message, 'error'); }
+}
+
+// ── SCHEDULE MANAGEMENT ─────────────────────────────────────
+let currentScheduleStaffId = null;
+
+async function openScheduleModal(id, name) {
+  currentScheduleStaffId = id;
+  const sn = document.getElementById('schedule-staff-name');
+  if (sn) sn.textContent = `Managing schedule for: ${name}`;
+  const rows = document.getElementById('schedule-rows');
+  if (rows) rows.innerHTML = '<div class="text-center py-8"><div class="loader mx-auto"></div></div>';
+  if (scheduleModal) scheduleModal.classList.remove('hidden');
+
+  try {
+    const res = await api.staff.getSchedule(id);
+    const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    
+    if (rows) {
+      rows.innerHTML = dayNames.map((day, i) => {
+        const sch = res.data.find(s => s.day_of_week === i) || { start_time:'09:00:00', end_time:'18:00:00', is_off: 0 };
+        const start = sch.start_time.slice(0, 5);
+        const end = sch.end_time.slice(0, 5);
+        
+        return `
+          <div class="grid grid-cols-4 gap-4 items-center p-3 bg-white/2 rounded-xl hover:bg-white/5 transition-colors border border-white/5">
+            <div class="text-sm font-medium text-gray-300">${day}</div>
+            <input type="time" data-day="${i}" class="sch-start form-input text-xs py-1.5" value="${start}" ${sch.is_off ? 'disabled' : ''}/>
+            <input type="time" data-day="${i}" class="sch-end form-input text-xs py-1.5" value="${end}" ${sch.is_off ? 'disabled' : ''}/>
+            <div class="text-center">
+              <input type="checkbox" data-day="${i}" class="sch-off w-4 h-4 rounded border-white/10 bg-dark text-rose focus:ring-rose" ${sch.is_off ? 'checked' : ''}/>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Toggle disabled on checkbox change
+      rows.querySelectorAll('.sch-off').forEach(cb => {
+        cb.addEventListener('change', () => {
+          const day = cb.dataset.day;
+          rows.querySelector(`.sch-start[data-day="${day}"]`).disabled = cb.checked;
+          rows.querySelector(`.sch-end[data-day="${day}"]`).disabled = cb.checked;
+        });
+      });
+    }
+  } catch(e) { showToast('Load Error: ' + e.message, 'error'); }
+}
+
+function closeScheduleModal() { if (scheduleModal) scheduleModal.classList.add('hidden'); }
+
+const scheduleSaveBtn = document.getElementById('schedule-save-btn');
+if (scheduleSaveBtn) {
+  scheduleSaveBtn.addEventListener('click', async () => {
+    scheduleSaveBtn.disabled = true; 
+    scheduleSaveBtn.innerHTML = '<span class="loader w-3 h-3 border-2 border-dark"></span> Updating…';
+    
+    const schedule = [];
+    document.querySelectorAll('#schedule-rows > div').forEach(row => {
+      const startInp = row.querySelector('.sch-start');
+      const endInp = row.querySelector('.sch-end');
+      const offInp = row.querySelector('.sch-off');
+      
+      schedule.push({
+        day_of_week: parseInt(offInp.dataset.day),
+        start_time: startInp.value + ':00',
+        end_time: endInp.value + ':00',
+        is_off: offInp.checked ? 1 : 0
+      });
+    });
+
+    try {
+      await api.staff.updateSchedule(currentScheduleStaffId, schedule);
+      showToast('Weekly schedule updated! 📅', 'success');
+      closeScheduleModal();
+    } catch(e) { showToast(e.message, 'error'); }
+    scheduleSaveBtn.disabled = false; 
+    scheduleSaveBtn.innerHTML = 'Update Schedule';
+  });
+}
+
+// ── ANALYTICS ─────────────────────────────────────────────
+async function loadAnalytics(period = 'monthly') {
+  console.log(`[ANALYTICS] Loading for period: ${period}`);
+  const errDiv = (msg) => `<div class="text-center py-10 text-rose-400 text-sm border border-rose-500/20 rounded-xl bg-rose-500/5">${msg}</div>`;
+  const revTrendEl = document.getElementById('revenue-trend');
+  
+  try {
+    if (revTrendEl) revTrendEl.innerHTML = '<div class="text-center py-12"><div class="loader mx-auto mb-2"></div>Calculating insights...</div>';
+    
+    // Stats
+    try {
+      console.log('[ANALYTICS] Fetching dashboard stats...');
+      const statsRes = await api.analytics.dashboard();
+      const d = statsRes.data || {};
+      const am = document.getElementById('an-monthly');
+      const at = document.getElementById('an-total');
+      const as = document.getElementById('an-staff');
+      if (am) am.textContent = formatPrice(d.monthly_revenue || d.monthlyRevenue || 0);
+      if (at) at.textContent = formatPrice(d.total_revenue || d.totalRevenue || 0);
+      if (as) as.textContent = d.total_staff ?? 0;
+    } catch(e) { 
+      console.error('[ANALYTICS] Stats fetch failed:', e);
+      showToast('Analytics stats failed to load.', 'error');
+    }
+
+    // Revenue Trend
+    console.log(`[ANALYTICS] Fetching revenue trend for ${period}...`);
+    const revRes = await api.analytics.revenue(period);
+    console.log('[ANALYTICS] Revenue Response:', revRes);
+    const data = revRes.data || [];
+    
+    if (revTrendEl) {
+      if (!data.length) {
+        revTrendEl.innerHTML = '<p class="text-gray-500 py-12 text-center text-sm">No revenue recorded for this period.</p>';
+        return;
+      }
+
+      const maxRev = Math.max(...data.map(r=>Number(r.revenue)||0), 1);
+      revTrendEl.innerHTML = data.map(r => `
+          <div class="flex items-center gap-4">
+            <span class="text-gray-400 text-xs w-20 truncate">${r.label || r.month || 'Unknown'}</span>
+            <div class="flex-1 h-3 bg-dark-3 rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-gold to-rose rounded-full transition-all duration-1000" style="width:${((Number(r.revenue)||0)/maxRev*100).toFixed(1)}%"></div>
+            </div>
+            <span class="text-white text-xs font-medium w-24 text-right">${formatPrice(r.revenue || 0)}</span>
+          </div>`).join('');
+    }
+  } catch (e) {
+    console.error('[ANALYTICS] Full load failed:', e);
+    if (revTrendEl) revTrendEl.innerHTML = errDiv('Failed to load performance metrics. ' + e.message);
+  }
+}
+
+document.getElementById('revenue-period')?.addEventListener('change', (e) => loadAnalytics(e.target.value));
+
+// ── REVIEWS MODERATION ────────────────────────────────────
+async function loadReviews() {
+  console.log('[REVIEWS] Loading all reviews...');
+  const body = document.getElementById('reviews-table-body');
+  if (!body) return;
+
+  body.innerHTML = '<tr><td colspan="5" class="text-center py-12 text-gray-500"><div class="loader mx-auto mb-2"></div> Loading feedback logs...</td></tr>';
+  
+  try {
+    const res = await api.reviews.getAll();
+    console.log('[REVIEWS] Response:', res);
+    const data = res.data || [];
+    
+    if (!data.length) { 
+      body.innerHTML = '<tr><td colspan="5" class="text-center py-12 text-gray-400 text-sm">No client reviews found in database.</td></tr>'; 
+      return; 
+    }
+    
+    body.innerHTML = data.map(r => `
+      <tr class="border-b border-white/5 hover:bg-white/2 transition-colors">
+        <td class="py-3 px-5">
+          <div class="font-medium text-white text-sm">${r.name || 'Anonymous'}</div>
+          <div class="text-gray-500 text-[10px]">${r.email || 'No email provided'}</div>
+        </td>
+        <td class="py-3 px-4 text-gold text-xs">${'★'.repeat(Number(r.rating)||0)}${'☆'.repeat(5-(Number(r.rating)||0))}</td>
+        <td class="py-3 px-4 text-gray-400 text-xs max-w-xs truncate" title="${r.comment || ''}">${r.comment || 'No comment provided.'}</td>
+        <td class="py-3 px-4">
+          ${r.is_approved 
+            ? '<span class="px-2 py-0.5 rounded-full text-[10px] bg-green-500/20 text-green-300 border border-green-500/30 font-medium">Approved</span>' 
+            : '<span class="px-2 py-0.5 rounded-full text-[10px] bg-yellow-500/20 text-yellow-300 border border-yellow-500/30 font-medium">Pending</span>'}
+        </td>
+        <td class="py-3 px-4 flex gap-2">
+          <button onclick="toggleReviewStatus(${r.id}, ${r.is_approved ? 0 : 1})" title="${r.is_approved ? 'Unapprove' : 'Approve'}" class="text-gray-400 hover:text-gold transition-colors">
+            <i class="fa-solid ${r.is_approved ? 'fa-eye-slash' : 'fa-check'}"></i>
+          </button>
+          <button onclick="deleteReviewAdmin(${r.id})" title="Delete" class="text-gray-400 hover:text-rose transition-colors">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </td>
+      </tr>
+    `).join('');
+  } catch(e) { 
+    console.error('[REVIEWS] Load failed:', e);
+    body.innerHTML = `<tr><td colspan="5" class="text-center py-12 text-rose-400 text-xs py-4 px-5 md:px-10 border border-rose-500/20 rounded bg-rose-500/5">${e.message || 'Failed to fetch reviews.'}</td></tr>`; 
+  }
+}
+
+async function toggleReviewStatus(id, newStatus) {
+  try {
+    await api.reviews.update(id, newStatus);
+    showToast(`Review ${newStatus ? 'approved' : 'unapproved'} successfully!`, 'success');
+    loadReviews();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+async function deleteReviewAdmin(id) {
+  if(!confirm('Delete this review permanently?')) return;
+  try {
+    await api.reviews.delete(id);
+    showToast('Review removed.', 'info');
+    loadReviews();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+// ── Init ──────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  initNavigation();
+  showSection('overview');
+});
+</script>
+</body>
+</html>
