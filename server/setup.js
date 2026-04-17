@@ -26,7 +26,7 @@ const c = (col, str) => `${colors[col]}${str}${colors.reset}`;
 
 async function main() {
   console.log('\n' + c('gold', '═'.repeat(55)));
-  console.log(c('bold', c('gold', '  🌸  Parlour Salon & Spa – Database Setup Wizard')));
+  console.log(c('bold', c('gold', '  Parlour Salon & Spa – Database Setup Wizard')));
   console.log(c('gold', '═'.repeat(55)) + '\n');
 
   // ── Collect credentials ──────────────────────────────────
@@ -41,9 +41,9 @@ async function main() {
   let conn;
   try {
     conn = await mysql.createConnection({ host, port: Number(port), user, password });
-    console.log(c('green', '  ✅  Connected to MySQL successfully!'));
+    console.log(c('green', '  Connected to MySQL successfully!'));
   } catch (err) {
-    console.error(c('red', '\n  ❌  Connection failed: ' + err.message));
+    console.error(c('red', '\n  Connection failed: ' + err.message));
     console.log(c('gray', '  ➜  Check your credentials and try again.\n'));
     rl.close(); process.exit(1);
   }
@@ -52,9 +52,9 @@ async function main() {
   try {
     await conn.query(`CREATE DATABASE IF NOT EXISTS \`${database}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
     await conn.query(`USE \`${database}\``);
-    console.log(c('green', `  ✅  Database '${database}' ready.`));
+    console.log(c('green', `  Database '${database}' ready.`));
   } catch (err) {
-    console.error(c('red', '  ❌  Failed to create database: ' + err.message));
+    console.error(c('red', '  Failed to create database: ' + err.message));
     rl.close(); conn.end(); process.exit(1);
   }
 
@@ -81,7 +81,7 @@ async function main() {
       else { console.warn(c('gray', `    ⚠  ${err.message.slice(0,80)}`)); skip++; }
     }
   }
-  console.log(c('green', `  ✅  Schema applied: ${ok} ok, ${skip} skipped.`));
+  console.log(c('green', `  Schema applied: ${ok} ok, ${skip} skipped.`));
 
   // ── Update .env ──────────────────────────────────────────
   const envPath = path.join(__dirname, '.env');
@@ -99,14 +99,14 @@ async function main() {
   envContent = update(envContent, 'DB_NAME',     database);
 
   fs.writeFileSync(envPath, envContent);
-  console.log(c('green', '  ✅  server/.env updated with your credentials.'));
+  console.log(c('green', '  server/.env updated with your credentials.'));
 
   // ── Done ─────────────────────────────────────────────────
   await conn.end();
   rl.close();
 
   console.log('\n' + c('gold', '═'.repeat(55)));
-  console.log(c('bold', c('green', '  🎉  Setup complete! Next steps:')));
+  console.log(c('bold', c('green', '  Setup complete! Next steps:')));
   console.log(c('gold', '═'.repeat(55)));
   console.log(c('cyan', '\n  1. Start the server:'));
   console.log(c('gray', '       cd server && npm run dev\n'));
@@ -115,7 +115,7 @@ async function main() {
   console.log(c('cyan', '  3. Admin login:'));
   console.log(c('gray', '       Email:    admin@parlour.com'));
   console.log(c('gray', '       Password: Admin@123\n'));
-  console.log(c('gold', '  🌸  Enjoy Parlour!\n'));
+  console.log(c('gold', '  Enjoy Parlour!\n'));
 }
 
 main().catch(err => { console.error(err); process.exit(1); });

@@ -113,7 +113,7 @@ app.use('/api/payments', paymentRoutes);
 app.get('/api/status', (req, res) => {
   res.json({
     success: true,
-    message: '🌸 Parlour API is running',
+    message: 'Parlour API is running',
     environment: process.env.NODE_ENV || 'development',
     uptime: `${Math.floor(process.uptime())}s`,
     memory: `${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB`,
@@ -150,7 +150,7 @@ const { sendReminders } = require('./controllers/reminderController');
 
 // Run appointment reminders daily at 9:00 AM
 cron.schedule('0 9 * * *', async () => {
-  console.log('⏰ Running scheduled appointment reminders...');
+  console.log('Running scheduled appointment reminders...');
   try {
     // Call controller function (handles null res gracefully)
     await sendReminders(null, null, (err) => console.error('Cron Reminder Error:', err));
@@ -161,20 +161,20 @@ cron.schedule('0 9 * * *', async () => {
 
 // ── START SERVER ──────────────────────────────────────────
 const server = app.listen(PORT, () => {
-  console.log(`\n🌸 Parlour Server running on http://localhost:${PORT}`);
-  console.log(`📋 API Base: http://localhost:${PORT}/api`);
-  console.log(`🌐 Client: http://localhost:${PORT}`);
-  console.log(`⏰ Scheduled Jobs: Daily Reminders at 09:00 AM\n`);
+  console.log(`\nParlour Server running on http://localhost:${PORT}`);
+  console.log(`API Base: http://localhost:${PORT}/api`);
+  console.log(`Client: http://localhost:${PORT}`);
+  console.log(`Scheduled Jobs: Daily Reminders at 09:00 AM\n`);
 });
 
 // ── GRACEFUL SHUTDOWN (cloud-ready) ──────────────────────
 const shutdown = (signal) => {
-  console.log(`\n🛑 ${signal} received. Shutting down gracefully...`);
+  console.log(`\n${signal} received. Shutting down gracefully...`);
   server.close(() => {
-    console.log('✅ HTTP server closed.');
+    console.log('HTTP server closed.');
     process.exit(0);
   });
-  setTimeout(() => { console.error('⚠️ Forced shutdown.'); process.exit(1); }, 10000);
+  setTimeout(() => { console.error('Forced shutdown.'); process.exit(1); }, 10000);
 };
 process.on('SIGTERM', () => shutdown('SIGTERM'));
 process.on('SIGINT', () => shutdown('SIGINT'));

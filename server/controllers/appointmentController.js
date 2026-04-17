@@ -172,7 +172,7 @@ const createAppointment = async (req, res, next) => {
     );
 
     if (existing.length > 0) {
-      console.warn(`🕒 Duplicate booking attempt blocked for user ${customer_id}`);
+      console.warn(`Duplicate booking attempt blocked for user ${customer_id}`);
       return res.status(409).json({ 
         success: false, 
         message: 'A duplicate booking was detected. Please check your dashboard.' 
@@ -183,7 +183,7 @@ const createAppointment = async (req, res, next) => {
     const now = new Date();
     const bookingDateTime = new Date(`${appointment_date}T${start_time}`);
     if (bookingDateTime < now) {
-      console.warn(`❌ Past-time booking attempt blocked: ${appointment_date} ${start_time}`);
+      console.warn(`Past-time booking attempt blocked: ${appointment_date} ${start_time}`);
       return res.status(400).json({
         success: false,
         message: "Cannot book past time slots"
@@ -282,30 +282,30 @@ const createAppointment = async (req, res, next) => {
       try {
         const emailTasks = [];
 
-        // 📧 Customer Confirmation (Direct Object)
+        // Customer Confirmation (Direct Object)
         if (customerEmail && customerEmail.includes("@")) {
           const customerMailOptions = {
             from: `"Parlour Salon & Spa" <${process.env.EMAIL_USER}>`,
             to: customerEmail,
-            subject: "Your Appointment is Confirmed 💇‍♀️",
-            text: `Hi ${customerName},\n\nYour appointment for ${serviceName} with ${staffName} is confirmed!\n\n📅 Date: ${formattedDate}\n⏰ Time: ${formattedTime}\n\nWe look forward to seeing you at Parlour.`,
+            subject: "Your Appointment is Confirmed",
+            text: `Hi ${customerName},\n\nYour appointment for ${serviceName} with ${staffName} is confirmed!\n\nDate: ${formattedDate}\nTime: ${formattedTime}\n\nWe look forward to seeing you at Parlour.`,
             html: `
               <div style="font-family:Arial;padding:20px;border:1px solid #eee">
                 <h2 style="color:#c9a05a">Parlour Salon & Spa</h2>
-                <p>Hi ${customerName},<br><br>Your appointment for <b>${serviceName}</b> with <b>${staffName}</b> is confirmed!<br><br>📅 <b>Date:</b> ${formattedDate}<br>⏰ <b>Time:</b> ${formattedTime}<br><br>We look forward to seeing you at Parlour.</p>
+                <p>Hi ${customerName},<br><br>Your appointment for <b>${serviceName}</b> with <b>${staffName}</b> is confirmed!<br><br><b>Date:</b> ${formattedDate}<br><b>Time:</b> ${formattedTime}<br><br>We look forward to seeing you at Parlour.</p>
                 <hr/><small>This is an automated email. Please do not reply.</small>
               </div>
             `
           };
-          console.log("📧 Sending to customer:", customerEmail);
+          console.log("Sending to customer:", customerEmail);
           emailTasks.push(transporter.sendMail(customerMailOptions).then(() => {
             console.log("Email sent to customer:", customerEmail);
           }));
         } else {
-          console.log("⚠️ Invalid customer email, skipping email sending");
+          console.log("Invalid customer email, skipping email sending");
         }
 
-        // 📧 Admin Notification (Direct Object)
+        // Admin Notification (Direct Object)
         const adminMailOptions = {
           from: `"Parlour Salon & Spa" <${process.env.EMAIL_USER}>`,
           to: adminEmail,
@@ -314,13 +314,13 @@ const createAppointment = async (req, res, next) => {
           html: `
             <div style="font-family:Arial;padding:20px;border:1px solid #eee">
               <h2 style="color:#c9a05a">New Booking Alert</h2>
-              <p>A new booking has been received:<br><br>👤 <b>Customer:</b> ${customerName}<br>✂️ <b>Service:</b> ${serviceName}<br>📅 <b>Date:</b> ${formattedDate}<br>⏰ <b>Time:</b> ${formattedTime}<br>💇‍♂️ <b>Staff:</b> ${staffName}</p>
+              <p>A new booking has been received:<br><br>Customer: <b>${customerName}</b><br>Service: <b>${serviceName}</b><br>Date: <b>${formattedDate}</b><br>Time: <b>${formattedTime}</b><br>Staff: <b>${staffName}</b></p>
               <hr/><small>Admin notification system</small>
             </div>
           `
         };
 
-        console.log("📧 Sending to admin:", adminMailOptions.to);
+        console.log("Sending to admin:", adminMailOptions.to);
         emailTasks.push(transporter.sendMail(adminMailOptions).then(() => {
           console.log("Email sent to admin:", adminMailOptions.to);
         }));

@@ -209,7 +209,13 @@ async function loadStaff() {
                 <div class="avatar-ring mx-auto mb-4"><div class="avatar-inner">${name[0]}</div></div>
                 <h3 class="font-semibold text-white mb-0.5">${name}</h3>
                 <p class="text-gold-light text-xs mb-2">${['Hair Specialist','Skin Expert','Nail Artist','Massage Therapist'][i]}</p>
-                <div class="star-rating text-xs mb-3">★★★★★</div>
+                <div class="star-rating text-[10px] mb-3 flex gap-0.5 justify-center">
+                  <i class="fa-solid fa-star text-gold"></i>
+                  <i class="fa-solid fa-star text-gold"></i>
+                  <i class="fa-solid fa-star text-gold"></i>
+                  <i class="fa-solid fa-star text-gold"></i>
+                  <i class="fa-solid fa-star text-gold"></i>
+                </div>
                 <a href="booking.html" class="btn-gold w-full justify-center text-xs py-1.5 block text-center mt-3">Book Appointment</a>
               </div>`).join('')}
           </div>
@@ -226,7 +232,9 @@ async function loadStaff() {
         <h3 class="font-serif text-xl text-white mb-0.5">${m.specialization || "Staff Member"}</h3>
         <p class="text-gold-light text-xs mb-1 tracking-wide uppercase">${m.specialization || 'Beauty Specialist'}</p>
         <p class="text-gray-500 text-xs mb-3">${m.experience_yrs || 0}+ years experience</p>
-        <div class="star-rating text-sm mb-3">${'★'.repeat(Math.min(5,Math.round(m.rating||5)))}</div>
+        <div class="star-rating text-[10px] mb-3 flex gap-0.5 justify-center">
+          ${Array(5).fill(0).map((_, i) => `<i class="fa-${i < Math.min(5, Math.round(m.rating || 5)) ? 'solid' : 'regular'} fa-star text-gold"></i>`).join('')}
+        </div>
         <p class="text-gray-400 text-xs mb-4 line-clamp-2">${m.bio || "No description available"}</p>
         <div class="flex flex-wrap gap-1 justify-center mb-4">
           ${(m.services||[]).slice(0,3).map(s=>`<span class="bg-dark-3 text-gray-400 text-[10px] px-2 py-0.5 rounded-full border border-white/5">${s.name}</span>`).join('')}

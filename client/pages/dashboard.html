@@ -1191,7 +1191,7 @@ async function loadReviews() {
           <div class="font-medium text-white text-sm">${r.name || 'Anonymous'}</div>
           <div class="text-gray-500 text-[10px]">${r.email || 'No email provided'}</div>
         </td>
-        <td class="py-3 px-4 text-gold text-xs">${'★'.repeat(Number(r.rating)||0)}${'☆'.repeat(5-(Number(r.rating)||0))}</td>
+        <td class="py-3 px-4 text-gold text-[10px]"><div class="flex gap-0.5">${Array(5).fill(0).map((_, i) => `<i class="fa-${i < (Number(r.rating)||0) ? 'solid' : 'regular'} fa-star"></i>`).join('')}</div></td>
         <td class="py-3 px-4 text-gray-400 text-xs max-w-xs truncate" title="${r.comment || ''}">${r.comment || 'No comment provided.'}</td>
         <td class="py-3 px-4">
           ${r.is_approved 

@@ -548,7 +548,7 @@
               <div>
                 <div class="font-semibold text-white text-sm">${m.name || "Staff Member"}</div>
                 <div class="text-gold-light text-xs">${m.specialization || 'Stylist'}</div>
-                <div class="text-yellow-400 text-xs">${'★'.repeat(Math.round(m.rating || 5))}</div>
+                <div class="text-yellow-400 text-[10px] flex gap-0.5">${Array(5).fill(0).map((_, i) => `<i class="fa-${i < Math.round(m.rating || 5) ? 'solid' : 'regular'} fa-star"></i>`).join('')}</div>
               </div>
             </div>
           </label>

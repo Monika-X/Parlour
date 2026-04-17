@@ -31,7 +31,7 @@ const sendReminders = async (req, res, next) => {
       await sendNotification({
         to: { email: appt.email, phone: appt.phone },
         subject: 'Friendly Reminder: Your Appointment Tomorrow! - Parlour',
-        message: `Hi ${appt.customer_name},\n\nJust a friendly reminder of your appointment at Parlour Salon & Spa tomorrow!\n\n✨ Service: ${appt.service_name}\n⏰ Time: ${appt.start_time}\n\nWe can't wait to see you!`,
+        message: `Hi ${appt.customer_name},\n\nJust a friendly reminder of your appointment at Parlour Salon & Spa tomorrow!\n\nService: ${appt.service_name}\nTime: ${appt.start_time}\n\nWe can't wait to see you!`,
         type: 'all'
       });
       sentCount++;
@@ -44,11 +44,11 @@ const sendReminders = async (req, res, next) => {
         sent: sentCount
       });
     } else {
-      console.log(`✅ [CRON] Successfully processed ${reminders.length} reminders.`);
+      console.log(`[CRON] Successfully processed ${reminders.length} reminders.`);
     }
   } catch (err) {
     if (res) return next(err);
-    console.error('❌ Reminder Job Error:', err.message);
+    console.error('Reminder Job Error:', err.message);
   }
 };
 

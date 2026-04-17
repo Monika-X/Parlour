@@ -25,9 +25,9 @@ if (emailUser && emailPass) {
     },
   });
 
-  console.log('📧 Email service initialized (SMTP mode)');
+  console.log('Email service initialized (SMTP mode)');
 } else {
-  console.log('⚠️ Email service running in CONSOLE MODE (no SMTP credentials)');
+  console.log('Email service running in CONSOLE MODE (no SMTP credentials)');
 }
 
 /**
@@ -39,7 +39,7 @@ const sendNotification = async ({ to, subject, message, type = 'all' }) => {
   const tasks = [];
 
   if (!to) {
-    console.warn('⚠️ No recipient provided');
+    console.warn('No recipient provided');
     return [];
   }
 
@@ -73,7 +73,7 @@ const sendEmail = async (email, subject, text) => {
     // 🔥 DEV MODE → Console fallback
     if (!transporter) {
       console.log(`
-📧 [EMAIL CONSOLE MODE]
+[EMAIL CONSOLE MODE]
 To: ${email}
 Subject: ${subject}
 Message:
@@ -99,11 +99,11 @@ ${text}
       `,
     });
 
-    console.log(`✅ Email sent: ${email} (${info.messageId})`);
+    console.log(`Email sent: ${email} (${info.messageId})`);
 
     return { success: true, messageId: info.messageId };
   } catch (err) {
-    console.error('❌ Email error:', err.message);
+    console.error('Email error:', err.message);
     return { success: false, error: err.message };
   }
 };
@@ -114,7 +114,7 @@ ${text}
  * ─────────────────────────────────────────────
  */
 const mockWhatsApp = async (phone, message) => {
-  console.log(`🟢 [WHATSAPP MOCK] ${phone} → ${message}`);
+  console.log(`[WHATSAPP MOCK] ${phone} → ${message}`);
   return { success: true, service: 'whatsapp' };
 };
 
@@ -124,7 +124,7 @@ const mockWhatsApp = async (phone, message) => {
  * ─────────────────────────────────────────────
  */
 const mockSMS = async (phone, message) => {
-  console.log(`📱 [SMS MOCK] ${phone} → ${message}`);
+  console.log(`[SMS MOCK] ${phone} → ${message}`);
   return { success: true, service: 'sms' };
 };
 

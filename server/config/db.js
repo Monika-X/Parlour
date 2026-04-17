@@ -25,10 +25,10 @@ const pool = mysql.createPool({
 (async () => {
   try {
     const conn = await pool.getConnection();
-    console.log('✅  MySQL connected – database:', process.env.DB_NAME);
+    console.log('MySQL connected – database:', process.env.DB_NAME);
     conn.release();
   } catch (err) {
-    console.warn('⚠️   MySQL not connected:', err.message);
+    console.warn('MySQL not connected:', err.message);
     console.warn('     ➜  Edit server/.env and set DB_PASSWORD, then restart.');
     console.warn('     ➜  Frontend is still served at http://localhost:5000\n');
     // Do NOT exit – frontend is still fully servable without DB

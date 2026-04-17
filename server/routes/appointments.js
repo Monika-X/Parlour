@@ -25,7 +25,7 @@ router.get('/available', getAvailableSlots);
 
 // Create (any logged-in user)
 router.post('/',
-  protect,   // ✅ FIRST AUTH
+  protect,   // FIRST AUTH
   [
     body('staff_id').isInt().withMessage('staff_id required'),
     body('service_id').isInt().withMessage('service_id required'),

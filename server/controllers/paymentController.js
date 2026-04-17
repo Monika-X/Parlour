@@ -27,7 +27,7 @@ const createPaymentIntent = async (req, res, next) => {
 
     // If Stripe keys are placeholders, return a mocked successful response
     if (!process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY.includes('placeholder')) {
-      console.warn("⚠️ Using Mock Stripe Payment Intent (No real keys configured)");
+      console.warn("Using Mock Stripe Payment Intent (No real keys configured)");
       return res.status(200).json({
         success: true,
         clientSecret: 'mock_client_secret_for_ui_testing',
