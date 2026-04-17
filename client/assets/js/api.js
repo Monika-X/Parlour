@@ -29,9 +29,11 @@ const api = {
 
   // ── Auth ────────────────────────────────────
   auth: {
-    login:    (payload) => api.request('/auth/login',    'POST', payload),
-    register: (payload) => api.request('/auth/register', 'POST', payload),
-    profile:  ()        => api.request('/auth/profile'),
+    login:          (payload) => api.request('/auth/login',          'POST', payload),
+    register:       (payload) => api.request('/auth/register',       'POST', payload),
+    profile:        ()        => api.request('/auth/profile'),
+    forgotPassword: (payload) => api.request('/auth/forgot-password', 'POST', payload),
+    resetPassword:  (payload) => api.request('/auth/reset-password',  'POST', payload),
   },
 
   // ── Services ────────────────────────────────
