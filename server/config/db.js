@@ -21,17 +21,32 @@ const pool = mysql.createPool({
   timezone: '+05:30',
 });
 
-// Test connection on startup (non-fatal – server stays up for frontend preview)
+// Test connection on startup and run light migrations
 (async () => {
   try {
     const conn = await pool.getConnection();
-    console.log('MySQL connected – database:', process.env.DB_NAME);
+    console.log('MySQL connected – database:', process.env.DB_NAME || 'railway');
+    
+    // Light Migration: Ensure is_approved column exists in reviews
+    try {
+      const [columns] = await conn.query('SHOW COLUMNS FROM reviews');
+      const hasApproved = columns.some(c => c.Field === 'is_approved');
+      if (!hasApproved) {
+        console.log('Migration: Adding is_approved column to reviews...');
+        await conn.query('ALTER TABLE reviews ADD COLUMN is_approved TINYINT(1) DEFAULT 0 AFTER comment');
+        
+        // Approve existing reviews if any, so they appear immediately
+        await conn.query('UPDATE reviews SET is_approved = 1');
+      }
+    } catch (migErr) {
+      console.warn('Migration check skipped or failed:', migErr.message);
+    }
+
     conn.release();
   } catch (err) {
     console.warn('MySQL not connected:', err.message);
     console.warn('     ➜  Edit server/.env and set DB_PASSWORD, then restart.');
     console.warn('     ➜  Frontend is still served at http://localhost:5000\n');
-    // Do NOT exit – frontend is still fully servable without DB
   }
 })();
 
