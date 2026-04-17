@@ -49,6 +49,17 @@ CREATE TABLE IF NOT EXISTS staff (
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS staff_schedules (
+  id           INT AUTO_INCREMENT PRIMARY KEY,
+  staff_id     INT NOT NULL,
+  day_of_week  TINYINT NOT NULL, -- 0 (Sun) to 6 (Sat)
+  start_time   TIME DEFAULT '09:00:00',
+  end_time     TIME DEFAULT '18:00:00',
+  is_off       TINYINT(1) DEFAULT 0,
+  UNIQUE KEY (staff_id, day_of_week),
+  FOREIGN KEY (staff_id) REFERENCES staff(id) ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS staff_services (
   staff_id   INT NOT NULL,
   service_id INT NOT NULL,
