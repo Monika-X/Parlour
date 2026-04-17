@@ -846,7 +846,7 @@
         const res = await api.appointments.create(payload);
         console.log('[BOOKING SUCCESS]', res);
 
-        showToast('🌸 Appointment booked successfully!', 'success');
+        showToast('Appointment booked successfully!', 'success');
         btn.innerHTML = '<i class="fa-solid fa-check"></i> Booked';
 
         // 5. Reset internal state

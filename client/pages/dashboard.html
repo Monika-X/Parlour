@@ -752,7 +752,7 @@ document.getElementById('reschedule-form').addEventListener('submit', async (e) 
     const res = await api.appointments.reschedule(document.getElementById('resch-appt-id').value, data);
     console.log('[DEBUG] Admin Reschedule API Response:', res);
     
-    showToast('Appointment rescheduled successfully! 🌸', 'success');
+    showToast('Appointment rescheduled successfully!', 'success');
     closeRescheduleModal();
     
     // Always re-fetch updated data with current filters
@@ -1104,7 +1104,7 @@ if (scheduleSaveBtn) {
 
     try {
       await api.staff.updateSchedule(currentScheduleStaffId, schedule);
-      showToast('Weekly schedule updated! 📅', 'success');
+      showToast('Weekly schedule updated!', 'success');
       closeScheduleModal();
     } catch(e) { showToast(e.message, 'error'); }
     scheduleSaveBtn.disabled = false; 

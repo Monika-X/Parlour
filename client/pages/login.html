@@ -111,7 +111,7 @@
         <!-- LOGIN FORM -->
         <div id="form-login" class="glass-card p-8">
           <div class="text-center mb-6">
-            <div class="text-4xl mb-2">🌸</div>
+            <div class="text-4xl mb-2 text-gold"><i class="fa-solid fa-spa"></i></div>
             <h2 class="font-serif text-3xl text-white">Welcome Back</h2>
             <p class="text-gray-400 text-sm mt-1">Sign in to your Parlour account</p>
           </div>
@@ -147,7 +147,7 @@
         <!-- REGISTER FORM -->
         <div id="form-register" class="glass-card p-8 hidden">
           <div class="text-center mb-6">
-            <div class="text-4xl mb-2">✨</div>
+            <div class="text-4xl mb-2 text-gold"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
             <h2 class="font-serif text-3xl text-white">Create Account</h2>
             <p class="text-gray-400 text-sm mt-1">Join Parlour to book your first appointment</p>
           </div>
@@ -369,7 +369,7 @@
         localStorage.setItem('token', data.token);
         api.setToken(data.token);
         api.setUser(data.user);
-        showToast(`Welcome back, ${data.user.name.split(' ')[0]}! 🌸`, 'success');
+        showToast(`Welcome back, ${data.user.name.split(' ')[0]}!`, 'success');
         setTimeout(() => {
           window.location.href = data.user.role === 'admin' ? 'dashboard.html' : 'user-dashboard.html';
         }, 1200);
@@ -402,7 +402,7 @@
         localStorage.setItem('token', data.token);
         api.setToken(data.token);
         api.setUser(data.user);
-        showToast('Account created successfully! Welcome 🌸', 'success');
+        showToast('Account created successfully! Welcome', 'success');
         setTimeout(() => {
           window.location.href = data.user.role === 'admin' ? 'dashboard.html' : 'user-dashboard.html';
         }, 1200);
@@ -443,7 +443,7 @@
       btn.innerHTML = '<span class="loader"></span> Sending…'; btn.disabled = true;
       try {
         await api.auth.forgotPassword({ email });
-        showToast('Reset link sent to your email! 📧', 'success');
+        showToast('Reset link sent to your email!', 'success');
         toggleForgot(false);
       } catch(err) {
         showToast(err.message, 'error');

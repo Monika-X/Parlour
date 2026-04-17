@@ -86,6 +86,7 @@
 <section class="hero-gradient pt-32 pb-16 relative overflow-hidden">
   <div class="orb w-72 h-72 bg-rose/8 top-0 right-0 pointer-events-none"></div>
   <div class="max-w-[1850px] mx-auto px-5 md:px-10 text-center">
+    <div class="w-24 h-24 rounded-full bg-gold/10 flex items-center justify-center text-gold mx-auto mb-6 border border-gold/20 shadow-lg shadow-gold/5"><i class="fa-solid fa-people-group text-gold text-5xl"></i></div>
     <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gold/30 bg-gold/5 text-gold-light text-xs font-medium tracking-widest uppercase mb-4">
       <i class="fa-solid fa-users text-gold"></i> The Experts
     </div>
@@ -107,7 +108,7 @@
 <section class="py-20 bg-dark-2 relative overflow-hidden">
   <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(201,160,90,0.06),transparent)]"></div>
   <div class="max-w-3xl mx-auto px-5 md:px-10 text-center relative z-10 reveal">
-    <div class="text-4xl mb-4">💼</div>
+    <div class="text-4xl mb-4"><i class="fa-solid fa-briefcase text-gold"></i></div>
     <h2 class="font-serif text-4xl text-white mb-4">Want to Join Our <span class="gold-text">Team?</span></h2>
     <p class="text-gray-400 mb-6">We're always looking for passionate beauty professionals to grow with us.</p>
     <a href="contact.html" class="btn-gold px-8 py-3"><i class="fa-solid fa-paper-plane"></i> Get In Touch</a>
@@ -200,9 +201,8 @@ async function loadStaff() {
     if (!staff.length) {
       grid.innerHTML = `
         <div class="col-span-full text-center py-16">
-          <div class="text-6xl mb-4">👋</div>
-          <h3 class="font-serif text-3xl text-white mb-2">Team Coming Soon</h3>
-          <p class="text-gray-400 mb-6">Our expert stylists will be listed here. Start the server to load real data.</p>
+          <div class="text-6xl mb-4"><i class="fa-solid fa-user-clock text-gold/30"></i></div>
+          <div class="glass-card p-6 inline-block"><h4 class="text-white font-medium mb-2"><i class="fa-solid fa-briefcase text-gold mr-2"></i> Join Our Team</h4><p class="text-gray-400 text-xs">We're always looking for talented stylists. <a href="contact.html" class="text-gold-light hover:underline font-bold">Apply Now</a></p></div>
           <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
             ${['Priya Menon','Rahul Sharma','Anita Kapoor','Suresh Nair'].map((name,i)=>`
               <div class="glass-card staff-card p-6 text-center reveal" style="transition-delay:${i*0.1}s">

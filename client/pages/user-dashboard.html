@@ -439,6 +439,7 @@ async function loadAppointments() {
             <span class="text-[10px] text-gold-light tracking-widest uppercase mt-1">${['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'][parseInt(a.appointment_date.substring(5,7))-1]}</span>
           </div>
           <div>
+            <div class="text-4xl mb-2 text-gold"><i class="fa-solid fa-spa"></i></div>
             <h4 class="font-semibold text-white text-base">${a.service_name}</h4>
             <div class="text-gray-400 text-xs mt-1.5"><i class="fa-solid fa-clock text-gold mr-1"></i> ${a.start_time.substring(0,5)} • with <span class="text-gray-300 font-medium">${a.staff_name}</span></div>
           </div>
@@ -482,7 +483,7 @@ document.getElementById('profile-form').addEventListener('submit', async(e) => {
     if(window.updateAuthNav) window.updateAuthNav();
     document.getElementById('prof-name').textContent = user.name;
     
-    showToast('Preferences updated successfully 🌸', 'success');
+    showToast('Preferences updated successfully.', 'success');
   } catch(e) {
     showToast(e.message, 'error');
   }
@@ -548,7 +549,7 @@ document.getElementById('reschedule-form').addEventListener('submit', async (e) 
     const res = await api.appointments.rescheduleMy(document.getElementById('resch-appt-id').value, data);
     console.log('[DEBUG] Reschedule API Response:', res);
     
-    showToast('Appointment rescheduled successfully! 🌸', 'success');
+    showToast('Appointment rescheduled successfully!', 'success');
     closeReschModal();
     
     // Always re-fetch updated data
