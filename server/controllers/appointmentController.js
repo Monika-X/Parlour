@@ -238,12 +238,13 @@ const createAppointment = async (req, res, next) => {
       );
     }
 
-    const { payment_intent_id } = req.body;
+    const { payment_intent_id, status: providedStatus } = req.body;
+    const status = providedStatus || 'confirmed';
 
     const [result] = await pool.query(
       `INSERT INTO appointments (customer_id, staff_id, service_id, appointment_date, start_time, end_time, status, total_price, notes, payment_intent_id)
-       VALUES (?, ?, ?, ?, ?, ?, 'confirmed', ?, ?, ?)`,
-      [resolvedCustomerId, finalStaffId, service_id, appointment_date, start_time, end_time, price, req.body.notes || null, payment_intent_id || null]
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [resolvedCustomerId, finalStaffId, service_id, appointment_date, start_time, end_time, status, price, req.body.notes || null, payment_intent_id || null]
     );
 
     // --- PART 1: EMAIL FIX (PARALLEL & EXPLICIT) ---

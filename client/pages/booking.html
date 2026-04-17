@@ -243,22 +243,49 @@
                 <!-- Filled by JS -->
               </div>
 
+              <!-- Payment Choice -->
+              <div id="payment-choice-container" class="mb-6 hidden">
+                <label class="form-label mb-3">Select Payment Method</label>
+                <div class="grid grid-cols-2 gap-4">
+                  <label class="cursor-pointer group">
+                    <input type="radio" name="pay_method" value="salon" class="sr-only" checked />
+                    <div class="pay-card glass-card p-4 text-center border-gold/40 bg-gold/5 group-hover:border-gold/60 transition-all">
+                      <div class="text-2xl mb-1 text-gold"><i class="fa-solid fa-receipt"></i></div>
+                      <div class="text-white font-medium text-sm">Pay at Salon</div>
+                      <div class="text-gray-500 text-[10px]">No instant payment</div>
+                    </div>
+                  </label>
+                  <label class="cursor-pointer group">
+                    <input type="radio" name="pay_method" value="online" class="sr-only" />
+                    <div class="pay-card glass-card p-4 text-center border-white/10 group-hover:border-gold/40 transition-all">
+                      <div class="text-2xl mb-1 text-gold"><i class="fa-solid fa-globe"></i></div>
+                      <div class="text-white font-medium text-sm">Pay Online</div>
+                      <div class="text-gray-500 text-[10px]">Secure with Stripe</div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
               <!-- Login check -->
               <div id="login-required"
-                class="hidden p-4 rounded-xl bg-rose/10 border border-rose/30 mb-4 text-sm text-rose-light">
+                class="hidden p-4 rounded-xl bg-rose/10 border border-rose/30 mb-4 text-sm text-rose-light text-center">
                 <i class="fa-solid fa-lock mr-2"></i>
-                Please <a href="login.html" class="underline text-gold-light">login or register</a> to confirm your
-                booking.
+                Please <a href="login.html" class="underline text-gold-light font-bold">Sign In / Register</a> to book this appointment.
               </div>
 
               <!-- Payment Section -->
               <div id="payment-section" class="hidden mb-6">
-                <h3 class="font-serif text-lg text-white mb-3"><i class="fa-solid fa-credit-card text-gold mr-2"></i>Payment Details</h3>
-                <div class="p-4 rounded-xl bg-dark-3 border border-white/10">
-                  <div id="payment-element">
-                    <!-- Stripe.js injects the Payment Element -->
+                <div id="stripe-container" class="hidden">
+                  <h3 class="font-serif text-lg text-white mb-3"><i class="fa-solid fa-credit-card text-gold mr-2"></i>Card Details</h3>
+                  <div class="p-4 rounded-xl bg-dark-3 border border-white/10">
+                    <div id="payment-element">
+                      <!-- Stripe.js injects the Payment Element -->
+                    </div>
+                    <div id="payment-error" class="hidden mt-3 text-sm text-rose-400"></div>
                   </div>
-                  <div id="payment-error" class="hidden mt-3 text-sm text-rose-400"></div>
+                </div>
+                <div id="salon-info" class="p-4 rounded-xl bg-gold/5 border border-gold/20 text-xs text-gray-400">
+                  <i class="fa-solid fa-info-circle text-gold mr-1"></i> You will pay at the salon after your service. Your appointment will be confirmed instantly.
                 </div>
               </div>
 
@@ -270,7 +297,7 @@
                 <button type="button" id="back-4" class="btn-outline flex-1 py-3 justify-center"><i
                     class="fa-solid fa-arrow-left"></i> Back</button>
                 <button type="submit" id="submit-btn" class="btn-gold flex-1 py-3 justify-center">
-                  <i class="fa-solid fa-check"></i> Pay & Confirm
+                  <i class="fa-solid fa-calendar-check"></i> Book Now
                 </button>
               </div>
             </div>
@@ -680,39 +707,76 @@
 
       if (!user) {
         document.getElementById('login-required').classList.remove('hidden');
+        document.getElementById('payment-choice-container').classList.add('hidden');
         document.getElementById('payment-section').classList.add('hidden');
         submitBtn.disabled = true;
         submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
       } else {
         document.getElementById('login-required').classList.add('hidden');
-        submitBtn.disabled = true; // Disabled until payment loads
-        submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        document.getElementById('payment-choice-container').classList.remove('hidden');
         document.getElementById('payment-section').classList.remove('hidden');
-        document.getElementById('payment-element').innerHTML = '<div class="text-center py-4 text-sm text-gray-400"><span class="loader align-middle mr-2 mt-[-2px]" style="width:14px;height:14px;border-width:2px"></span>Initializing secure payment...</div>';
+        
+        // Handle method toggle
+        const radios = document.querySelectorAll('input[name="pay_method"]');
+        const stripeCont = document.getElementById('stripe-container');
+        const salonInfo = document.getElementById('salon-info');
+        
+        const updateUI = async () => {
+          const method = document.querySelector('input[name="pay_method"]:checked').value;
+          radios.forEach(r => {
+            const card = r.closest('label').querySelector('.pay-card');
+            if(r.checked) { card.classList.add('border-gold/40', 'bg-gold/5'); card.classList.remove('border-white/10'); }
+            else { card.classList.remove('border-gold/40', 'bg-gold/5'); card.classList.add('border-white/10'); }
+          });
 
-        try {
-          const res = await api.payments.createIntent({ service_id: state.serviceId });
-          
-          if (res.mock) {
-            document.getElementById('payment-element').innerHTML = '<div class="text-center py-4 text-sm text-gold-light"><i class="fa-solid fa-vial mr-2"></i>Test Mode: Payment will be bypassed.</div>';
-            state.paymentIntentId = 'mock_payment_id';
-            submitBtn.disabled = false;
-            submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-          } else if (res.clientSecret && Stripe) {
-            stripe = Stripe(res.publishableKey);
-            const appearance = { theme: 'night', variables: { colorPrimary: '#c9a05a', colorBackground: '#1e1e1e', colorText: '#d1d5db' } };
-            elements = stripe.elements({ clientSecret: res.clientSecret, appearance });
-            const paymentElement = elements.create('payment');
-            document.getElementById('payment-element').innerHTML = ''; // clear loader
-            paymentElement.mount('#payment-element');
-            state.paymentIntentId = res.clientSecret; // We store it to check if it's mock
+          if(method === 'online') {
+            stripeCont.classList.remove('hidden');
+            salonInfo.classList.add('hidden');
+            submitBtn.innerHTML = '<i class="fa-solid fa-credit-card"></i> Pay & Confirm';
+            if(!state.stripeInitialized) await initStripe();
+          } else {
+            stripeCont.classList.add('hidden');
+            salonInfo.classList.remove('hidden');
+            submitBtn.innerHTML = '<i class="fa-solid fa-calendar-check"></i> Book Now';
             submitBtn.disabled = false;
             submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
           }
-        } catch (err) {
-          console.error("Payment Error:", err);
-          document.getElementById('payment-element').innerHTML = '<div class="text-sm text-rose-400 py-3 text-center">Payment system unavailable. Please try again later.</div>';
+        };
+
+        radios.forEach(r => r.addEventListener('change', updateUI));
+        await updateUI();
+      }
+    }
+
+    async function initStripe() {
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      document.getElementById('payment-element').innerHTML = '<div class="text-center py-4 text-sm text-gray-400"><span class="loader align-middle mr-2 mt-[-2px]" style="width:14px;height:14px;border-width:2px"></span>Initializing secure payment...</div>';
+
+      try {
+        const res = await api.payments.createIntent({ service_id: state.serviceId });
+        state.stripeInitialized = true;
+        
+        if (res.mock) {
+          document.getElementById('payment-element').innerHTML = '<div class="text-center py-4 text-sm text-gold-light"><i class="fa-solid fa-vial mr-2"></i>Test Mode: Payment will be bypassed.</div>';
+          state.paymentIntentId = 'mock_payment_id';
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        } else if (res.clientSecret && Stripe) {
+          stripe = Stripe(res.publishableKey);
+          const appearance = { theme: 'night', variables: { colorPrimary: '#c9a05a', colorBackground: '#1e1e1e', colorText: '#d1d5db' } };
+          elements = stripe.elements({ clientSecret: res.clientSecret, appearance });
+          const paymentElement = elements.create('payment');
+          document.getElementById('payment-element').innerHTML = ''; 
+          paymentElement.mount('#payment-element');
+          state.paymentIntentId = res.clientSecret;
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
         }
+      } catch (err) {
+        console.error("Payment Error:", err);
+        document.getElementById('payment-element').innerHTML = '<div class="text-sm text-rose-400 py-3 text-center">Payment system unavailable. Please try again later.</div>';
       }
     }
 
@@ -758,13 +822,13 @@
       window.isBooking = true;
 
       try {
-        // 5. Stripe Payment Processing
-        if (state.paymentIntentId !== 'mock_payment_id' && stripe && elements) {
+        const method = document.querySelector('input[name="pay_method"]:checked').value;
+        
+        // 5. Stripe Payment Processing (only if online)
+        if (method === 'online' && state.paymentIntentId !== 'mock_payment_id' && stripe && elements) {
           const { error } = await stripe.confirmPayment({
             elements,
-            confirmParams: {
-              // Redirect behaves like a redirect. Returning here if there's no immediate failure.
-            },
+            confirmParams: { },
             redirect: 'if_required' 
           });
 
@@ -775,8 +839,9 @@
           }
         }
         
-        // Add payment intent to payload
-        payload.payment_intent_id = state.paymentIntentId;
+        // Add payment intent to payload if any
+        payload.payment_intent_id = (method === 'online') ? state.paymentIntentId : null;
+        payload.status = (method === 'online') ? 'confirmed' : 'pending';
 
         const res = await api.appointments.create(payload);
         console.log('[BOOKING SUCCESS]', res);
