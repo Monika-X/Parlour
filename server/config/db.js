@@ -1,12 +1,20 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config();
 
+const mysqlUri = process.env.MYSQL_URL ? process.env.MYSQL_URL.trim() : null;
+
+const connectionConfig = mysqlUri ? {
+  uri: mysqlUri,
+} : {
+  host:     process.env.MYSQLHOST || process.env.DB_HOST || 'localhost',
+  port:     process.env.MYSQLPORT || process.env.DB_PORT || 3306,
+  user:     process.env.MYSQLUSER || process.env.DB_USER || 'root',
+  password: process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || '',
+  database: process.env.MYSQLDATABASE || process.env.DB_NAME || 'railway',
+};
+
 const pool = mysql.createPool({
-  host:     process.env.DB_HOST     || 'localhost',
-  port:     process.env.DB_PORT     || 3306,
-  user:     process.env.DB_USER     || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME     || 'parlour_db',
+  ...connectionConfig,
   waitForConnections: true,
   connectionLimit:    10,
   queueLimit:         0,

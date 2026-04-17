@@ -1,6 +1,3 @@
-CREATE DATABASE IF NOT EXISTS parlour_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE parlour_db;
-
 CREATE TABLE IF NOT EXISTS users (
   id           INT AUTO_INCREMENT PRIMARY KEY,
   name         VARCHAR(120)  NOT NULL,
@@ -125,5 +122,5 @@ INSERT IGNORE INTO services (category_id, name, description, price, duration_min
 (3, 'Luxury Pedicure',       'Foot soak, scrub, massage & polish',                450.00, 60),
 (4, 'Swedish Massage',       'Full body relaxing Swedish massage',               1800.00, 60),
 (4, 'Aromatherapy Massage',  'Therapeutic massage with essential oils',          2200.00, 75),
-(5, 'Bridal Makeup',         'HD bridal makeup with premium products',           8000.00, 180),
-(5, 'Pre-Bridal Package',    'Facials, waxing & body cleanup package',           5000.00, 240);
+(1, 'Bridal Makeup',         'HD bridal makeup with premium products',           8000.00, 180),
+(1, 'Pre-Bridal Package',    'Facials, waxing & body cleanup package',           5000.00, 240);

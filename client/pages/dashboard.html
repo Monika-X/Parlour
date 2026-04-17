@@ -715,7 +715,7 @@ async function openRescheduleModal(apptId, dateStr, serviceId, currentStaffId) {
   document.getElementById('reschedule-modal').classList.remove('hidden');
 
   try {
-    const sRes = api.staff.getByService ? await api.staff.getByService(serviceId) : await fetch(`http://localhost:5000/api/staff/by-service?service_id=${serviceId}`).then(r=>r.json());
+    const sRes = api.staff.getByService ? await api.staff.getByService(serviceId) : await fetch(`/api/staff/by-service?service_id=${serviceId}`).then(r=>r.json());
     const staffList = sRes.data || [];
     staffSelect.innerHTML = '<option value="0">Any Stylist</option>' + staffList.map(s => 
       `<option value="${s.id}" ${s.id === currentStaffId ? 'selected' : ''}>${s.name}</option>`
@@ -771,7 +771,7 @@ let allCustomers = [];
 async function loadCustomers() {
   const body = document.getElementById('cust-table-body');
   try {
-    const res = await api.staff.getAll ? await fetch('http://localhost:5000/api/customers', { headers: { Authorization: 'Bearer ' + api.getToken() } }).then(r=>r.json()) : { data:[] };
+    const res = await api.staff.getAll ? await fetch('/api/customers', { headers: { Authorization: 'Bearer ' + api.getToken() } }).then(r=>r.json()) : { data:[] };
     allCustomers = res.data || [];
     renderCustomers(allCustomers);
   } catch(e) { body.innerHTML = `<tr><td colspan="5" class="text-center py-10 text-gray-500">${e.message}</td></tr>`; }
@@ -825,7 +825,7 @@ document.getElementById('cust-search').addEventListener('input', function() {
 });
 async function deleteCustomer(id) {
   if (!confirm('Delete this customer?')) return;
-  try { await fetch(`http://localhost:5000/api/customers/${id}`, { method:'DELETE', headers:{ Authorization:'Bearer '+api.getToken() } }); showToast('Customer deleted.','success'); loadCustomers(); } catch(e) { showToast(e.message,'error'); }
+  try { await fetch(`/api/customers/${id}`, { method:'DELETE', headers:{ Authorization:'Bearer '+api.getToken() } }); showToast('Customer deleted.','success'); loadCustomers(); } catch(e) { showToast(e.message,'error'); }
 }
 
 // ── SERVICES LIST ─────────────────────────────────────────

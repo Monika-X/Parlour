@@ -54,13 +54,7 @@ app.use('/api/auth/register', authLimiter);
 
 // ── CORE MIDDLEWARE ──────────────────────────────────────
 app.use(cors({
-  origin: [
-    'http://127.0.0.1:5500',
-    'http://localhost:5500',
-    'http://localhost:3000',
-    'http://localhost:5000',
-    'null',
-  ],
+  origin: true, // Allows all origins in production, or replace with your Render URL
   credentials: true,
 }));
 

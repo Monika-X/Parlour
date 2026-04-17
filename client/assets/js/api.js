@@ -1,7 +1,7 @@
 /* =============================================
    api.js – Centralised API helper
    ============================================= */
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = '/api';
 
 const api = {
   // ── Token helpers ───────────────────────────

@@ -508,7 +508,7 @@ async function openReschModal(apptId, dateStr, serviceId, currentStaffId) {
   document.getElementById('reschedule-modal').classList.remove('hidden');
 
   try {
-    const sRes = api.staff.getByService ? await api.staff.getByService(serviceId) : await fetch(`http://localhost:5000/api/staff/by-service?service_id=${serviceId}`).then(r=>r.json());
+    const sRes = api.staff.getByService ? await api.staff.getByService(serviceId) : await fetch(`/api/staff/by-service?service_id=${serviceId}`).then(r=>r.json());
     const staffList = sRes.data || [];
     document.getElementById('resch-staff').innerHTML = '<option value="0">Any Stylist</option>' + staffList.map(s => 
       `<option value="${s.id}" ${s.id === currentStaffId ? 'selected' : ''}>${s.name}</option>`
