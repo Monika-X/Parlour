@@ -229,7 +229,10 @@
             <div class="flex items-center justify-between">
               <div>
                 <div class="text-xs text-gray-400 uppercase tracking-widest mb-1">Next Available Slot</div>
-                <div class="text-white font-semibold">Today, 3:00 PM</div>
+                <div id="dynamic-next-slot" class="text-white font-semibold flex items-center gap-2">
+                  <div class="w-3 h-3 bg-gold/50 rounded-full animate-pulse mt-1"></div>
+                  Calculating...
+                </div>
               </div>
               <a href="pages/booking.html" class="btn-gold py-2 px-4 text-xs">
                 Book Now <i class="fa-solid fa-arrow-right"></i>
@@ -734,6 +737,33 @@
       }
     }
 
+    // ── Dynamic Next Available Slot
+    function updateNextAvailableSlot() {
+      const slotEl = document.getElementById('dynamic-next-slot');
+      if (!slotEl) return;
+      
+      const now = new Date();
+      // Estimate next slot as 2 hours from now, rounded to next 30 min block
+      let next = new Date(now.getTime() + 2 * 60 * 60 * 1000); 
+      next.setMinutes(next.getMinutes() >= 30 ? 60 : 30);
+      next.setSeconds(0);
+      
+      let dayStr = "Today";
+      // If it's already past 6 PM, push to tomorrow 10 AM
+      if (next.getHours() >= 19 || now.getHours() >= 18) {
+        next.setDate(next.getDate() + 1);
+        next.setHours(10, 0, 0);
+        dayStr = "Tomorrow";
+      } else if (now.getHours() < 9) {
+        // If before opening hours, set to today 10 AM
+        next.setHours(10, 0, 0);
+        dayStr = "Today";
+      }
+
+      const timeStr = next.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+      slotEl.textContent = `${dayStr}, ${timeStr}`;
+    }
+
     // Load all sections in parallel (non-blocking)
     window.onload = () => {
       Promise.allSettled([
@@ -741,6 +771,7 @@
         loadStaffPreview(),
         loadTestimonials()
       ]);
+      updateNextAvailableSlot();
     };
 
     // ── Animated counters (trigger on scroll)
