@@ -90,6 +90,7 @@ CREATE TABLE IF NOT EXISTS appointments (
                               NOT NULL DEFAULT 'pending',
   total_price     DECIMAL(10,2),
   notes           TEXT,
+  payment_intent_id VARCHAR(255),
   created_at      TIMESTAMP   DEFAULT CURRENT_TIMESTAMP,
   updated_at      TIMESTAMP   DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE CASCADE,
