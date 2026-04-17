@@ -110,6 +110,7 @@ CREATE TABLE IF NOT EXISTS reviews (
   staff_id       INT NOT NULL,
   rating         TINYINT NOT NULL CHECK (rating BETWEEN 1 AND 5),
   comment        TEXT,
+  is_approved    TINYINT(1) DEFAULT 0,
   created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (appointment_id) REFERENCES appointments(id) ON DELETE CASCADE,
   FOREIGN KEY (customer_id)    REFERENCES customers(id)    ON DELETE CASCADE,
@@ -141,3 +142,22 @@ INSERT IGNORE INTO services (category_id, name, description, price, duration_min
 (4, 'Aromatherapy Massage',  'Therapeutic massage with essential oils',          2200.00, 75),
 (5, 'Bridal Makeup',         'HD bridal makeup with premium products',           8000.00, 180),
 (5, 'Pre-Bridal Package',    'Facials, waxing & body cleanup package',           5000.00, 240);
+
+-- Seed Staff (Admin as staff for now)
+INSERT IGNORE INTO staff (user_id, specialization, experience_yrs, bio, rating) VALUES
+(1, 'Master Stylist & Director', 10, 'Expert in hair transformations and luxury treatments.', 4.95);
+
+-- Seed Customer (Admin as customer for now)
+INSERT IGNORE INTO customers (user_id) VALUES (1);
+
+-- Seed Appointments (Needed for reviews)
+INSERT IGNORE INTO appointments (id, customer_id, staff_id, service_id, appointment_date, start_time, end_time, status, total_price) VALUES
+(1, 1, 1, 1, CURDATE(), '09:00:00', '10:00:00', 'completed', 350.00),
+(2, 1, 1, 2, CURDATE(), '10:00:00', '11:00:00', 'completed', 1200.00),
+(3, 1, 1, 3, CURDATE(), '11:00:00', '12:00:00', 'completed', 800.00);
+
+-- Approved Reviews Seed
+INSERT IGNORE INTO reviews (appointment_id, customer_id, staff_id, rating, comment, is_approved) VALUES
+(1, 1, 1, 5, 'Absolutely loved the service! The staff was so professional and the results were stunning.', 1),
+(2, 1, 1, 5, 'The best spa experience I\'ve had in years. Highly recommend the Swedish Massage.', 1),
+(3, 1, 1, 4, 'Parlour is my go-to place for hair transformations. They truly understand what you want.', 1);
