@@ -123,4 +123,53 @@ const updateProfile = async (req, res, next) => {
   } catch (err) { next(err); }
 };
 
-module.exports = { register, login, getProfile, updateProfile };
+// ── FORGOT PASSWORD ─────────────────────────────────────
+const forgotPassword = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const [users] = await pool.query('SELECT id, name FROM users WHERE email = ?', [email]);
+
+    if (!users.length) {
+      return res.status(404).json({ success: false, message: 'No user found with that email.' });
+    }
+
+    const token = require('crypto').randomBytes(32).toString('hex');
+    const expiry = new Date(Date.now() + 3600000); // 1 hour
+
+    await pool.query('UPDATE users SET reset_token = ?, reset_token_expiry = ? WHERE id = ?', [token, expiry, users[0].id]);
+
+    const { sendEmail } = require('../utils/notificationService');
+    const resetUrl = `${req.protocol}://${req.get('host')}/pages/reset-password.html?token=${token}`;
+
+    const text = `Hi ${users[0].name},\n\nYou requested a password reset. Please click the link below to reset your password:\n\n${resetUrl}\n\nThis link will expire in 1 hour.\n\nIf you did not request this, please ignore this email.`;
+    
+    await sendEmail(email, 'Password Reset Request – Parlour', text);
+
+    res.json({ success: true, message: 'Password reset link sent to your email.' });
+  } catch (err) { next(err); }
+};
+
+// ── RESET PASSWORD ───────────────────────────────────────
+const resetPassword = async (req, res, next) => {
+  try {
+    const { token, password } = req.body;
+    const [users] = await pool.query(
+      'SELECT id FROM users WHERE reset_token = ? AND reset_token_expiry > NOW()',
+      [token]
+    );
+
+    if (!users.length) {
+      return res.status(400).json({ success: false, message: 'Invalid or expired reset token.' });
+    }
+
+    const hashed = await bcrypt.hash(password, 12);
+    await pool.query(
+      'UPDATE users SET password = ?, reset_token = NULL, reset_token_expiry = NULL WHERE id = ?',
+      [hashed, users[0].id]
+    );
+
+    res.json({ success: true, message: 'Password reset successful. You can now login.' });
+  } catch (err) { next(err); }
+};
+
+module.exports = { register, login, getProfile, updateProfile, forgotPassword, resetPassword };

@@ -10,6 +10,8 @@ CREATE TABLE IF NOT EXISTS users (
   phone        VARCHAR(20),
   avatar       VARCHAR(255),
   is_active    TINYINT(1)    NOT NULL DEFAULT 1,
+  reset_token  VARCHAR(255),
+  reset_token_expiry DATETIME,
   created_at   TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
   updated_at   TIMESTAMP     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
