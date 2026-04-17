@@ -127,9 +127,12 @@ const updateProfile = async (req, res, next) => {
 const forgotPassword = async (req, res, next) => {
   try {
     const { email } = req.body;
+    console.log(`[Forgot Password Request] Email: ${email}`);
+    
     const [users] = await pool.query('SELECT id, name FROM users WHERE email = ?', [email]);
 
     if (!users.length) {
+      console.warn(`[Forgot Password] User not found: ${email}`);
       return res.status(404).json({ success: false, message: 'No user found with that email.' });
     }
 
@@ -137,16 +140,30 @@ const forgotPassword = async (req, res, next) => {
     const expiry = new Date(Date.now() + 3600000); // 1 hour
 
     await pool.query('UPDATE users SET reset_token = ?, reset_token_expiry = ? WHERE id = ?', [token, expiry, users[0].id]);
+    console.log(`[Forgot Password] Token generated for: ${users[0].name}`);
 
     const { sendEmail } = require('../utils/notificationService');
-    const resetUrl = `${req.protocol}://${req.get('host')}/pages/reset-password.html?token=${token}`;
+    
+    // 🔥 Force HTTPS in production
+    const protocol = process.env.NODE_ENV === 'production' ? 'https' : req.protocol;
+    const resetUrl = `${protocol}://${req.get('host')}/pages/reset-password.html?token=${token}`;
 
     const text = `Hi ${users[0].name},\n\nYou requested a password reset. Please click the link below to reset your password:\n\n${resetUrl}\n\nThis link will expire in 1 hour.\n\nIf you did not request this, please ignore this email.`;
     
-    await sendEmail(email, 'Password Reset Request – Parlour', text);
+    console.log(`[Forgot Password] Sending reset email to: ${email}`);
+    const emailRes = await sendEmail(email, 'Password Reset Request – Parlour', text);
 
+    if (!emailRes.success) {
+      console.error(`[Forgot Password] Email failed: ${emailRes.error}`);
+      return res.status(500).json({ success: false, message: 'Failed to send reset email. Please try again later.' });
+    }
+
+    console.log(`[Forgot Password] Email sent successfully to: ${email}`);
     res.json({ success: true, message: 'Password reset link sent to your email.' });
-  } catch (err) { next(err); }
+  } catch (err) { 
+    console.error(`[Forgot Password] Critical Error: ${err.message}`);
+    next(err); 
+  }
 };
 
 // ── RESET PASSWORD ───────────────────────────────────────
